@@ -1,0 +1,29 @@
+{
+    "name": "revosystems/sidecar",
+    "description": "Laravel report tool",
+    "type": "library",
+    "require": {
+        "php": "^7.3",
+        "laravel/framework": "8.x"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jordi Puigdellívol",
+            "email": "jordi.p@revo.works"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Revo\\Sidecar\\": "src"
+        }
+    },
+    "extra": {
+    	"laravel": {
+        	"providers": [
+            	"Revo\\Sidecar\\ServiceProvider"
+           ]
+    	}
+    },
+    "minimum-stability": "dev"
+}
