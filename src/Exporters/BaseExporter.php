@@ -8,10 +8,10 @@ class BaseExporter
     protected $data;
     protected $fields;
 
-    public function __construct($data, $fields)
+    public function __construct($data, ReportExporter $exporter)
     {
         $this->data = $data;
-        $this->fields = $fields;
+        $this->fields = $exporter->getFields();
     }
 
     public function getFields()
