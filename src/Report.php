@@ -9,13 +9,18 @@ namespace Revo\Sidecar;
 use Revo\Sidecar\Exporters\ReportExporter;
 use Revo\Sidecar\ExportFields\ExportField;
 
-class Report
+abstract class Report
 {
     protected $model;
-    protected $exporterClass;
     protected $with = [];
 
-    protected $exporter = null;
+    public function fields() : \Illuminate\Support\Collection {
+        return collect($this->getFields())->each(function (ExportField $field){
+            $field->model = $this->model;
+        });
+    }
+
+    abstract protected function getFields() : array;
 
     public function query(){
         return $this->globalFilters($this->model::with($this->with));
@@ -32,25 +37,18 @@ class Report
 
     public function getSelectFields()
     {
-        return collect($this->getExporter()->fields())->map(function (ExportField $exportField){
+        return collect($this->fields())->map(function (ExportField $exportField){
             return $exportField->getSelectField();
         })->unique()->all();
     }
 
-    public function getExporter() : ReportExporter
-    {
-        if (!$this->exporter) {
-            $this->exporter = (new $this->exporterClass($this->model));
-        }
-        return $this->exporter;
-    }
 
     //------------------------------------
     // FILTERS
     //------------------------------------
     public function availableFilters()
     {
-        return collect($this->getExporter()->fields())->filter(function(ExportField $field){
+        return collect($this->fields())->filter(function(ExportField $field){
            return $field->filterable;
         });
     }

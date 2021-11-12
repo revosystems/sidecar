@@ -2,16 +2,18 @@
 
 namespace Revo\Sidecar\Exporters;
 
+use Revo\Sidecar\Report;
+
 class BaseExporter
 {
 
     protected $data;
     protected $fields;
 
-    public function __construct($data, ReportExporter $exporter)
+    public function __construct($data, Report $report)
     {
         $this->data = $data;
-        $this->fields = $exporter->getFields();
+        $this->fields = $report->fields();
     }
 
     public function getFields()
