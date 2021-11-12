@@ -9,7 +9,6 @@ class HtmlExporter extends BaseExporter
 
     public static $tableClasses = "tableList striped";
 
-
     public function export() : string {
         $this->init();
         $this->generate();
@@ -37,15 +36,14 @@ class HtmlExporter extends BaseExporter
     {
 //        $params = http_build_query(Filters::all());
         $this->output .= $this->getFields()->reduce(function ($carry, $field){
-            //$classes = $field->hideMobile ? "hide-mobile" : "";
-            //if ($field->isNumeric())  {
-            //    $classes = "{$classes} text-right";
-            //}
-            //if (! $field->sortable) {
-            //    return $carry . "<th class='{$classes}'>{$field->getTitle()}</th>";
-            //}
+            $classes = $field->hideMobile ? "hide-mobile" : "";
+            if ($field->isNumeric())  {
+                $classes = "{$classes} text-right";
+            }
+            if (! $field->sortable) {
+                return $carry . "<th class='{$classes}'>{$field->getTitle()}</th>";
+            }
             //$url = QueryUrl::addQueryToUrl(request()->url() . "?{$params}", ["sort" => $field->sortable !== true ? $field->sortable : $field->field]);
-            $classes = "";
 //            return $carry . "<th class='{$classes}'><div class='sortableHeader " . ($field->isNumeric() ? "sortableHeaderRight" : "") . "'>{$field->getTitle()}<div class='sortArrows'><a href='{$url}&sort_order=desc' class='sortUp'>▲</a><a href='{$url}&sort_order=asc' class='sortDown'>▼</a></div></div></th>";
             return $carry . "<th class='{$classes}'><div class='sortableHeader '>{$field->getTitle()}<div class='sortArrows'><a href='&sort_order=desc' class='sortUp'>▲</a><a href='&sort_order=asc' class='sortDown'>▼</a></div></div></th>";
         }, "<thead class='sticky'><tr>");
@@ -58,12 +56,11 @@ class HtmlExporter extends BaseExporter
         $this->forEachRecord(function ($row) {
             $this->output .= "<tr>";
             foreach ($this->getFields() as $field) {
-//                $classes = $field->hideMobile ? "hide-mobile" : "";
+                $classes = $field->hideMobile ? "hide-mobile" : "";
                 $value = $field->getValue($row);
-//                if ($field->isNumeric())  {
-//                    $classes = "{$classes} text-right";
-//                }
-                $classes = '';
+                if ($field->isNumeric())  {
+                    $classes = "{$classes} text-right";
+                }
                 $this->output .= "<td class='{$classes}'>{$value}</td>";
             }
             $this->output .= "</tr>";

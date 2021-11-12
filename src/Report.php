@@ -3,9 +3,9 @@
 namespace Revo\Sidecar;
 
 // [ ] Autodiscovery
-// [ ] Config => layout
 // [ ] Config => Reports path
 // [ ] Autodiscovery recursive
+// [ ] Currency, fer-ho com a thrust
 use Revo\Sidecar\Exporters\ReportExporter;
 use Revo\Sidecar\ExportFields\ExportField;
 
@@ -14,6 +14,8 @@ class Report
     protected $model;
     protected $exporterClass;
     protected $with = [];
+
+    protected $exporter = null;
 
     public function query(){
         return $this->globalFilters($this->model::with($this->with));
@@ -30,14 +32,27 @@ class Report
 
     public function getSelectFields()
     {
-        return collect($this->getExporter()->getFields())->map(function (ExportField $exportField){
+        return collect($this->getExporter()->fields())->map(function (ExportField $exportField){
             return $exportField->getSelectField();
         })->unique()->all();
     }
 
     public function getExporter() : ReportExporter
     {
-        return new $this->exporterClass;
+        if (!$this->exporter) {
+            $this->exporter = (new $this->exporterClass($this->model));
+        }
+        return $this->exporter;
+    }
+
+    //------------------------------------
+    // FILTERS
+    //------------------------------------
+    public function availableFilters()
+    {
+        return collect($this->getExporter()->fields())->filter(function(ExportField $field){
+           return $field->filterable;
+        });
     }
 
 }
