@@ -23,11 +23,7 @@ abstract class Report
     abstract protected function getFields() : array;
 
     public function query(){
-        return $this->globalFilters($this->model::with($this->with));
-    }
-
-    protected function globalFilters($query){
-        return $query;
+        return $this->model::with($this->with);
     }
 
     public function paginate($pagination = 25)
