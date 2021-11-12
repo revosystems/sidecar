@@ -6,7 +6,8 @@ namespace Revo\Sidecar;
 // [ ] Config => Reports path
 // [ ] Autodiscovery recursive
 // [ ] Currency, fer-ho com a thrust
-use Revo\Sidecar\Exporters\ReportExporter;
+// [ ] Generate with automatically
+
 use Revo\Sidecar\ExportFields\ExportField;
 
 abstract class Report
