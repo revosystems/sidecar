@@ -6,9 +6,11 @@ namespace Revo\Sidecar;
 // [ ] Config => Reports path
 // [ ] Autodiscovery recursive
 // [ ] Currency, fer-ho com a thrust
+// [ ] Date timezone => Fer-ho com a thrust, que es passa al fer el serving
 // [ ] Generate with automatically
 
 use Revo\Sidecar\ExportFields\ExportField;
+use Revo\Sidecar\Filters\Filters;
 
 abstract class Report
 {
@@ -27,9 +29,14 @@ abstract class Report
         return $this->model::with($this->with);
     }
 
+    public function queryWithFilters()
+    {
+        return (new Filters())->apply($this->query())->select($this->getSelectFields());
+    }
+
     public function paginate($pagination = 25)
     {
-        return $this->query()->select($this->getSelectFields())->paginate($pagination);
+        return $this->queryWithFilters()->paginate($pagination);
     }
 
     public function getSelectFields()
