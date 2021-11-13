@@ -1,6 +1,5 @@
-<div class="m-4 p4 grid bg-broken-white b filters">
+<div class="m-4 p4 grid bg-broken-white b filters sidecar-filters">
     <form action="">
-
         @foreach($availableFilters as $filter)
             @if($filter->getIcon())
                 <i class="fa fa-{{$filter->getIcon()}} fa-fw"></i>

@@ -36,13 +36,11 @@ class ExportField
         return $this->title;
     }
 
-    public function getIcon() :?string
-    {
+    public function getIcon() :?string {
         return $this->icon;
     }
 
-    public function getValue($row)
-    {
+    public function getValue($row) {
         return data_get($row, $this->field);
     }
 
@@ -50,16 +48,8 @@ class ExportField
     {
         if ($groupBy){
             if ($groupBy == $this->dependsOnField) { return $this->dependsOnField; }
-            if ($this->onGroupingBy == null) { return null; }
-            if ($this->onGroupingBy == 'sum') {
-                return "sum({$this->dependsOnField}) as {$this->dependsOnField}";
-            }
-            if ($this->onGroupingBy == 'count') {
-                return "count({$this->dependsOnField}) as {$this->dependsOnField}";
-            }
-            if ($this->onGroupingBy == 'avg') {
-                return "avg({$this->dependsOnField}) as {$this->dependsOnField}";
-            }
+            if ($this->onGroupingBy == null)       { return null; }
+            return "{$this->onGroupingBy}({$this->dependsOnField}) as {$this->dependsOnField}";
         }
         return $this->dependsOnField;
     }

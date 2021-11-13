@@ -4,14 +4,15 @@ namespace Revo\Sidecar\ExportFields;
 
 class BelongsTo extends ExportField
 {
-    protected $relationShipField = 'name';
+    protected string $relationShipField = 'name';
+    protected array $relationShipWith = [];
 
     public function getValue($row)
     {
         return data_get($row, "{$this->field}.{$this->relationShipField}");
     }
 
-    public function relationShipDisplayField($relationShipDisplayField) : self {
+    public function relationShipDisplayField(string $relationShipDisplayField) : self {
         $this->relationShipField = $relationShipDisplayField;
         return $this;
     }
@@ -23,9 +24,15 @@ class BelongsTo extends ExportField
         return $foreingKey;
     }
 
+    public function relationShipWith(array $with) : self
+    {
+        $this->relationShipWith = $with;
+        return $this;
+    }
+
     public function filterOptions() : array
     {
-        return $this->relation()->getRelated()->all()->pluck($this->relationShipField, 'id')->all();
+        return $this->relation()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
     }
 
     protected function relation(){
