@@ -1,8 +1,12 @@
-<div class="m-4">
+<div class="m-4 p4 grid bg-broken-white b filters">
     <form action="">
 
         @foreach($availableFilters as $filter)
-            {{ $filter->getTitle() }}
+            @if($filter->getIcon())
+                <i class="fa fa-{{$filter->getIcon()}} fa-fw"></i>
+            @else
+                {{ $filter->getTitle() }}
+            @endif
             @if ($filter instanceof Revo\Sidecar\ExportFields\Date)
                 @include('sidecar::filters.date')
             @else
@@ -10,15 +14,20 @@
             @endif
         @endforeach
 
+        <i class="fa fa-pie-chart fa-fw"></i>
         <select name="groupBy">
             <option value="">--</option>
             @foreach($availableGroupings as $filter)
                 @foreach($filter->groupings() as $grouping)
-                    <option value="{{$filter->getSelectField()}}:{{$grouping}}" @if(request('groupBy') == $filter->getSelectField()) selected @endif> {{ $filter->getTitle() }} ({{$grouping}})</option>
+                    <option value="{{$filter->getSelectField()}}:{{$grouping}}" @if(request('groupBy') == "{$filter->getSelectField()}:{$grouping}") selected @endif> {{ $filter->getTitle() }} ({{$grouping}})</option>
                 @endforeach
             @endforeach
         </select>
 
-        <button>{{ __(config('sidecar.translationsPrefix').'filter') }}</button>
+        <br><br>
+        <button class="button primary">
+            <i class="fa fa-filter fa-fw"></i>
+            {{ __(config('sidecar.translationsPrefix').'filter') }}
+        </button>
     </form>
 </div>

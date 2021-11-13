@@ -10,6 +10,7 @@ class ExportField
     public    $field;
     protected $dependsOnField;
     protected $title;
+    public ?string $icon = null;
 
     public bool $filterable = false;
     public bool $groupable = false;
@@ -31,9 +32,13 @@ class ExportField
         return $exportField;
     }
 
-    public function getTitle() : string
-    {
+    public function getTitle() : string {
         return $this->title;
+    }
+
+    public function getIcon() :?string
+    {
+        return $this->icon;
     }
 
     public function getValue($row)
@@ -80,9 +85,16 @@ class ExportField
     // --------------------------------------------
     // Filterable
     // --------------------------------------------
-    public function filterable($filterable = true) : self
+    public function filterable($filterable = true, $icon = null) : self
     {
         $this->filterable = $filterable;
+        $this->filterIcon = $icon;
+        return $this;
+    }
+
+    public function icon(?string $icon) : self
+    {
+        $this->icon = $icon;
         return $this;
     }
 
