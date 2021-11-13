@@ -7,6 +7,11 @@ class Currency extends ExportField
     static $formatter;
     static $currency = "€";
 
+    public static function make($field, $title = null, $dependsOnField = null)
+    {
+        return parent::make($field, $title, $dependsOnField)->onGroupingBy('sum');
+    }
+
     public static function setFormatter($locale, $currency = 'EUR')
     {
         static::$formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);

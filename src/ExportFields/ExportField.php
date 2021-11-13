@@ -14,6 +14,7 @@ class ExportField
     public bool $filterable = false;
     public bool $groupable = false;
     public bool $sortable = false;
+    public bool $hidden = false;
 
     public $hideMobile = false;
 
@@ -85,6 +86,17 @@ class ExportField
     public function groupable(bool $groupable = true) : self
     {
         $this->groupable = $groupable;
+        return $this;
+    }
+
+    public function groupings() : array
+    {
+        return ['default'];
+    }
+
+    public function hidden(bool $hidden = true) : self
+    {
+        $this->hidden = $hidden;
         return $this;
     }
 

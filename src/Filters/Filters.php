@@ -12,11 +12,12 @@ class Filters
     protected $customFilters  = [];
 
     public $groupBy = null;
+    public $groupType = null;
 
     public function __construct() {
         $this->requestFilters = request()->all();
         if (request('groupBy')){
-            $this->groupBy = request('groupBy');
+            list($this->groupBy, $this->groupType) = explode(":", request('groupBy'));
         }
     }
 
@@ -24,10 +25,7 @@ class Filters
         collect($this->requestFilters)->except('groupBy')->each(function($value, $key) use($query){
             $this->applyFilter($query, $key, $value);
         });
-        if ($this->groupBy) {
-            $query->groupBy($this->groupBy);
-        }
-        return $query;
+        return (new GroupBy)->groupBy($query, $this->groupBy, $this->groupType);
     }
 
     private function applyFilter($query, $key, $value)

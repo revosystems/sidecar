@@ -13,10 +13,12 @@
         <select name="groupBy">
             <option value="">--</option>
             @foreach($availableGroupings as $filter)
-                <option value="{{$filter->getSelectField()}}" @if(request('groupBy') == $filter->getSelectField()) selected @endif> {{ $filter->getTitle() }}</option>
+                @foreach($filter->groupings() as $grouping)
+                    <option value="{{$filter->getSelectField()}}:{{$grouping}}" @if(request('groupBy') == $filter->getSelectField()) selected @endif> {{ $filter->getTitle() }} ({{$grouping}})</option>
+                @endforeach
             @endforeach
         </select>
 
-        <button>{{ __(config('sidecar.translationsPrefix').'.filter') }}</button>
+        <button>{{ __(config('sidecar.translationsPrefix').'filter') }}</button>
     </form>
 </div>

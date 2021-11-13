@@ -19,7 +19,7 @@ class BaseExporter
         $filters = new Filters();
         if ($filters->groupBy){
             $this->fields = $this->fields->reject(function(ExportField $field) use($filters){
-                return $field->onGroupingBy == null && $field->getSelectField() != $filters->groupBy;
+                return $field->hidden || ($field->onGroupingBy == null && $field->getSelectField() != $filters->groupBy);
             });
         }
     }

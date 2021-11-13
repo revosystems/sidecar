@@ -8,7 +8,8 @@ namespace Revo\Sidecar;
 // [ ] Currency, fer-ho com a thrust
 // [ ] Date timezone => Fer-ho com a thrust, que es passa al fer el serving
 // [ ] Generate with automatically
-// [ ] Groups by
+// [x] Groups by
+// [ ] Group by => opening time
 
 use Illuminate\Support\Facades\DB;
 use Revo\Sidecar\ExportFields\ExportField;
