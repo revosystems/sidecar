@@ -11,11 +11,14 @@ class ExportField
     protected $dependsOnField;
     protected $title;
 
-    public $filterable = false;
-    public $sortable = false;
+    public bool $filterable = false;
+    public bool $groupable = false;
+    public bool $sortable = false;
+
     public $hideMobile = false;
 
     public $onGroupingBy = null;
+
 
     public static function make($field, $title = null, $dependsOnField = null)
     {
@@ -77,6 +80,12 @@ class ExportField
 
     public function filterOptions() : array {
         return [];
+    }
+
+    public function groupable(bool $groupable = true) : self
+    {
+        $this->groupable = $groupable;
+        return $this;
     }
 
     public function isNumeric() : bool

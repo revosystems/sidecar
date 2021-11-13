@@ -61,4 +61,10 @@ abstract class Report
         });
     }
 
+    public function availableGroupings(){
+        return collect($this->fields())->filter(function(ExportField $field){
+            return $field->groupable;
+        });
+    }
+
 }
