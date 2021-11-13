@@ -52,6 +52,9 @@ class ExportField
             if ($this->onGroupingBy == 'count') {
                 return "count({$this->dependsOnField}) as {$this->dependsOnField}";
             }
+            if ($this->onGroupingBy == 'avg') {
+                return "avg({$this->dependsOnField}) as {$this->dependsOnField}";
+            }
         }
         return $this->dependsOnField;
     }
