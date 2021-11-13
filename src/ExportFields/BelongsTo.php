@@ -13,8 +13,9 @@ class BelongsTo extends ExportField
 
     public function getSelectField(?string $groupBy = null) : ?string
     {
-        if ($groupBy) { return null; }
-        return $this->relation()->getForeignKeyName();
+        $foreingKey = $this->relation()->getForeignKeyName();
+        if ($groupBy && $groupBy != $foreingKey) { return null; }
+        return $foreingKey;
     }
 
     public function filterOptions() : array
