@@ -17,9 +17,9 @@ class ExportField
     public bool $hidden = false;
     public bool $onlyWhenGrouping = false;
 
-    public $hideMobile = false;
+    public bool $hideMobile = false;
 
-    public $onGroupingBy = null;
+    public ?string $onGroupingBy = null;
 
 
     public static function make($field, $title = null, $dependsOnField = null)
@@ -71,7 +71,7 @@ class ExportField
         return $this;
     }
 
-    public function onGroupingBy(string $action) : self
+    public function onGroupingBy(?string $action) : self
     {
         $this->onGroupingBy = $action;
         return $this;

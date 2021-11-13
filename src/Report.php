@@ -9,7 +9,9 @@ namespace Revo\Sidecar;
 // [ ] Date timezone => Fer-ho com a thrust, que es passa al fer el serving
 // [ ] Generate with automatically
 // [x] Groups by
-// [ ] Group by => opening time
+// [x] Group by => opening time
+// [ ] Filterable => Quants folts, amb un searchable
+// [ ] Filterable => Searchable (ajax)
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

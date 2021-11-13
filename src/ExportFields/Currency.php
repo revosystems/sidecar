@@ -2,15 +2,10 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-class Currency extends ExportField
+class Currency extends Number
 {
     static $formatter;
     static $currency = "€";
-
-    public static function make($field, $title = null, $dependsOnField = null)
-    {
-        return parent::make($field, $title, $dependsOnField)->onGroupingBy('sum');
-    }
 
     public static function setFormatter($locale, $currency = 'EUR')
     {

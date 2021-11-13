@@ -18,6 +18,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     }
 
     public function provides(){
-        return "Sidecar";
+        return Sidecar::class;
     }
 }
