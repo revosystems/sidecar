@@ -21,6 +21,10 @@ class BaseExporter
             $this->fields = $this->fields->reject(function(ExportField $field) use($filters){
                 return $field->hidden || ($field->onGroupingBy == null && $field->getSelectField() != $filters->groupBy);
             });
+        }else{
+            $this->fields = $this->fields->reject(function(ExportField $field) use($filters){
+                return $field->hidden || $field->onlyWhenGrouping;
+            });
         }
     }
 

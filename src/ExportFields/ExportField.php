@@ -15,6 +15,7 @@ class ExportField
     public bool $groupable = false;
     public bool $sortable = false;
     public bool $hidden = false;
+    public bool $onlyWhenGrouping = false;
 
     public $hideMobile = false;
 
@@ -47,6 +48,9 @@ class ExportField
             if ($this->onGroupingBy == null) { return null; }
             if ($this->onGroupingBy == 'sum') {
                 return "sum({$this->dependsOnField}) as {$this->dependsOnField}";
+            }
+            if ($this->onGroupingBy == 'count') {
+                return "count({$this->dependsOnField}) as {$this->dependsOnField}";
             }
         }
         return $this->dependsOnField;
@@ -97,6 +101,12 @@ class ExportField
     public function hidden(bool $hidden = true) : self
     {
         $this->hidden = $hidden;
+        return $this;
+    }
+
+    public function onlyWhenGrouping(bool $onlyWhenGrouping = true) : self
+    {
+        $this->onlyWhenGrouping = $onlyWhenGrouping;
         return $this;
     }
 
