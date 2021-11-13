@@ -11,8 +11,9 @@ class BelongsTo extends ExportField
         return data_get($row, "{$this->field}.{$this->relationShipField}");
     }
 
-    public function getSelectField() : string
+    public function getSelectField(?string $groupBy = null) : ?string
     {
+        if ($groupBy) { return null; }
         return $this->relation()->getForeignKeyName();
     }
 

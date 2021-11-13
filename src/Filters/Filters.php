@@ -11,14 +11,22 @@ class Filters
     protected $requestFilters = [];
     protected $customFilters  = [];
 
+    public $groupBy = null;
+
     public function __construct() {
         $this->requestFilters = request()->all();
+        if (request('groupBy')){
+            $this->groupBy = request('groupBy');
+        }
     }
 
     public function apply($query){
-        collect($this->requestFilters)->each(function($value, $key) use($query){
+        collect($this->requestFilters)->except('groupBy')->each(function($value, $key) use($query){
             $this->applyFilter($query, $key, $value);
         });
+        if ($this->groupBy) {
+            $query->groupBy($this->groupBy);
+        }
         return $query;
     }
 
@@ -44,5 +52,4 @@ class Filters
         }
         return $query->whereBetween($key, [$values['start'], $values['end']]);
     }
-
 }

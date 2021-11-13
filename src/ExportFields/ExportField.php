@@ -1,6 +1,7 @@
 <?php
 
 namespace Revo\Sidecar\ExportFields;
+use Illuminate\Support\Facades\DB;
 
 class ExportField
 {
@@ -13,6 +14,8 @@ class ExportField
     public $filterable = false;
     public $sortable = false;
     public $hideMobile = false;
+
+    public $onGroupingBy = null;
 
     public static function make($field, $title = null, $dependsOnField = null)
     {
@@ -33,8 +36,15 @@ class ExportField
         return data_get($row, $this->field);
     }
 
-    public function getSelectField() : string
+    public function getSelectField(?string $groupBy = null) : ?string
     {
+        if ($groupBy){
+            if ($groupBy == $this->dependsOnField) { return $this->dependsOnField; }
+            if ($this->onGroupingBy == null) { return null; }
+            if ($this->onGroupingBy == 'sum') {
+                return "sum({$this->dependsOnField}) as {$this->dependsOnField}";
+            }
+        }
         return $this->dependsOnField;
     }
 
@@ -47,6 +57,12 @@ class ExportField
     public function hideMobile($hideMobile = true) : self
     {
         $this->hideMobile = $hideMobile;
+        return $this;
+    }
+
+    public function onGroupingBy(string $action) : self
+    {
+        $this->onGroupingBy = $action;
         return $this;
     }
 

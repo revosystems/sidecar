@@ -8,7 +8,9 @@ namespace Revo\Sidecar;
 // [ ] Currency, fer-ho com a thrust
 // [ ] Date timezone => Fer-ho com a thrust, que es passa al fer el serving
 // [ ] Generate with automatically
+// [ ] Groups by
 
+use Illuminate\Support\Facades\DB;
 use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Filters\Filters;
 
@@ -31,7 +33,8 @@ abstract class Report
 
     public function queryWithFilters()
     {
-        return (new Filters())->apply($this->query())->select($this->getSelectFields());
+        $filters = new Filters();
+        return ($filters)->apply($this->query())->select($this->getSelectFields($filters->groupBy));
     }
 
     public function paginate($pagination = 25)
@@ -39,13 +42,14 @@ abstract class Report
         return $this->queryWithFilters()->paginate($pagination);
     }
 
-    public function getSelectFields()
+    public function getSelectFields(?string $groupBy)
     {
-        return collect($this->fields())->map(function (ExportField $exportField){
-            return $exportField->getSelectField();
-        })->unique()->all();
+        return collect($this->fields())->map(function (ExportField $exportField) use($groupBy){
+            return $exportField->getSelectField($groupBy);
+        })->filter()->unique()->map(function($selectField){
+            return DB::raw($selectField);
+        })->all();
     }
-
 
     //------------------------------------
     // FILTERS
