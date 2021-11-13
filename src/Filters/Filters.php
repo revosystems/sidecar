@@ -25,6 +25,7 @@ class Filters
         collect($this->requestFilters)->except('groupBy')->each(function($value, $key) use($query){
             $this->applyFilter($query, $key, $value);
         });
+//        $query->leftJoin('table_tables','orders.table_id','=','table_tables.id');
         return (new GroupBy)->groupBy($query, $this->groupBy, $this->groupType);
     }
 
