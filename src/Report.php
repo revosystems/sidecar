@@ -12,7 +12,7 @@ namespace Revo\Sidecar;
 // [x] Group by => opening time
 // [ ] Filterable => Quants folts, amb un searchable
 // [ ] Filterable => Searchable (ajax)
-// BelongsTo::make('sellingFormatPivot') => filtrar amb joins...
+// BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;

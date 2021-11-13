@@ -1,6 +1,6 @@
 <div class="m-4 p4 grid bg-broken-white b filters sidecar-filters">
     <form action="">
-        @foreach($availableFilters as $filter)
+        @foreach($availableFilters->sort() as $filter)
             @if($filter->getIcon())
                 <i class="fa fa-{{$filter->getIcon()}} fa-fw"></i>
             @else
@@ -13,15 +13,7 @@
             @endif
         @endforeach
 
-        <i class="fa fa-pie-chart fa-fw"></i>
-        <select name="groupBy">
-            <option value="">--</option>
-            @foreach($availableGroupings as $filter)
-                @foreach($filter->groupings() as $grouping)
-                    <option value="{{$filter->getSelectField()}}:{{$grouping}}" @if(request('groupBy') == "{$filter->getSelectField()}:{$grouping}") selected @endif> {{ $filter->getTitle() }} ({{$grouping}})</option>
-                @endforeach
-            @endforeach
-        </select>
+        @include('sidecar::filters.groupBy')
 
         <br><br>
         <button class="button primary">

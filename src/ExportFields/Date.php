@@ -8,6 +8,7 @@ use Revo\Sidecar\Filters\Filters;
 class Date extends ExportField
 {
     static $timezone = "Europe/Madrid";
+    public ?string $icon = 'calendar';
 
     public function getValue($row)
     {
@@ -43,5 +44,15 @@ class Date extends ExportField
     public function groupings() : array
     {
         return ['day', 'month', 'hour', 'dayOfWeek'];
+    }
+
+    public function filterStart()
+    {
+        return request($this->getSelectField())['start'] ?? "";
+    }
+
+    public function filterEnd()
+    {
+        request($this->getSelectField())['end'] ?? "";
     }
 }

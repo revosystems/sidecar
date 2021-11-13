@@ -1,14 +1,18 @@
 <?php
 
+namespace Revo\Sidecar\Facades;
+use Illuminate\Support\Facades\Facade;
+use Revo\Sidecar\Sidecar as SidecarManager;
+
 class Sidecar extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return Revo\Sidecar\Sidecar::class;
+        return SidecarManager::class;
     }
 
     public static function serving($callback)
     {
-        Revo\Sidecar\Sidecar::serving($callback);
+        SidecarManager::serving($callback);
     }
 }
