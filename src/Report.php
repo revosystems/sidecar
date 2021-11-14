@@ -2,17 +2,19 @@
 
 namespace Revo\Sidecar;
 
+// [x] Currency, fer-ho com a thrust
+// [x] Date timezone => Fer-ho com a thrust, que es passa al fer el serving
+// [x] Groups by
+// [x] Group by => opening time
+// [ ] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
 // [ ] Autodiscovery
 // [ ] Config => Reports path
 // [ ] Autodiscovery recursive
-// [ ] Currency, fer-ho com a thrust
-// [ ] Date timezone => Fer-ho com a thrust, que es passa al fer el serving
 // [ ] Generate with automatically
-// [x] Groups by
-// [x] Group by => opening time
 // [ ] Filterable => Quants folts, amb un searchable
 // [ ] Filterable => Searchable (ajax)
-// BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
+// [ ] Fix computed (as currency)
+// [ ] Fix computed => average one not working properly?
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;

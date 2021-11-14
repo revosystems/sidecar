@@ -4,8 +4,8 @@ namespace Revo\Sidecar\ExportFields;
 
 class Currency extends Number
 {
-    static $formatter;
-    static $currency = "€";
+    public static $formatter;
+    public static $currency = "€";
 
     public static function setFormatter($locale, $currency = 'EUR')
     {

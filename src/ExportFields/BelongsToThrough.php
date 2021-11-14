@@ -53,7 +53,10 @@ class BelongsToThrough extends ExportField
     public function addJoin($query, $filters, $groupBy)
     {
         if (array_key_exists($this->getFilterField(), $filters) || $groupBy == $this->getFilterField()) {
-            $query->join('table_tables', 'table_tables.id', 'orders.table_id');
+            $pivot = $this->pivot()->getRelated()->getTable();
+            $main = (new $this->model)->getTable();
+            $foreingKey = ($this->pivot()->getForeignKeyName());
+            $query->join($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
         }
     }
 }
