@@ -4,6 +4,7 @@ namespace Revo\Sidecar\Filters;
 
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
+use Revo\Sidecar\ExportFields\ExportField;
 
 class Filters
 {
@@ -21,10 +22,11 @@ class Filters
         }
     }
 
-    public function apply($query){
+    public function apply($query, $fields){
         collect($this->requestFilters)->except('groupBy')->each(function($value, $key) use($query){
             $this->applyFilter($query, $key, $value);
         });
+        $this->addJoins($query, $fields);
 //        $query->leftJoin('table_tables','orders.table_id','=','table_tables.id');
         return (new GroupBy)->groupBy($query, $this->groupBy, $this->groupType);
     }
@@ -50,5 +52,12 @@ class Filters
             return $query->where($key, '<', $values['end']);
         }
         return $query->whereBetween($key, [$values['start'], $values['end']]);
+    }
+
+    public function addJoins($query, $fields)
+    {
+        $fields->each(function(ExportField $field) use($query) {
+            $field->addJoin($query, $this->requestFilters, $this->groupBy);
+        });
     }
 }

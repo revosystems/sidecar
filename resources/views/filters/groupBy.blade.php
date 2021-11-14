@@ -3,7 +3,7 @@
     <option value="">--</option>
     @foreach($availableGroupings as $filter)
         @foreach($filter->groupings() as $grouping)
-            <option value="{{$filter->getSelectField()}}:{{$grouping}}" @if(request('groupBy') == "{$filter->getSelectField()}:{$grouping}") selected @endif> {{ $filter->getTitle() }} ({{$grouping}})</option>
+            <option value="{{$filter->getFilterField()}}:{{$grouping}}" @if(request('groupBy') == "{$filter->getFilterField()}:{$grouping}") selected @endif> {{ $filter->getTitle() }} ({{$grouping}})</option>
         @endforeach
     @endforeach
 </select>

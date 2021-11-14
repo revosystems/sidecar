@@ -49,9 +49,19 @@ class ExportField
         if ($groupBy){
             if ($groupBy == $this->dependsOnField) { return $this->dependsOnField; }
             if ($this->onGroupingBy == null)       { return null; }
-            return "{$this->onGroupingBy}({$this->dependsOnField}) as {$this->dependsOnField}";
+            return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$this->dependsOnField}";
         }
         return $this->dependsOnField;
+    }
+
+    public function dependOnFieldFull()
+    {
+        $table = (new $this->model)->getTable();
+        return config('database.connections.mysql.prefix') . $table . "." . $this->dependsOnField;
+    }
+
+    public function getFilterField() : string {
+        return $this->getSelectField();
     }
 
     public function sortable($sortable = true) : self
@@ -118,6 +128,11 @@ class ExportField
     public function isNumeric() : bool
     {
         return false;
+    }
+
+    public function addJoin($query, $filters, $groupBy)
+    {
+        return $query;
     }
 
 }

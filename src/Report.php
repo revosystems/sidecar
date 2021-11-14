@@ -38,7 +38,8 @@ abstract class Report
     public function queryWithFilters()
     {
         $filters = new Filters();
-        return ($filters)->apply($this->query())->select($this->getSelectFields($filters->groupBy));
+        return ($filters)->apply($this->query(), $this->fields())
+                         ->select($this->getSelectFields($filters->groupBy));
     }
 
     public function paginate($pagination = 25)
