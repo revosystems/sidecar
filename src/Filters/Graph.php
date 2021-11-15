@@ -32,7 +32,7 @@ class Graph
     }
 
     public function getType() : string {
-        return 'bar';
+        return $this->field->groupableGraphType;
     }
 
     public function findField() {
@@ -46,7 +46,7 @@ class Graph
         $this->labels = $this->result->map(function($row){
             return $this->field->getValue($row);
         });
-        $this->values = $this->result->pluck('total');
+        $this->values = $this->result->pluck($this->field->groupableAggregatedField);
         return $this;
     }
 }
