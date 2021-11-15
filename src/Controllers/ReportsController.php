@@ -4,6 +4,7 @@ namespace Revo\Sidecar\Controllers;
 
 use Revo\Sidecar\Exporters\HtmlExporter;
 use Revo\Sidecar\Facades\Sidecar;
+use Revo\Sidecar\Filters\Graph;
 
 class ReportsController
 {
@@ -23,6 +24,16 @@ class ReportsController
         return view("sidecar::widgets", [
             "widgets"            => $report->getWidgets(),
             "widgetsResult"      => $widgetsResult,
+        ]);
+    }
+
+    public function graph($model)
+    {
+        $report = Sidecar::make(ucFirst($model) . "Report");
+        $graph = (new Graph($report))->calculate();
+
+        return view("sidecar::graphs.graph", [
+            'graph' => $graph
         ]);
     }
 }

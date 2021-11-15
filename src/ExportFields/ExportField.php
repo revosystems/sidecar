@@ -13,12 +13,16 @@ class ExportField
     public ?string $icon = null;
 
     public bool $filterable = false;
-    public bool $groupable = false;
     public bool $sortable = false;
     public bool $hidden = false;
     public bool $onlyWhenGrouping = false;
 
     public bool $hideMobile = false;
+
+    public bool $groupable = false;
+    public bool $groupableWithChart = false;
+    public string $groupableAggregatedField;
+    public string $groupableGraphType;
 
     /** @var string The classes used when exporting to html fo the TD field */
     public $tdClasses = "";
@@ -108,6 +112,15 @@ class ExportField
     public function groupable(bool $groupable = true) : self
     {
         $this->groupable = $groupable;
+        return $this;
+    }
+
+    public function groupableWithGraph($aggregatedField = 'total', $type = 'bar') : self
+    {
+        $this->groupable = true;
+        $this->groupableWithChart = true;
+        $this->groupableAggregatedField = $aggregatedField;
+        $this->groupableGraphType = $type;
         return $this;
     }
 
