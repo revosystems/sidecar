@@ -8,8 +8,6 @@
    @include('sidecar::widgets-ajax')
    @include('sidecar::graphs.graph-ajax')
 
-
-
    {!! $exporter->export() !!}
 @stop
 

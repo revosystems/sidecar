@@ -14,7 +14,8 @@ class ReportsController
         $result = $report->paginate();
         return view("sidecar::index", [
             "report"             => $report,
-            "exporter"           => new HtmlExporter($result, $report)
+            "exporter"           => new HtmlExporter($result, $report),
+            "graph"              => (new Graph($report, $result))->calculate(),
         ]);
     }
 

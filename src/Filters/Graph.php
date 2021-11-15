@@ -11,15 +11,16 @@ class Graph
     protected Report $report;
     protected ?ExportField $field;
 
-    public $result;
+    public $results;
     public $filters;
     public $labels;
     public $values;
 
-    public function __construct(Report $report)
+    public function __construct(Report $report, $results = null)
     {
         $this->report = $report;
         $this->filters = new Filters();
+        $this->results = $results;
         $this->findField();
     }
 
@@ -43,11 +44,13 @@ class Graph
     }
 
     public function calculate() : self {
-        $this->result = $this->report->paginate(25);
-        $this->labels = $this->result->map(function($row){
+        if (!$this->results) {
+            $this->sresult = $this->report->paginate(25);
+        }
+        $this->labels = $this->results->map(function($row){
             return $this->field->getValue($row);
         });
-        $this->values = $this->result->pluck($this->field->groupableAggregatedField);
+        $this->values = $this->results->pluck($this->field->groupableAggregatedField);
         return $this;
     }
 }
