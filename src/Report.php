@@ -2,21 +2,11 @@
 
 namespace Revo\Sidecar;
 
-// [x] Currency, fer-ho com a thrust
-// [x] Date timezone => Fer-ho com a thrust, que es passa al fer el serving
-// [x] Groups by
-// [x] Group by => opening time
 // [ ] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
-// [ ] Autodiscovery
-// [ ] Config => Reports path
-// [ ] Autodiscovery recursive
-// [ ] Generate with automatically
-// [ ] Filterable => Quants folts, amb un searchable
+// [ ] Filterable => Quants molts, amb un searchable
 // [ ] Filterable => Searchable (ajax)
 // [ ] Fix computed (as currency)
 // [ ] Fix computed => average one not working properly?
-// [ ] Widgets
-// [ ] Charts
 // [ ] Default joins
 // [ ] Add gates / policies
 
@@ -49,7 +39,7 @@ abstract class Report
     public function getWidgets() : array { return []; }
 
     public function query(){
-        return $this->model::with($this->with);
+        return $this->model::with(array_merge($this->with, $this->findEagerLoadingNeedeRelationShips()));
     }
 
     public function queryWithFilters()
@@ -107,6 +97,11 @@ abstract class Report
 
     public function getModelTable(): string {
         return config('database.connections.mysql.prefix') . (new $this->model)->getTable();
+    }
+
+    public function findEagerLoadingNeedeRelationShips()
+    {
+        return $this->fields()->map->getEagerLoadingRelations()->flatten()->filter()->unique()->all();
     }
 
 }

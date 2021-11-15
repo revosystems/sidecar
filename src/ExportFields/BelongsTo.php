@@ -38,4 +38,9 @@ class BelongsTo extends ExportField
     protected function relation(){
         return (new $this->model)->{$this->field}();
     }
+
+    public function getEagerLoadingRelations()
+    {
+        return $this->field;
+    }
 }

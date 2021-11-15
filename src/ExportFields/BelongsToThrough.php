@@ -63,4 +63,9 @@ class BelongsToThrough extends ExportField
         $foreingKey = ($this->pivot()->getForeignKeyName());
         $query->join($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
     }
+
+    public function getEagerLoadingRelations()
+    {
+        return "{$this->pivot}.{$this->field}";
+    }
 }

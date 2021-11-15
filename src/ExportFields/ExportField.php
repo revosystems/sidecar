@@ -39,6 +39,10 @@ class ExportField
         return $exportField;
     }
 
+    public function toHtml($row) : string {
+        return $this->getValue($row) ?? "";
+    }
+
     public function getTitle() : string {
         return $this->title;
     }
@@ -165,4 +169,8 @@ class ExportField
         return $query;
     }
 
+    public function getEagerLoadingRelations()
+    {
+        return null;
+    }
 }

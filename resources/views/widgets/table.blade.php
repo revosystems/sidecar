@@ -24,7 +24,7 @@
             <tr>
             @foreach($fields as $field)
                 <td class="{{ $field->getTDClasses() }}">
-                    {{ $field->getValue($row) }}
+                    {!! $field->toHtml($row) !!}
                 </td>
             @endforeach
             </tr>

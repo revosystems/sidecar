@@ -28,7 +28,8 @@ class Graph
     }
 
     public function getTitle() : string {
-        return $this->report->getTitle();
+        //return $this->report->getTitle();
+        return "";
     }
 
     public function getType() : string {
