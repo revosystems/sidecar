@@ -10,6 +10,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             __DIR__.'/config/sidecar.php' => config_path('sidecar.php'),
         ]);
 
+        $this->loadRoutesFrom(__DIR__.'/../routes.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'sidecar');
     }
 

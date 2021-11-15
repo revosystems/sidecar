@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Filters\Filters;
+use Revo\Sidecar\Widgets\Widget;
 
 abstract class Report
 {
@@ -38,6 +39,7 @@ abstract class Report
     }
 
     abstract protected function getFields() : array;
+    public function widgets() : array { return []; }
 
     public function query(){
         return $this->model::with($this->with);
@@ -54,6 +56,13 @@ abstract class Report
         return $this->queryWithFilters()->paginate($pagination ?? $this->pagination)->withQueryString();
     }
 
+    public function widgetsQuery()
+    {
+        $filters = new Filters();
+        return ($filters)->apply($this->query(), $this->fields())
+                         ->select($this->getWidgetsSelectFields($filters->groupBy));
+    }
+
     public function getSelectFields(?string $groupBy)
     {
         $modelTable = $this->getModelTable();
@@ -64,6 +73,15 @@ abstract class Report
                 $selectField = "{$modelTable}.{$selectField}";
             }
             return DB::raw($selectField);
+        })->all();
+    }
+
+    public function getWidgetsSelectFields($groupBy)
+    {
+        return collect($this->widgets())->map(function(Widget $widget) use ($groupBy){
+            return $widget->getSelectField($groupBy);
+        })->flatten()->filter()->map(function($selectQuery){
+            return DB::raw($selectQuery);
         })->all();
     }
 

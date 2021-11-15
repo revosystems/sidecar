@@ -13,7 +13,7 @@ class Sort
         return $query->orderBy($field, $order);
     }
 
-    public function queryUrlFor(ExportField $field, string $order = 'ASC') : string
+    public static function queryUrlFor(ExportField $field, string $order = 'ASC') : string
     {
         $params = array_merge(request()->query->all(), [
             "sort" => $field->getFilterField(),
