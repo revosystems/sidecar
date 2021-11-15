@@ -24,7 +24,7 @@ class Graph
         $this->findField();
     }
 
-    public function doesApply(Report $report){
+    public function doesApply(){
         return $this->field != null && $this->field->groupableWithChart;
     }
 
@@ -44,6 +44,7 @@ class Graph
     }
 
     public function calculate() : self {
+        if (!$this->doesApply()) { return $this; }
         if (!$this->results) {
             $this->sresult = $this->report->paginate(25);
         }

@@ -1,4 +1,4 @@
-@if ($graph->doesApply($report))
+@if ($graph->doesApply())
     @include("sidecar::graphs.graph",[
         "graph" => $graph
    ])

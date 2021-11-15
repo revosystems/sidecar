@@ -2,7 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-class Computed extends Number
+class Computed extends ExportField
 {
     protected ?string $displayFormat = null;
 
@@ -10,13 +10,12 @@ class Computed extends Number
         if ($groupBy && $this->onGroupingBy) {
             return "(". $this->onGroupingBy . ") as $this->title";
         }
+        if ($groupBy) {
+            return null;
+        }
         return "(". $this->field . ") as $this->title";
     }
 
-    public static function make($field, $title = null, $dependsOnField = null)
-    {
-        return parent::make($field, $title, $dependsOnField)->onGroupingBy("show");
-    }
 
     public function getValue($row) {
         $value = data_get($row, $this->title);
