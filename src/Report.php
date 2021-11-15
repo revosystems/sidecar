@@ -15,6 +15,10 @@ namespace Revo\Sidecar;
 // [ ] Filterable => Searchable (ajax)
 // [ ] Fix computed (as currency)
 // [ ] Fix computed => average one not working properly?
+// [ ] Widgets
+// [ ] Charts
+// [ ] Default joins
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
@@ -24,6 +28,7 @@ abstract class Report
 {
     protected $model;
     protected $with = [];
+    protected $pagination = 50;
 
     public function fields() : \Illuminate\Support\Collection {
         return collect($this->getFields())->each(function (ExportField $field){
@@ -44,27 +49,23 @@ abstract class Report
                          ->select($this->getSelectFields($filters->groupBy));
     }
 
-    public function paginate($pagination = 25)
-    {
-        return $this->queryWithFilters()->paginate($pagination);
+    public function paginate($pagination = null) {
+        return $this->queryWithFilters()->paginate($pagination ?? $this->pagination)->withQueryString();
     }
 
     public function getSelectFields(?string $groupBy)
     {
-        $modelTable = config('database.connections.mysql.prefix').(new $this->model)->getTable();
+        $modelTable = $this->getModelTable();
         return collect($this->fields())->map(function (ExportField $exportField) use($groupBy){
             return $exportField->getSelectField($groupBy);
         })->filter()->unique()->map(function($selectField) use($modelTable){
             if (!Str::contains($selectField, '.') && !Str::contains($selectField, 'as')){
-                $selectField =  "{$modelTable}.{$selectField}";
+                $selectField = "{$modelTable}.{$selectField}";
             }
             return DB::raw($selectField);
         })->all();
     }
 
-    //------------------------------------
-    // FILTERS
-    //------------------------------------
     public function availableFilters()
     {
         return collect($this->fields())->filter(function(ExportField $field){
@@ -72,10 +73,14 @@ abstract class Report
         });
     }
 
-    public function availableGroupings(){
+    public function availableGroupings() {
         return collect($this->fields())->filter(function(ExportField $field){
             return $field->groupable;
         });
+    }
+
+    public function getModelTable(): string {
+        return config('database.connections.mysql.prefix') . (new $this->model)->getTable();
     }
 
 }

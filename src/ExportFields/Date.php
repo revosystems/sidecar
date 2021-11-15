@@ -24,16 +24,15 @@ class Date extends ExportField
         return $this->getNonGroupedValue($value);
     }
 
-    public function getNonGroupedValue($value)
-    {
-        $this->getCarbonDate($value)->toDateString();
+    public function getNonGroupedValue($value) : string {
+        return $this->getCarbonDate($value)->toDateString();
     }
 
     protected function showAs(Carbon $date, $type){
-        if ($type == 'day')      { return $date->day; }
-        if ($type == 'dayOfWeek'){ return $date->dayOfWeek; }
-        if ($type == 'month')    { return $date->month; }
-        if ($type == 'hour')    { return $date->hour; }
+        if ($type == 'day')      { return $date->format('d M Y'); }
+        if ($type == 'dayOfWeek'){ return $date->format('l'); }//dayOfWeek; }
+        if ($type == 'month')    { return $date->format('M Y'); }
+        if ($type == 'hour')     { return $date->format('H:00'); }
         return $date->toDateString();
     }
 

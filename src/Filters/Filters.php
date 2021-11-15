@@ -25,7 +25,7 @@ class Filters
     }
 
     public function apply($query, $fields) : EloquentBuilder {
-        collect($this->requestFilters)->except(['groupBy', 'sort', 'sort_order'])->each(function($value, $key) use($query){
+        collect($this->requestFilters)->except(['groupBy', 'sort', 'sort_order', 'page'])->each(function($value, $key) use($query){
             $this->applyFilter($query, $key, $value);
         });
         $this->addJoins($query, $fields);

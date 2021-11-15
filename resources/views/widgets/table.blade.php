@@ -1,12 +1,14 @@
+<div class="sidecar links links-top">
+    {{ $rows->links() }}
+</div>
 <table class="{{$tableClasses}}">
         <thead class="sticky">
         <tr>
         @foreach($fields as $field)
             <th class="{{ $field->getTDClasses() }}">
                 @if ($field->sortable)
-                    <div class='sortableHeader '>{{ $field->getTitle() }}
+                    <div class='sortableHeader'>{{ $field->getTitle() }}
                         <div class='sortArrows'>
-
                             <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'ASC') }}' class='sortUp'>▲</a>
                             <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class='sortDown'>▼</a>
                         </div>
@@ -29,3 +31,6 @@
         @endforeach
         </tbody>
 </table>
+<div class="sidecar links links-bottom">
+    {{ $rows->links() }}
+</div>

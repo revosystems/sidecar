@@ -6,8 +6,7 @@ use Carbon\Carbon;
 
 class DateTime extends Date
 {
-    public function getNonGroupedValue($value)
-    {
-        $this->getCarbonDate($value)->toDateTimeString();
+    public function getNonGroupedValue($value) : string {
+        return $this->getCarbonDate($value)->toDateTimeString();
     }
 }
