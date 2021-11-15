@@ -2,14 +2,15 @@
 
 namespace Revo\Sidecar;
 
+// [x] Fix computed => average one not working properly?
+// [ ] Graph, don't use ajax
+// [ ] Widgets take into account filters
 // [ ] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
 // [ ] Filterable => Quants molts, amb un searchable
 // [ ] Filterable => Searchable (ajax)
 // [ ] Fix computed (as currency)
-// [ ] Fix computed => average one not working properly?
 // [ ] Default joins
 // [ ] Add gates / policies
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
@@ -50,6 +51,7 @@ abstract class Report
     }
 
     public function paginate($pagination = null) {
+//        dd($this->queryWithFilters()->toSql());
         return $this->queryWithFilters()->paginate($pagination ?? $this->pagination)->withQueryString();
     }
 
@@ -63,7 +65,9 @@ abstract class Report
     public function getSelectFields(?string $groupBy)
     {
         $modelTable = $this->getModelTable();
-        return collect($this->fields())->map(function (ExportField $exportField) use($groupBy){
+        return collect($this->fields())->reject(function(ExportField $field) use($groupBy) {
+            return $field->onlyWhenGrouping && !$groupBy;
+        })->map(function (ExportField $exportField) use($groupBy){
             return $exportField->getSelectField($groupBy);
         })->flatten()->filter()->unique()->map(function($selectField) use($modelTable){
             if (!Str::contains($selectField, '.') && !Str::contains($selectField, 'as')){
