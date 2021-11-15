@@ -10,26 +10,11 @@ class HtmlExporter extends BaseExporter
     public static $tableClasses = "tableList striped";
 
     public function export() : string {
-        $this->init();
-        $this->generate();
-        $this->finalize();
-        return $this->output;
-    }
-
-    public function init()
-    {
-        $this->output .= "<table class='" . static::$tableClasses . "'>";
-    }
-
-    protected function finalize()
-    {
-        $this->output .= "</table>";
-    }
-
-    protected function generate()
-    {
-        $this->addHeader();
-        $this->addBody();
+        return view('sidecar::widgets.table',[
+            "tableClasses" => static::$tableClasses,
+            "fields" => $this->getFields(),
+            "rows" => $this->data,
+        ])->render();
     }
 
     protected function addHeader()

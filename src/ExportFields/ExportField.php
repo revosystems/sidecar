@@ -20,6 +20,9 @@ class ExportField
 
     public bool $hideMobile = false;
 
+    /** @var string The classes used when exporting to html fo the TD field */
+    public $tdClasses = "";
+
     public ?string $onGroupingBy = null;
 
 
@@ -124,6 +127,20 @@ class ExportField
         $this->onlyWhenGrouping = $onlyWhenGrouping;
         return $this;
     }
+
+    public function tdClasses(string $classes) : self
+    {
+        $this->tdClasses = $classes;
+        return $this;
+    }
+
+    public function getTDClasses() : string {
+        $classes = $this->tdClasses;
+        if ($this->hideMobile) { $classes .= " hide-mobile"; }
+        if ($this->isNumeric()) { $classes .= " text-right"; }
+        return $classes;
+    }
+
 
     public function isNumeric() : bool
     {

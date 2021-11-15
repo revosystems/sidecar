@@ -2,8 +2,10 @@
 
 namespace Revo\Sidecar\Filters;
 
+use App\Models\EloquentBuilder;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Revo\Sidecar\ExportFields\ExportField;
 
 class Filters
@@ -22,13 +24,14 @@ class Filters
         }
     }
 
-    public function apply($query, $fields){
-        collect($this->requestFilters)->except('groupBy')->each(function($value, $key) use($query){
+    public function apply($query, $fields) : EloquentBuilder {
+        collect($this->requestFilters)->except(['groupBy', 'sort', 'sort_order'])->each(function($value, $key) use($query){
             $this->applyFilter($query, $key, $value);
         });
         $this->addJoins($query, $fields);
-//        $query->leftJoin('table_tables','orders.table_id','=','table_tables.id');
-        return (new GroupBy)->groupBy($query, $this->groupBy, $this->groupType);
+        (new GroupBy)->groupBy($query, $this->groupBy, $this->groupType);
+        (new Sort)->sort($query, $this->requestFilters['sort'] ?? null, $this->requestFilters['sort_order'] ?? null);
+        return $query;
     }
 
     private function applyFilter($query, $key, $value)
