@@ -12,9 +12,7 @@ class ReportsController
         $report = Sidecar::make(ucFirst($model) . "Report");
         $result = $report->paginate();
         return view("sidecar::index", [
-            "withWidgets"        => count($report->widgets()) > 0,
-            "availableFilters"   => $report->availableFilters(),
-            "availableGroupings" => $report->availableGroupings(),
+            "report"             => $report,
             "exporter"           => new HtmlExporter($result, $report)
         ]);
     }
@@ -23,7 +21,7 @@ class ReportsController
         $report = Sidecar::make(ucFirst($model) . "Report");
         $widgetsResult = $report->widgetsQuery()->first();
         return view("sidecar::widgets", [
-            "widgets"            => $report->widgets(),
+            "widgets"            => $report->getWidgets(),
             "widgetsResult"      => $widgetsResult,
         ]);
     }

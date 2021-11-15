@@ -29,8 +29,15 @@ use Revo\Sidecar\Widgets\Widget;
 abstract class Report
 {
     protected $model;
+    protected $title = null;
     protected $with = [];
     protected $pagination = 50;
+
+
+    public function getTitle() : string
+    {
+        return $this->title ?? $this->model;
+    }
 
     public function fields() : \Illuminate\Support\Collection {
         return collect($this->getFields())->each(function (ExportField $field){
@@ -39,7 +46,7 @@ abstract class Report
     }
 
     abstract protected function getFields() : array;
-    public function widgets() : array { return []; }
+    public function getWidgets() : array { return []; }
 
     public function query(){
         return $this->model::with($this->with);
@@ -78,7 +85,7 @@ abstract class Report
 
     public function getWidgetsSelectFields($groupBy)
     {
-        return collect($this->widgets())->map(function(Widget $widget) use ($groupBy){
+        return collect($this->getWidgets())->map(function(Widget $widget) use ($groupBy){
             return $widget->getSelectField($groupBy);
         })->flatten()->filter()->map(function($selectQuery){
             return DB::raw($selectQuery);

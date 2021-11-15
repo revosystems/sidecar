@@ -1,6 +1,6 @@
 <div class="m-4 p4 grid bg-broken-white b filters sidecar-filters">
     <form action="">
-        @foreach($availableFilters->sort() as $filter)
+        @foreach($report->availableFilters()->sort() as $filter)
             @if ($filter instanceof Revo\Sidecar\ExportFields\Date)
                 @include('sidecar::filters.date')
             @else
