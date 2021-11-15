@@ -16,7 +16,7 @@ class Sidecar
 
     static public function make($name) : ?Report
     {
-        $path = "\\App\\Reports\\V2\\{$name}";
+        $path = config('sidecar.reportsPath'). $name;
         return new $path;
     }
 

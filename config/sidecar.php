@@ -7,4 +7,5 @@ return [
     'routeMiddleware' => ['web', 'auth'],
     'indexLayout' => 'layouts.sidecar',
     'minSearchChars' => 3,
+    'reportsPath'   => '\\App\\Reports\\'
 ];

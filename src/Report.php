@@ -18,6 +18,7 @@ namespace Revo\Sidecar;
 // [ ] Widgets
 // [ ] Charts
 // [ ] Default joins
+// [ ] Add gates / policies
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -58,7 +59,7 @@ abstract class Report
         $modelTable = $this->getModelTable();
         return collect($this->fields())->map(function (ExportField $exportField) use($groupBy){
             return $exportField->getSelectField($groupBy);
-        })->filter()->unique()->map(function($selectField) use($modelTable){
+        })->flatten()->filter()->unique()->map(function($selectField) use($modelTable){
             if (!Str::contains($selectField, '.') && !Str::contains($selectField, 'as')){
                 $selectField = "{$modelTable}.{$selectField}";
             }

@@ -47,7 +47,7 @@ class ExportField
         return data_get($row, $this->field);
     }
 
-    public function getSelectField(?string $groupBy = null) : ?string
+    public function getSelectField(?string $groupBy = null)
     {
         if ($groupBy){
             if ($groupBy == $this->dependsOnField) { return $this->dependsOnField; }

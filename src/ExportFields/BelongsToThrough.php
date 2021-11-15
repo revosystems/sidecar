@@ -24,12 +24,15 @@ class BelongsToThrough extends ExportField
         return $this;
     }
 
-    public function getSelectField(?string $groupBy = null) : ?string
+    public function getSelectField(?string $groupBy = null)
     {
         if (!$groupBy) { return null; };
         $foreingKey = $this->pivot()->getRelated()->{$this->field}()->getForeignKeyName();
         if ($groupBy && $groupBy != $foreingKey) { return null; }
-        return config('database.connections.mysql.prefix').$this->pivot()->getRelated()->getTable() .'.'.$foreingKey;
+        return [
+            config('database.connections.mysql.prefix').$this->pivot()->getRelated()->getTable() .'.'.$foreingKey,
+            config('database.connections.mysql.prefix').(new $this->model)->getTable() . '.' . $this->pivot()->getForeignKeyName()
+        ];
     }
 
     public function getFilterField() : string {

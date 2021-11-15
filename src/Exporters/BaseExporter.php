@@ -2,6 +2,7 @@
 
 namespace Revo\Sidecar\Exporters;
 
+use Revo\Sidecar\ExportFields\BelongsToThrough;
 use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Report;
@@ -19,7 +20,7 @@ class BaseExporter
         $filters = new Filters();
         if ($filters->groupBy){
             $this->fields = $this->fields->reject(function(ExportField $field) use($filters){
-                return $field->hidden || ($field->onGroupingBy == null && $field->getSelectField() != $filters->groupBy);
+                return $field->hidden || ($field->onGroupingBy == null && $field->getFilterField($filters->groupBy) != $filters->groupBy);
             });
         }else{
             $this->fields = $this->fields->reject(function(ExportField $field) use($filters){
