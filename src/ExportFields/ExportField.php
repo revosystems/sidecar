@@ -34,7 +34,7 @@ class ExportField
     {
         $exportField = new static;
         $exportField->field = $field;
-        $exportField->title = $title ?? $field;
+        $exportField->title = $title ?? __(config('sidecar.translationsPrefix').$field);
         $exportField->dependsOnField = $dependsOnField ?? $field;
         return $exportField;
     }

@@ -12,7 +12,7 @@ abstract class Widget
     {
         $panel = (new static);
         $panel->field = $field;
-        $panel->title = $title ?? $field;
+        $panel->title = $title ?? __(config('sidecar.translationsPrefix').$field);
         return $panel;
     }
 
