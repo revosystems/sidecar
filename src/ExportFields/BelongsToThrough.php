@@ -4,6 +4,7 @@ namespace Revo\Sidecar\ExportFields;
 
 use App\Models\EloquentBuilder;
 use Revo\Sidecar\Filters\GroupBy;
+use Revo\Sidecar\Filters\Filters;
 
 class BelongsToThrough extends ExportField
 {
@@ -29,12 +30,13 @@ class BelongsToThrough extends ExportField
 
     public function getSelectField(?GroupBy $groupBy = null)
     {
-        if (!$groupBy) { return null; };
+        $pivotSelectField = config('database.connections.mysql.prefix').(new $this->model)->getTable() . '.' . $this->pivot()->getForeignKeyName();
+        if (!$groupBy) { return $pivotSelectField; };
         $foreingKey = $this->pivot()->getRelated()->{$this->field}()->getForeignKeyName();
-        if ($groupBy && !$groupBy->isGroupingBy($foreingKey)) { return null; }
+        if ($groupBy && !$groupBy->isGroupingBy($foreingKey)) { return $pivotSelectField; }
         return [
+            $pivotSelectField,
             config('database.connections.mysql.prefix').$this->pivot()->getRelated()->getTable() .'.'.$foreingKey,
-            config('database.connections.mysql.prefix').(new $this->model)->getTable() . '.' . $this->pivot()->getForeignKeyName()
         ];
     }
 
@@ -56,9 +58,9 @@ class BelongsToThrough extends ExportField
         return $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
     }
 
-    public function addJoin(EloquentBuilder $query, $filters, GroupBy $groupBy) : EloquentBuilder
+    public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
     {
-        if (!array_key_exists($this->getFilterField(), $filters) && !$groupBy->isGroupingBy($this->getFilterField())) {
+        if (!$filters->isFilteringBy($this->getFilterField()) && !$groupBy->isGroupingBy($this->getFilterField())) {
             return $query;
         }
         $pivot = $this->pivot()->getRelated()->getTable();

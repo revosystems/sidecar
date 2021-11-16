@@ -31,6 +31,7 @@ class Date extends ExportField
     protected function showAs(Carbon $date, $type){
         if ($type == 'day')      { return $date->format('d M Y'); }
         if ($type == 'dayOfWeek'){ return $date->format('l'); }//dayOfWeek; }
+        if ($type == 'week')    { return $date->format('W (M Y)'); }
         if ($type == 'month')    { return $date->format('M Y'); }
         if ($type == 'hour')     { return $date->format('H:00'); }
         return $date->toDateString();
@@ -42,7 +43,7 @@ class Date extends ExportField
 
     public function groupings() : array
     {
-        return ['day', 'month', 'hour', 'dayOfWeek'];
+        return ['day', 'week', 'month', 'hour', 'dayOfWeek'];
     }
 
     public function filterStart()

@@ -3,15 +3,16 @@
 namespace Revo\Sidecar;
 
 // [x] Fix computed => average one not working properly?
-// [ ] Graph, don't use ajax
+// [x] Fix computed (as currency)
+// [x] Graph, don't use ajax
 // [ ] Widgets take into account filters
 // [ ] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
 // [ ] Filterable => Quants molts, amb un searchable
 // [ ] Filterable => Searchable (ajax)
-// [ ] Fix computed (as currency)
 // [ ] Default joins
 // [ ] Add gates / policies
 // [ ] Date groupable by week
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
@@ -22,14 +23,14 @@ use Revo\Sidecar\Widgets\Widget;
 abstract class Report
 {
     protected $model;
-    protected $title = null;
+    protected ?string $title = null;
     protected $with = [];
-    protected $pagination = 50;
+    protected int $pagination = 50;
 
-    public $filters;
+    public Filters $filters;
 
-    public function __construct() {
-        $this->filters = new Filters();
+    public function __construct(?Filters $filters = null) {
+        $this->filters = $filters ?? new Filters();
     }
 
     public function getTitle() : string
@@ -46,11 +47,11 @@ abstract class Report
     abstract protected function getFields() : array;
     public function getWidgets() : array { return []; }
 
-    public function query(){
+    public function query() : Builder {
         return $this->model::with(array_merge($this->with, $this->findEagerLoadingNeedeRelationShips()));
     }
 
-    public function queryWithFilters()
+    public function queryWithFilters() : Builder
     {
         return ($this->filters)->apply($this->query(), $this->fields())
                          ->select($this->getSelectFields($this->filters->groupBy));

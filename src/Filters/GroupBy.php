@@ -43,6 +43,9 @@ class GroupBy
         if ($type == 'day') {
             return $query->groupBy(DB::raw('date(' . subTime($key, static::$openingTime) . ')'))->orderBy($key, 'DESC');
         }
+        if ($type == 'week') {
+            return $query->groupBy(DB::raw('week(' . subTime($key, static::$openingTime) . ')'))->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))->orderBy($key, 'DESC');
+        }
         if ($type == 'month') {
             return $query->groupBy(DB::raw('month(' . subTime($key, static::$openingTime) . ')'))->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))->orderBy($key, 'DESC');
         }

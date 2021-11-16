@@ -4,6 +4,7 @@ namespace Revo\Sidecar\ExportFields;
 use App\Models\EloquentBuilder;
 use Illuminate\Support\Facades\DB;
 use Revo\Sidecar\Filters\GroupBy;
+use Revo\Sidecar\Filters\Filters;
 
 class ExportField
 {
@@ -166,7 +167,7 @@ class ExportField
         return false;
     }
 
-    public function addJoin(EloquentBuilder $query, $filters, GroupBy $groupBy) : EloquentBuilder
+    public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
     {
         return $query;
     }

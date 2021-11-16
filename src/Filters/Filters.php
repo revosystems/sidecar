@@ -17,7 +17,7 @@ class Filters
     public $groupBy;
 
     public function __construct() {
-        $this->requestFilters = request()->all();
+        $this->requestFilters = request('filters');
         $this->groupBy        = new GroupBy(request('groupBy'));
     }
 
@@ -29,6 +29,14 @@ class Filters
         $this->groupBy->group($query);
         (new Sort)->sort($query, $this->requestFilters['sort'] ?? null, $this->requestFilters['sort_order'] ?? null);
         return $query;
+    }
+
+    public function isFilteringBy($key, $value = null) : bool
+    {
+        if ($value == null) {
+            return array_key_exists($key, $this->requestFilters ?? []);
+        }
+        return in_array($value, $this->requestFilters[$key] ?? []);
     }
 
     private function applyFilter($query, $key, $value)
@@ -57,7 +65,7 @@ class Filters
     public function addJoins($query, $fields)
     {
         $fields->each(function(ExportField $field) use($query) {
-            $field->addJoin($query, $this->requestFilters, $this->groupBy);
+            $field->addJoin($query, $this, $this->groupBy);
         });
     }
 }
