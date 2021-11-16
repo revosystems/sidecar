@@ -31,6 +31,9 @@ class Graph
     }
 
     public function getType() : string {
+        if ($this->report->filters->groupBy->groupings->count() == 2) {   //two dimensions
+            return 'bar';
+        }
         return $this->dimensionField->groupableGraphType;
     }
 
@@ -44,7 +47,7 @@ class Graph
     public function findMetricField() {
         $metric = $this->metric();
         $this->metricField = $this->report->fields()->first(function (ExportField $field) use($metric) {
-            return $field->getFilterField() == $metric && $field->groupableWithChart;
+            return $field->getFilterField() == $metric && $field->groupable;
         });
     }
 
@@ -79,11 +82,12 @@ class Graph
     public function calculateForTwoGroupings()
     {
         $dimension = $this->dimension();
+        $metric = $this->metric();
         $this->labels = $this->results->mapWithKeys(function($row){
             return [$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->getValue($row)];
         });
-        $metrics = $this->results->mapWithKeys(function($row){
-            return [$row->{$this->metric()} => $this->metricField->getValue($row)];
+        $metrics = $this->results->mapWithKeys(function($row) use($metric){
+            return [(string)$row->{$metric} => $this->metricField->getValue($row)];
         });
 
         $a = $metrics->map(function($name, $metric) use($dimension) {

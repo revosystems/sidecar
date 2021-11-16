@@ -1,6 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="bg-white shadow-sm m-4 p-4">
-    <canvas id="chart" height="60vh"></canvas>
+    <canvas id="chart"  @if (in_array($graph->getType(), ['pie', 'doughnug']))  height="100vh" @else height="60vh" @endif></canvas>
 </div>
 
 <script>
@@ -11,8 +11,13 @@
             @foreach($graph->values as $dataset)
             {
                 label: '{{ $dataset['title'] }}',
-                backgroundColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
-                borderColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
+                @if (in_array($graph->getType(), ['pie', 'doughnug']))
+                    backgroundColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
+                    borderColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
+                @else
+                    backgroundColor: @json($graph->colors),
+                    borderColor: @json($graph->colors),
+                @endif
                 data: @json($dataset['values']),
             },
             @endforeach
@@ -23,9 +28,9 @@
     const config = {
         type: '{{ $graph->getType() }}',
         data: data,
-        responsive:true,
-        maintainAspectRatio:false,
         options: {
+            responsive:true,
+            // maintainAspectRatio:true,
             animation: {
                 onComplete: () => {
                     delayed = true;
