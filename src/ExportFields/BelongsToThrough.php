@@ -11,6 +11,7 @@ class BelongsToThrough extends ExportField
     protected string $relationShipField = 'name';
     protected array $relationShipWith = [];
     protected $pivot = null;
+    protected bool $useLeftJoin = false;
 
     public function getValue($row)
     {
@@ -45,6 +46,11 @@ class BelongsToThrough extends ExportField
         return $foreingKey;
     }
 
+    public function withLeftJoin(bool $leftJoin) : self {
+        $this->leftJoin = $leftJoin;
+        return $this;
+    }
+
     protected function pivot(){
         return (new $this->model)->{$this->pivot}();
     }
@@ -66,6 +72,9 @@ class BelongsToThrough extends ExportField
         $pivot = $this->pivot()->getRelated()->getTable();
         $main = (new $this->model)->getTable();
         $foreingKey = ($this->pivot()->getForeignKeyName());
+        if ($this->useLeftJoin) {
+            return $query->leftJoin($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
+        }
         return $query->join($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
     }
 
