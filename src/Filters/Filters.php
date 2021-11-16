@@ -10,24 +10,28 @@ use Revo\Sidecar\ExportFields\ExportField;
 
 class Filters
 {
-    protected $globalFilters  = [];
     protected $requestFilters = [];
-    protected $customFilters  = [];
-
+    protected $dates = [];
     public $groupBy;
+    public $sort;
 
     public function __construct() {
         $this->requestFilters = request('filters');
+        $this->dates          = request('dates');
         $this->groupBy        = new GroupBy(request('groupBy'));
+        $this->sort           = new Sort(request('sort'), request('sort_order'));
     }
 
     public function apply($query, $fields) : EloquentBuilder {
-        collect($this->requestFilters)->except(['groupBy', 'sort', 'sort_order', 'page'])->each(function($value, $key) use($query){
+        collect($this->requestFilters)->each(function($value, $key) use($query){
             $this->applyFilter($query, $key, $value);
+        });
+        collect($this->dates)->each(function($value, $key) use($query){
+            $this->applyDateFilter($query, $key, $value);
         });
         $this->addJoins($query, $fields);
         $this->groupBy->group($query);
-        (new Sort)->sort($query, $this->requestFilters['sort'] ?? null, $this->requestFilters['sort_order'] ?? null);
+        $this->sort->sort($query);
         return $query;
     }
 
@@ -41,9 +45,6 @@ class Filters
 
     private function applyFilter($query, $key, $value)
     {
-        if (is_array($value) && array_key_exists('start', $value)) {
-            return $this->applyDateFilter($query, $key, $value);
-        }
         if (is_array($value)) {
             return $query->whereIn($key, $value);
         }

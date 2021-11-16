@@ -2,15 +2,25 @@
 
 namespace Revo\Sidecar\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
 use Revo\Sidecar\ExportFields\ExportField;
 
 class Sort
 {
 
-    public function sort($query, $field, $order = 'DESC')
+    public ?string $field;
+    public ?string $order;
+
+    public function __construct(?string $field, ?string $order)
     {
-        if ($field == null) { return; }
-        return $query->orderBy($field, $order);
+        $this->field = $field;
+        $this->order = $order ?? 'DESC';
+    }
+
+    public function sort(Builder $query) : Builder
+    {
+        if ($this->field == null) { return $query; }
+        return $query->orderBy($this->field, $this->order);
     }
 
     public static function queryUrlFor(ExportField $field, string $order = 'ASC') : string

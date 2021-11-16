@@ -20,11 +20,11 @@
         </div>
         <div id="custom-date-range" class="pl3 pt1 hidden bl">
             @icon(calendar)
-            <input type="date" name="{{$filter->getSelectField()}}[start]"
+            <input type="date" name="dates[{{$filter->getSelectField()}}][start]"
                    id="start_date"
                    value="{{request($filter->getSelectField())['start'] ?? ""}}">
 
-            <input type="date" name="{{$filter->getSelectField()}}[end]"
+            <input type="date" name="dates[{{$filter->getSelectField()}}][end]"
                    id="end_date"
                    value="{{request($filter->getSelectField())['end'] ?? ""}}">
 {{--            {{ Form::input('date', 'start_date', $filter->filterStart(), ["id" => "start_date"]) }}--}}
