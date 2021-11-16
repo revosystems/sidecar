@@ -7,12 +7,16 @@
     const labels = @json($graph->labels);
     const data = {
         labels: labels,
-        datasets: [{
-            label: '{{ $graph->getTitle() }}',
-            backgroundColor: '#E75129',
-            borderColor: '#E75129',
-            data: @json($graph->values),
-        }]
+        datasets: [
+            @foreach($graph->values as $dataset)
+            {
+                label: '{{ $graph->getTitle() }}',
+                backgroundColor: '{{$graph->colors[$loop->index]}}',
+                borderColor: '{{$graph->colors[$loop->index]}}',
+                data: @json($dataset),
+            },
+            @endforeach
+        ]
     };
 
     const config = {

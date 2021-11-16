@@ -11,6 +11,7 @@ namespace Revo\Sidecar;
 // [ ] Fix computed (as currency)
 // [ ] Default joins
 // [ ] Add gates / policies
+// [ ] Date groupable by week
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
