@@ -27,12 +27,7 @@ class Graph
 
     public function doesApply(){
         return $this->report->filters->groupBy->groupings->count() > 0 && $this->report->filters->groupBy->groupings->count() < 3
-               && $this->dimensionField != null && $this->dimensionField->groupableWithChart;
-    }
-
-    public function getTitle() : string {
-        //return $this->report->getTitle();
-        return "";
+               && $this->dimensionField != null;
     }
 
     public function getType() : string {
@@ -42,14 +37,14 @@ class Graph
     public function findDimensionField() {
         $dimension = $this->dimension();
         $this->dimensionField = $this->report->fields()->first(function (ExportField $field) use($dimension) {
-            return $field->getFilterField() == $dimension;
+            return $field->getFilterField() == $dimension && $field->groupableWithChart;
         });
     }
 
     public function findMetricField() {
         $metric = $this->metric();
         $this->metricField = $this->report->fields()->first(function (ExportField $field) use($metric) {
-            return $field->getFilterField() == $metric;
+            return $field->getFilterField() == $metric && $field->groupableWithChart;
         });
     }
 
