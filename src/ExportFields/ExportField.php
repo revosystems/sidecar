@@ -99,10 +99,9 @@ class ExportField
     // --------------------------------------------
     // Filterable
     // --------------------------------------------
-    public function filterable($filterable = true, $icon = null) : self
+    public function filterable($filterable = true, $searchable = false) : self
     {
         $this->filterable = $filterable;
-        $this->filterIcon = $icon;
         return $this;
     }
 
