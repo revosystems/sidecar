@@ -18,8 +18,8 @@ class Date extends ExportField
             return "--";
         }
         $filters = (new Filters());
-        if ($filters->groupBy == $this->field){
-            return $this->showAs($this->getCarbonDate($value), $filters->groupType);
+        if ($filters->groupBy && $filters->groupBy->isGroupingBy($this->field)){
+            return $this->showAs($this->getCarbonDate($value), $filters->groupBy->groupings[$this->field]);
         }
         return $this->getNonGroupedValue($value);
     }
