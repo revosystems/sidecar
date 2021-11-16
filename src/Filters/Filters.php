@@ -14,14 +14,11 @@ class Filters
     protected $requestFilters = [];
     protected $customFilters  = [];
 
-    public $groupBy = null;
-    public $groupType = null;
+    public $groupBy;
 
     public function __construct() {
         $this->requestFilters = request()->all();
-        if (request('groupBy')){
-            list($this->groupBy, $this->groupType) = explode(":", request('groupBy'));
-        }
+        $this->groupBy        = new GroupBy(request('groupBy'));
     }
 
     public function apply($query, $fields) : EloquentBuilder {
@@ -29,7 +26,7 @@ class Filters
             $this->applyFilter($query, $key, $value);
         });
         $this->addJoins($query, $fields);
-        (new GroupBy)->groupBy($query, $this->groupBy, $this->groupType);
+        $this->groupBy->group($query);
         (new Sort)->sort($query, $this->requestFilters['sort'] ?? null, $this->requestFilters['sort_order'] ?? null);
         return $query;
     }

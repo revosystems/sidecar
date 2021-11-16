@@ -2,6 +2,8 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use Revo\Sidecar\Filters\GroupBy;
+
 class BelongsTo extends ExportField
 {
     protected string $relationShipField = 'name';
@@ -17,10 +19,10 @@ class BelongsTo extends ExportField
         return $this;
     }
 
-    public function getSelectField(?string $groupBy = null) : ?string
+    public function getSelectField(?GroupBy $groupBy = null) : ?string
     {
         $foreingKey = $this->relation()->getForeignKeyName();
-        if ($groupBy && $groupBy != $foreingKey) { return null; }
+        if ($groupBy && $groupBy->isGrouping() && !$groupBy->isGroupingBy($foreingKey)) { return null; }
         return $foreingKey;
     }
 

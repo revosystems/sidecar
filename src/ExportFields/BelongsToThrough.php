@@ -2,6 +2,9 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use App\Models\EloquentBuilder;
+use Revo\Sidecar\Filters\GroupBy;
+
 class BelongsToThrough extends ExportField
 {
     protected string $relationShipField = 'name';
@@ -24,11 +27,11 @@ class BelongsToThrough extends ExportField
         return $this;
     }
 
-    public function getSelectField(?string $groupBy = null)
+    public function getSelectField(?GroupBy $groupBy = null)
     {
         if (!$groupBy) { return null; };
         $foreingKey = $this->pivot()->getRelated()->{$this->field}()->getForeignKeyName();
-        if ($groupBy && $groupBy != $foreingKey) { return null; }
+        if ($groupBy && !$groupBy->isGroupingBy($foreingKey)) { return null; }
         return [
             config('database.connections.mysql.prefix').$this->pivot()->getRelated()->getTable() .'.'.$foreingKey,
             config('database.connections.mysql.prefix').(new $this->model)->getTable() . '.' . $this->pivot()->getForeignKeyName()
@@ -53,15 +56,15 @@ class BelongsToThrough extends ExportField
         return $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
     }
 
-    public function addJoin($query, $filters, $groupBy)
+    public function addJoin(EloquentBuilder $query, $filters, GroupBy $groupBy) : EloquentBuilder
     {
-        if (!array_key_exists($this->getFilterField(), $filters) && $groupBy != $this->getFilterField()) {
-            return;
+        if (!array_key_exists($this->getFilterField(), $filters) && !$groupBy->isGroupingBy($this->getFilterField())) {
+            return $query;
         }
         $pivot = $this->pivot()->getRelated()->getTable();
         $main = (new $this->model)->getTable();
         $foreingKey = ($this->pivot()->getForeignKeyName());
-        $query->join($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
+        return $query->join($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
     }
 
     public function getEagerLoadingRelations()

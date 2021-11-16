@@ -16,17 +16,9 @@ class BaseExporter
     public function __construct($data, Report $report)
     {
         $this->data = $data;
-        $this->fields = $report->fields();
-        $filters = new Filters();
-        if ($filters->groupBy){
-            $this->fields = $this->fields->reject(function(ExportField $field) use($filters){
-                return $field->hidden || ($field->onGroupingBy == null && $field->getFilterField($filters->groupBy) != $filters->groupBy);
-            });
-        }else{
-            $this->fields = $this->fields->reject(function(ExportField $field) use($filters){
-                return $field->hidden || $field->onlyWhenGrouping;
-            });
-        }
+        $this->fields = $report->fields()->filter(function(ExportField $field) use ($report) {
+            return $field->shouldBeEported($report->filters);
+        });
     }
 
     public function getFields()

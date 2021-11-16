@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Filters\Filters;
+use Revo\Sidecar\Filters\GroupBy;
 use Revo\Sidecar\Widgets\Widget;
 
 abstract class Report
@@ -24,6 +25,11 @@ abstract class Report
     protected $with = [];
     protected $pagination = 50;
 
+    public $filters;
+
+    public function __construct() {
+        $this->filters = new Filters();
+    }
 
     public function getTitle() : string
     {
@@ -45,9 +51,8 @@ abstract class Report
 
     public function queryWithFilters()
     {
-        $filters = new Filters();
-        return ($filters)->apply($this->query(), $this->fields())
-                         ->select($this->getSelectFields($filters->groupBy));
+        return ($this->filters)->apply($this->query(), $this->fields())
+                         ->select($this->getSelectFields($this->filters->groupBy));
     }
 
     public function paginate($pagination = null) {
@@ -57,16 +62,15 @@ abstract class Report
 
     public function widgetsQuery()
     {
-        $filters = new Filters();
-        return ($filters)->apply($this->query(), $this->fields())
-                         ->select($this->getWidgetsSelectFields($filters->groupBy));
+        return ($this->filters)->apply($this->query(), $this->fields())
+                         ->select($this->getWidgetsSelectFields($this->filters->groupBy));
     }
 
-    public function getSelectFields(?string $groupBy)
+    public function getSelectFields(?GroupBy $groupBy)
     {
         $modelTable = $this->getModelTable();
         return collect($this->fields())->reject(function(ExportField $field) use($groupBy) {
-            return $field->onlyWhenGrouping && !$groupBy;
+            return $field->onlyWhenGrouping && !$groupBy->isGrouping();
         })->map(function (ExportField $exportField) use($groupBy){
             return $exportField->getSelectField($groupBy);
         })->flatten()->filter()->unique()->map(function($selectField) use($modelTable){

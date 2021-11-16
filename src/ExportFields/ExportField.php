@@ -1,7 +1,9 @@
 <?php
 
 namespace Revo\Sidecar\ExportFields;
+use App\Models\EloquentBuilder;
 use Illuminate\Support\Facades\DB;
+use Revo\Sidecar\Filters\GroupBy;
 
 class ExportField
 {
@@ -55,10 +57,10 @@ class ExportField
         return data_get($row, $this->field);
     }
 
-    public function getSelectField(?string $groupBy = null)
+    public function getSelectField(?GroupBy $groupBy = null)
     {
-        if ($groupBy){
-            if ($groupBy == $this->dependsOnField) { return $this->dependsOnField; }
+        if ($groupBy && $groupBy->isGrouping()){
+            if ($groupBy->isGroupingBy($this->dependsOnField)) { return $this->dependsOnField; }
             if ($this->onGroupingBy == null)       { return null; }
             return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$this->dependsOnField}";
         }
@@ -164,7 +166,7 @@ class ExportField
         return false;
     }
 
-    public function addJoin($query, $filters, $groupBy)
+    public function addJoin(EloquentBuilder $query, $filters, GroupBy $groupBy) : EloquentBuilder
     {
         return $query;
     }
@@ -172,5 +174,14 @@ class ExportField
     public function getEagerLoadingRelations()
     {
         return null;
+    }
+
+    public function shouldBeEported($filters) : bool
+    {
+        if ($this->hidden) { return false; }
+        if ($filters->groupBy->isGrouping()) {
+            return $this->onGroupingBy != null || $filters->groupBy->isGroupingBy($this->getFilterField());
+        }
+        return !$this->onlyWhenGrouping;
     }
 }

@@ -2,15 +2,17 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use Revo\Sidecar\Filters\GroupBy;
+
 class Computed extends ExportField
 {
     protected ?string $displayFormat = null;
 
-    public function getSelectField(?string $groupBy = null): ?string {
-        if ($groupBy && $this->onGroupingBy) {
+    public function getSelectField(?GroupBy $groupBy = null): ?string {
+        if ($groupBy && $groupBy->isGrouping() && $this->onGroupingBy) {
             return "(". $this->onGroupingBy . ") as $this->title";
         }
-        if ($groupBy) {
+        if ($groupBy && $groupBy->isGrouping()) {
             return null;
         }
         return "(". $this->field . ") as $this->title";
