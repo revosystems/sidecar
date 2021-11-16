@@ -10,10 +10,10 @@
         datasets: [
             @foreach($graph->values as $dataset)
             {
-                label: '{{ $graph->getTitle() }}',
+                label: '{{ $dataset['title'] }}',
                 backgroundColor: '{{$graph->colors[$loop->index]}}',
                 borderColor: '{{$graph->colors[$loop->index]}}',
-                data: @json($dataset),
+                data: @json($dataset['values']),
             },
             @endforeach
         ]
