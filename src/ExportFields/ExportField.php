@@ -166,6 +166,11 @@ class ExportField
         return false;
     }
 
+    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
+    {
+        return $filters->applyFilter($query, $key, $values);
+    }
+
     public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
     {
         return $query;

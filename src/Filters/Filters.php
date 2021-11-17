@@ -23,12 +23,7 @@ class Filters
     }
 
     public function apply($query, $fields) : EloquentBuilder {
-        collect($this->requestFilters)->each(function($value, $key) use($query){
-            $this->applyFilter($query, $key, $value);
-        });
-        collect($this->dates)->each(function($value, $key) use($query){
-            $this->applyDateFilter($query, $key, $value);
-        });
+        $this->addFilters($query, $fields);
         $this->addJoins($query, $fields);
         $this->groupBy->group($query);
         $this->sort->sort($query);
@@ -43,7 +38,26 @@ class Filters
         return in_array($value, $this->requestFilters[$key] ?? []);
     }
 
-    private function applyFilter($query, $key, $value)
+    public function addFilters($query, $fields)
+    {
+        collect($this->requestFilters)->each(function($value, $key) use($query, $fields){
+            optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
+        });
+        /*
+        collect($this->requestFilters)->each(function($value, $key) use($query){
+            $this->applyFilter($query, $key, $value);
+        });
+        collect($this->dates)->each(function($value, $key) use($query){
+            $this->applyDateFilter($query, $key, $value);
+        });*/
+    }
+
+    protected function fieldFor($fields, $filterField) :?ExportField {
+        return $fields->first(function(ExportField $field) use($filterField){
+            return $field->getFilterField() == $filterField;
+        });
+    }
+    public function applyFilter($query, $key, $value)
     {
         if (is_array($value)) {
             return $query->whereIn($key, $value);

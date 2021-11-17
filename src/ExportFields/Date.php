@@ -2,6 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use App\Models\EloquentBuilder;
 use Carbon\Carbon;
 use Revo\Sidecar\Filters\Filters;
 
@@ -54,5 +55,10 @@ class Date extends ExportField
     public function filterEnd()
     {
         request($this->getSelectField())['end'] ?? "";
+    }
+
+    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
+    {
+        return $filters->applyDateFilter($query, $key, $values);
     }
 }
