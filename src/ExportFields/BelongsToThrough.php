@@ -82,4 +82,12 @@ class BelongsToThrough extends ExportField
     {
         return "{$this->pivot}.{$this->field}";
     }
+
+    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values): EloquentBuilder
+    {
+        $pivot = $this->pivot()->getRelated()->getTable();
+        return $filters->applyFilter($query, $pivot.'.'.$key, $values);
+    }
+
+
 }

@@ -9,14 +9,16 @@ namespace Revo\Sidecar;
 // [x] Date groupable by week
 // [x] Widget, anar a buscar la ruta que toca
 // [x] Filterable => Quants molts, amb un searchable
-// [ ] Widgets take into account filters
-// [ ] Filterable => Searchable (ajax)
+// [x] Widgets take into account filters
+// [x] Filterable => Searchable (ajax)
+// [x] Fix join collisions with fields names (for example PaymentsReport => filter by cashier and employee
 // [ ] Default joins
 // [ ] Add gates / policies
-// [ ] Fix join collisions with fields names (for example PaymentsReport => filter by cashier and employee
 // [ ] Dates => Default 7 days
 // [ ] Widgets => comprasion value in % with same period before
 // [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
+// [ ] Comparable reports => by period
+// [ ] Trand widget
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

@@ -71,8 +71,15 @@ class ExportField
 
     public function dependOnFieldFull()
     {
-        $table = (new $this->model)->getTable();
-        return config('database.connections.mysql.prefix') . $table . "." . $this->dependsOnField;
+        return $this->databaseTableFull(). "." . $this->dependsOnField;
+    }
+
+    public function databaseTable(): string {
+        return (new $this->model)->getTable();
+    }
+
+    public function databaseTableFull() : string {
+        return config('database.connections.mysql.prefix') . $this->databaseTable();
     }
 
     public function getFilterField() : string {
@@ -170,7 +177,7 @@ class ExportField
 
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
     {
-        return $filters->applyFilter($query, $key, $values);
+        return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
     }
 
     public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
