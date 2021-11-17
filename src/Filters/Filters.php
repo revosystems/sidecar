@@ -43,13 +43,9 @@ class Filters
         collect($this->requestFilters)->each(function($value, $key) use($query, $fields){
             optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
         });
-        /*
-        collect($this->requestFilters)->each(function($value, $key) use($query){
-            $this->applyFilter($query, $key, $value);
+        collect($this->dates)->each(function($value, $key) use($query, $fields){
+            optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
         });
-        collect($this->dates)->each(function($value, $key) use($query){
-            $this->applyDateFilter($query, $key, $value);
-        });*/
     }
 
     protected function fieldFor($fields, $filterField) :?ExportField {
