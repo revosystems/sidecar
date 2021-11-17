@@ -12,6 +12,7 @@ namespace Revo\Sidecar;
 // [x] Widgets take into account filters
 // [x] Filterable => Searchable (ajax)
 // [x] Fix join collisions with fields names (for example PaymentsReport => filter by cashier and employee
+// [x] Catch report timeout => not possible
 // [ ] Default joins
 // [ ] Add gates / policies
 // [ ] Dates => Default 7 days
@@ -19,7 +20,7 @@ namespace Revo\Sidecar;
 // [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
 // [ ] Comparable reports => by period
 // [ ] Trand widget
-// [ ] Catch report timeout
+// [ ] Group by date, gets always sorted...
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

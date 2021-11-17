@@ -30,11 +30,12 @@ class Date extends ExportField
     }
 
     protected function showAs(Carbon $date, $type){
+        if ($type == 'hour')     { return $date->format('H:00'); }
         if ($type == 'day')      { return $date->format('d M Y'); }
         if ($type == 'dayOfWeek'){ return $date->format('l'); }//dayOfWeek; }
         if ($type == 'week')    { return $date->format('W (M Y)'); }
         if ($type == 'month')    { return $date->format('M Y'); }
-        if ($type == 'hour')     { return $date->format('H:00'); }
+        if ($type == 'quarter')    { return "Quarter " . ceil($date->month/3) . ' '. $date->format('Y'); }
         return $date->toDateString();
     }
 
@@ -44,7 +45,7 @@ class Date extends ExportField
 
     public function groupings() : array
     {
-        return ['day', 'week', 'month', 'hour', 'dayOfWeek'];
+        return ['hour', 'day', 'dayOfWeek', 'week', 'month', 'quarter'];
     }
 
     public function filterStart()
