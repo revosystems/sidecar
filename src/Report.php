@@ -16,6 +16,7 @@ namespace Revo\Sidecar;
 // [ ] Fix join collisions with fields names (for example PaymentsReport => filter by cashier and employee
 // [ ] Dates => Default 7 days
 // [ ] Widgets => comprasion value in % with same period before
+// [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
