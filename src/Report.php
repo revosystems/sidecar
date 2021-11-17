@@ -122,4 +122,8 @@ abstract class Report
         return $this->fields()->map->getEagerLoadingRelations()->flatten()->filter()->unique()->all();
     }
 
+    public function toHtml() : string {
+
+    }
+
 }
