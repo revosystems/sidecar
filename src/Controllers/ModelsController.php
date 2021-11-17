@@ -9,7 +9,7 @@ class ModelsController
 {
     public function search($model, $field = 'name'){
         return $model::where($field,'like',"%" . request("search") . "%")
-            ->limit(50)
+            ->limit(150)
             ->pluck($field, 'id')->map(function($value, $key){
                 return ["id" => $key, "name" => $value];
             });
