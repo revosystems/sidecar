@@ -19,6 +19,7 @@ namespace Revo\Sidecar;
 // [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
 // [ ] Comparable reports => by period
 // [ ] Trand widget
+// [ ] Catch report timeout
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

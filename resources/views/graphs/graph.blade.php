@@ -11,7 +11,7 @@
             @foreach($graph->values as $dataset)
             {
                 label: '{{ $dataset['title'] }}',
-                @if (in_array($graph->getType(), ['pie', 'doughnug']))
+                @if (in_array($graph->getType(), ['pie', 'doughnug']) || count($graph->values) > 1)
                     backgroundColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
                     borderColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
                 @else
