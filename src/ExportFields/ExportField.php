@@ -16,6 +16,7 @@ class ExportField
     public ?string $icon = null;
 
     public bool $filterable = false;
+    public bool $filterSearchable = false;
     public bool $sortable = false;
     public bool $hidden = false;
     public bool $onlyWhenGrouping = false;
@@ -102,6 +103,7 @@ class ExportField
     public function filterable($filterable = true, $searchable = false) : self
     {
         $this->filterable = $filterable;
+        $this->filterSearchable = $searchable;
         return $this;
     }
 

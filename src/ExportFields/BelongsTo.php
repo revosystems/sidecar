@@ -37,6 +37,12 @@ class BelongsTo extends ExportField
         return $this->relation()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
     }
 
+    public function searchableRoute() : string
+    {
+        $searchClass = get_class($this->relation()->getRelated());
+        return route('sidecar.search.model', ["model" => $searchClass, "field" => $this->relationShipField]);
+    }
+
     protected function relation(){
         return (new $this->model)->{$this->field}();
     }

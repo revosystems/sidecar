@@ -8,7 +8,7 @@
                 <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
             </div>
         </div>
-        @push('edit-scripts')
+        @push(config('sidecar.scripts-stack'))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
                 $('#sidecar-graph').load('{{route('sidecar.report.graph', 'orders')}}?{!! request()->getQueryString() !!}');

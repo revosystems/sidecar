@@ -4,4 +4,6 @@ Route::group(['prefix' => config('sidecar.routePrefix', 'sidecar'), 'namespace' 
     Route::get('{report}'        , 'ReportsController@index')   ->name('sidecar.report.index');
     Route::get('{report}/widgets', 'ReportsController@widgets') ->name('sidecar.report.widgets');
     Route::get('{report}/graph'  , 'ReportsController@graph')   ->name('sidecar.report.graph');
+
+    Route::get('search/{model}/{field?}', 'ModelsController@search')     ->name('sidecar.search.model');
 });
