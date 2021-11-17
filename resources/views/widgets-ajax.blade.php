@@ -6,7 +6,7 @@
     </div>
     @push('edit-scripts')
         <script>
-            $('#sidecar-widgets').load('{{route('sidecar.report.widgets', 'payments')}}');
+            $('#sidecar-widgets').load('{{route('sidecar.report.widgets', $model)}}');
         </script>
     @endpush
 @endif

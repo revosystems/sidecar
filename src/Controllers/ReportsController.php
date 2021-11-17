@@ -13,6 +13,7 @@ class ReportsController
         $report = Sidecar::make(ucFirst($model) . "Report");
         $result = $report->paginate();
         return view("sidecar::index", [
+            "model"              => $model,
             "report"             => $report,
             "exporter"           => new HtmlExporter($result, $report),
             "graph"              => (new Graph($report, $result))->calculate(),

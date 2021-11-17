@@ -4,7 +4,6 @@ namespace Revo\Sidecar\Widgets;
 
 class Count extends Sum
 {
-
     public $decimals = 0;
 
     public function getSelectField($groupBy = null)

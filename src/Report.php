@@ -7,12 +7,12 @@ namespace Revo\Sidecar;
 // [x] Graph, don't use ajax
 // [x] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
 // [x] Date groupable by week
+// [x] Widget, anar a buscar la ruta que toca
 // [ ] Widgets take into account filters
 // [ ] Filterable => Quants molts, amb un searchable
 // [ ] Filterable => Searchable (ajax)
 // [ ] Default joins
 // [ ] Add gates / policies
-// [ ] Widget, anar a buscar la ruta que toca
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
