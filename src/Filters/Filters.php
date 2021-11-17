@@ -6,6 +6,7 @@ use App\Models\EloquentBuilder;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
+use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
 
 class Filters
@@ -40,6 +41,8 @@ class Filters
 
     public function addFilters($query, $fields)
     {
+        $this->fillDatesFieldsWithDefaultDatesWhenEmpty($fields);
+
         collect($this->requestFilters)->each(function($value, $key) use($query, $fields){
             optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
         });
@@ -61,15 +64,24 @@ class Filters
         $query->where($key, $value);
     }
 
+    private function getDefaultDates() : array{
+        return [
+            'start' => Carbon::today()->subDays(7)->toDateString(),
+            'end' => Carbon::today()->toDateString()
+        ];
+    }
+
     public function applyDateFilter($query, $key, $values)
     {
+        // As we always want to limit dates, we fill them with one week default value
+        /*
         if ($values['start'] == null && $values['end'] == null) { return $query; }
         if ($values['end'] == null) {
             return $query->where($key, '>', $values['start']);
         }
         if ($values['start'] == null) {
             return $query->where($key, '<', $values['end']);
-        }
+        }*/
         return $query->whereBetween($key, [$values['start'], $values['end']]);
     }
 
@@ -78,5 +90,22 @@ class Filters
         $fields->each(function(ExportField $field) use($query) {
             $field->addJoin($query, $this, $this->groupBy);
         });
+    }
+
+    private function fillDatesFieldsWithDefaultDatesWhenEmpty($fields): void
+    {
+        $fields->filter(function (ExportField $field) {
+            return $field instanceof Date && !isset($this->dates[$field->getFilterField()]);
+        })->each(function(ExportField $field){
+            $this->dates[$field->getFilterField()] = $this->getDefaultDates();
+        });
+    }
+
+    public function dateFilterStartFor(ExportField $field) {
+        return $this->dates[$field->getFilterField()]['start'] ?? "";
+    }
+
+    public function dateFilterEndFor(ExportField $field) {
+        return $this->dates[$field->getFilterField()]['end'] ?? "";
     }
 }

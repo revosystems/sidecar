@@ -1,21 +1,21 @@
 <div class="inline">
-    @if($filter->getIcon())
-        <i class="fa fa-{{$filter->getIcon()}} fa-fw"></i>
+    @if($field->getIcon())
+        <i class="fa fa-{{$field->getIcon()}} fa-fw"></i>
     @else
-        {{ $filter->getTitle() }}
+        {{ $field->getTitle() }}
     @endif
 
-    <select id="{{$filter->getFilterField()}}" name="filters[{{$filter->getFilterField()}}][]" multiple>
+    <select id="{{$field->getFilterField()}}" name="filters[{{$field->getFilterField()}}][]" multiple>
         <option value="">--</option>
-        @foreach($filter->filterOptions() as $key => $value)
-            <option value="{{$key}}" @if($report->filters->isFilteringBy($filter->getFilterField(), $key)) selected @endif>{{$value}}</option>
+        @foreach($field->filterOptions() as $key => $value)
+            <option value="{{$key}}" @if($report->filters->isFilteringBy($field->getFilterField(), $key)) selected @endif>{{$value}}</option>
         @endforeach
     </select>
 </div>
-@if($filter->filterSearchable)
+@if($field->filterSearchable)
         @push(config('sidecar.scripts-stack'))
             <script>
-                new RVAjaxSelect2('{{ $filter->searchableRoute()  }}').show('#{{$filter->getFilterField()}}');
+                new RVAjaxSelect2('{{ $field->searchableRoute()  }}').show('#{{$field->getFilterField()}}');
             </script>
     @endpush
 @endif

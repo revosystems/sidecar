@@ -48,16 +48,6 @@ class Date extends ExportField
         return ['hour', 'day', 'dayOfWeek', 'week', 'month', 'quarter'];
     }
 
-    public function filterStart()
-    {
-        return request($this->getSelectField())['start'] ?? "";
-    }
-
-    public function filterEnd()
-    {
-        request($this->getSelectField())['end'] ?? "";
-    }
-
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
     {
         return $filters->applyDateFilter($query, $key, $values);

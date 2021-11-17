@@ -1,8 +1,8 @@
 <a class="secondary button" onclick="shiftInterval(-1)"><</a>
 <a class="button secondary dropdown">
     @icon(calendar)
-    {{ Carbon\Carbon::parse($filter->filterStart())->format("jS F Y") }} -
-    {{ Carbon\Carbon::parse($filter->filterEnd() ?? "")->format("jS F Y") }}
+    {{ Carbon\Carbon::parse($report->filters->dateFilterStartFor($field))->format("jS F Y") }} -
+    {{ Carbon\Carbon::parse($report->filters->dateFilterEndFor($field))->format("jS F Y") }}
 </a>
 <div class="dropdown-container ml5">
     <div class="grid">
@@ -20,15 +20,15 @@
         </div>
         <div id="custom-date-range" class="pl3 pt1 hidden bl">
             @icon(calendar)
-            <input type="date" name="dates[{{$filter->getSelectField()}}][start]"
+            <input type="date" name="dates[{{$field->getSelectField()}}][start]"
                    id="start_date"
-                   value="{{request($filter->getSelectField())['start'] ?? ""}}">
+                   value="{{request($field->getSelectField())['start'] ?? ""}}">
 
-            <input type="date" name="dates[{{$filter->getSelectField()}}][end]"
+            <input type="date" name="dates[{{$field->getSelectField()}}][end]"
                    id="end_date"
-                   value="{{request($filter->getSelectField())['end'] ?? ""}}">
-{{--            {{ Form::input('date', 'start_date', $filter->filterStart(), ["id" => "start_date"]) }}--}}
-{{--            {{ Form::input('date', 'end_date',   $filter->filterEnd(), ["id" => "end_date"]) }}--}}
+                   value="{{request($field->getSelectField())['end'] ?? ""}}">
+{{--            {{ Form::input('date', 'start_date', $field->filterStart(), ["id" => "start_date"]) }}--}}
+{{--            {{ Form::input('date', 'end_date',   $field->filterEnd(), ["id" => "end_date"]) }}--}}
             <div class="mt3 text-right"><button id="filter_date_button"> {{ __('admin.filter') }}</button></div>
         </div>
     </div>
@@ -94,8 +94,8 @@
     }
 
     function shiftInterval(sign) {
-        var start       = new Date('{{ $filter->filterStart() }}');
-        var end         = new Date('{{ $filter->filterEnd() }}');
+        var start       = new Date('{{ $report->filters->dateFilterStartFor($field) }}');
+        var end         = new Date('{{ $report->filters->dateFilterEndFor($field) }}');
         const millisecondsForDay = 3600*24*1000;
         var interval    = (end - start) / millisecondsForDay;
         start   = start.addDays(interval ? interval*sign : sign);
