@@ -5,13 +5,14 @@ namespace Revo\Sidecar;
 // [x] Fix computed => average one not working properly?
 // [x] Fix computed (as currency)
 // [x] Graph, don't use ajax
+// [x] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
+// [x] Date groupable by week
 // [ ] Widgets take into account filters
-// [ ] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
 // [ ] Filterable => Quants molts, amb un searchable
 // [ ] Filterable => Searchable (ajax)
 // [ ] Default joins
 // [ ] Add gates / policies
-// [ ] Date groupable by week
+// [ ] Widget, anar a buscar la ruta que toca
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

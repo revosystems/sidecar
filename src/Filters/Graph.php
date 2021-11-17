@@ -92,7 +92,7 @@ class Graph
 
         $a = $metrics->map(function($name, $metric) use($dimension) {
             return ["title" => $name, "values" => $this->labels->map(function($dimensionValue, $dimensionKey) use($dimension, $metric) {
-                return $this->results->where($dimension, $dimensionKey)->where($this->metric(), $metric)->first()->total ?? 0;
+                return $this->results->where($dimension, $dimensionKey)->where($this->metric(), $metric)->first()->{$this->dimensionField->groupableAggregatedField} ?? 0;
             })->values()];
         });
 
