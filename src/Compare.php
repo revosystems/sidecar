@@ -3,6 +3,7 @@
 namespace Revo\Sidecar;
 
 use Illuminate\Support\Str;
+use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
 
 class Compare
@@ -12,7 +13,6 @@ class Compare
     protected $period1Results;
     protected $period2Results;
 
-    protected string $groupBy = 'tenantUser';
     protected ExportField $groupByField;
     protected string $metric;
 
@@ -28,17 +28,17 @@ class Compare
     {
         $this->period1 = $report;
         $this->period2 = clone $report;
-        $this->period2->filters = clone $this->period1->filters;
         $this->findGroupByField();
         $this->setPeriod2Dates();
     }
 
     public function setPeriod2Dates()
     {
+        $this->period2->filters = clone $this->period1->filters;
         $this->start = request('compare')['start'] ?? "";
         $this->end = request('compare')['end'] ?? "";
 
-        $this->period2->filters->dates['opened'] = [
+        $this->period2->filters->dates[$this->getDateKey()] = [
             'start' => $this->start,
             'end'   => $this->end
         ];
@@ -47,6 +47,7 @@ class Compare
     public function calculate() : self
     {
         if (!$this->isComparing()) { return $this; }
+
         $this->period1Results = $this->period1->paginate()->mapWithKeys(function($row){
            return [$this->groupByField->getValue($row) => $row->{$this->metric}];
         });
@@ -66,10 +67,18 @@ class Compare
 
     public function findGroupByField()
     {
-        $this->groupByField = $this->period1->fields()->first(function (ExportField $field) {
-            return $field->field == $this->groupBy;
+        $groupBy = $this->period1->filters->groupBy->groupings->keys()->first();
+        $this->groupByField = $this->period1->fields()->first(function (ExportField $field) use($groupBy) {
+            return $field->getFilterField() == $groupBy;
         });
         $this->metric = $this->groupByField->aggregatedField ?? 'total';
+    }
+
+    public function getDateKey()
+    {
+        return $this->period1->fields()->first(function (ExportField $field) {
+            return $field instanceof Date;
+        })->field;
     }
 
     public function isComparing() : bool
