@@ -20,7 +20,7 @@ class Compare
     public $labels;
 
     public $start;
-    public $nd;
+    public $end;
 
     public $colors = ["#E75129", "#B4B473", "#E2AA76", "#E9D25F", "#69625F", "#A39F9E", "#EB4E5D", "#F1EAC1", "#1A2E39", "#CDB194"];
 
@@ -28,8 +28,10 @@ class Compare
     {
         $this->period1 = $report;
         $this->period2 = clone $report;
-        $this->findGroupByField();
-        $this->setPeriod2Dates();
+        if ($this->isComparing()) {
+            $this->findGroupByField();
+            $this->setPeriod2Dates();
+        }
     }
 
     public function setPeriod2Dates()
