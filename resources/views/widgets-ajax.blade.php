@@ -1,4 +1,5 @@
-@if(count($report->getWidgets()) > 0 && !$graph->doesApply())
+@if(count($report->getWidgets()) > 0 && (!$graph || !$graph->doesApply()) && !$compare->isComparing())
+
     <div id="sidecar-widgets"  style="height:140px">
         <div class="m-4 p-4 flex justify-center text-gray-400">
             <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>

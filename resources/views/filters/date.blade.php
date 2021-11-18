@@ -18,7 +18,7 @@
                 <li class=""><a class="button secondary pointer" onclick="$('#custom-date-range').show('fast')">{{ __('admin.customRange') }}</a></li>
             </ul>
         </div>
-        <div id="custom-date-range" class="pl3 pt1 hidden bl">
+        <div id="custom-date-range" class="pl3 pt1 hidden">
             @icon(calendar)
             <input type="date" name="dates[{{$field->getSelectField()}}][start]"
                    id="start_date"
@@ -29,7 +29,12 @@
                    value="{{$report->filters->dateFilterEndFor($field)}}">
 {{--            {{ Form::input('date', 'start_date', $field->filterStart(), ["id" => "start_date"]) }}--}}
 {{--            {{ Form::input('date', 'end_date',   $field->filterEnd(), ["id" => "end_date"]) }}--}}
-            <div class="mt3 text-right"><button id="filter_date_button"> {{ __('admin.filter') }}</button></div>
+            <div class="mt3 text-right">
+                <button id="filter_date_button" class="button">
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+                    {{ __('admin.filter') }}
+                </button>
+            </div>
         </div>
     </div>
 </div>

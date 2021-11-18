@@ -12,12 +12,15 @@ class Compare
     protected $period1Results;
     protected $period2Results;
 
-    protected $groupBy = 'tenantUser';
+    protected string $groupBy = 'tenantUser';
     protected ExportField $groupByField;
-    protected $metric = 'total';
+    protected string $metric;
 
     public $results;
     public $labels;
+
+    public $start;
+    public $nd;
 
     public $colors = ["#E75129", "#B4B473", "#E2AA76", "#E9D25F", "#69625F", "#A39F9E", "#EB4E5D", "#F1EAC1", "#1A2E39", "#CDB194"];
 
@@ -32,14 +35,18 @@ class Compare
 
     public function setPeriod2Dates()
     {
+        $this->start = request('compare')['start'] ?? "";
+        $this->end = request('compare')['end'] ?? "";
+
         $this->period2->filters->dates['opened'] = [
-            'start' => '2020-01-01',
-            'end'   => '2022-01-01'
+            'start' => $this->start,
+            'end'   => $this->end
         ];
     }
 
     public function calculate() : self
     {
+        if (!$this->isComparing()) { return $this; }
         $this->period1Results = $this->period1->paginate()->mapWithKeys(function($row){
            return [$this->groupByField->getValue($row) => $row->{$this->metric}];
         });
@@ -54,7 +61,6 @@ class Compare
            })];
         })->toArray();
         $this->labels = $this->labels->values();
-//        dd($this->results);
         return $this;
     }
 
@@ -63,6 +69,11 @@ class Compare
         $this->groupByField = $this->period1->fields()->first(function (ExportField $field) {
             return $field->field == $this->groupBy;
         });
+        $this->metric = $this->groupByField->aggregatedField ?? 'total';
     }
 
+    public function isComparing() : bool
+    {
+        return request('shouldCompare') == 'true';
+    }
 }

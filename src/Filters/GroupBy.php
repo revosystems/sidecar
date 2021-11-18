@@ -22,6 +22,11 @@ class GroupBy
         return !$this->groupings->isEmpty();
     }
 
+    public function canBeCompared()
+    {
+        return $this->groupings->count() == 1;
+    }
+
     public function isGroupingBy($key, $type = null) : bool {
         if ($type == null) {
             return array_key_exists($key, $this->groupings->all());

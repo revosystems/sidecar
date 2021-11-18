@@ -1,3 +1,4 @@
+@if($rows)
 <div class="sidecar links links-top">
     {{ $rows->links() }}
 </div>
@@ -34,3 +35,4 @@
 <div class="sidecar links links-bottom">
     {{ $rows->links() }}
 </div>
+@endif

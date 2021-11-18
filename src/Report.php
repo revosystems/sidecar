@@ -123,8 +123,12 @@ abstract class Report
         return $this->fields()->map->getEagerLoadingRelations()->flatten()->filter()->unique()->all();
     }
 
-    public function toHtml() : string {
-
+    public function isComparable(): bool {
+        if  (!$this->filters->groupBy->canBeCompared()) { return false; };
+        $compareKey = $this->filters->groupBy->groupings->keys()->first();
+        return $this->fields()->contains(function (ExportField $field) use($compareKey) {
+            return $field->getFilterField() == $compareKey;
+        });
     }
 
 }

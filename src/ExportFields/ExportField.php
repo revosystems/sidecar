@@ -24,6 +24,7 @@ class ExportField
     public bool $hideMobile = false;
 
     public bool $groupable = false;
+    public bool $comparable = false;
     public bool $groupableWithChart = false;
     public string $groupableAggregatedField;
     public string $groupableGraphType;
@@ -127,6 +128,12 @@ class ExportField
     public function groupable(bool $groupable = true) : self
     {
         $this->groupable = $groupable;
+        return $this;
+    }
+
+    public function comparable(string $comparable = 'total') : self
+    {
+        $this->comparable = $comparable;
         return $this;
     }
 

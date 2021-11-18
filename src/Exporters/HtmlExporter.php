@@ -4,7 +4,6 @@ namespace Revo\Sidecar\Exporters;
 
 class HtmlExporter extends BaseExporter
 {
-
     protected $output = '';
 
     public static $tableClasses = "tableList striped";
