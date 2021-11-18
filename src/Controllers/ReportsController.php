@@ -2,6 +2,7 @@
 
 namespace Revo\Sidecar\Controllers;
 
+use Revo\Sidecar\Compare;
 use Revo\Sidecar\Exporters\HtmlExporter;
 use Revo\Sidecar\Facades\Sidecar;
 use Revo\Sidecar\Filters\Graph;
@@ -11,7 +12,12 @@ class ReportsController
     public function index($model)
     {
         $report = Sidecar::make(ucFirst($model) . "Report");
+
+        $compare = new Compare($report);
+        $compare->calculate();
+
         $result = $report->paginate();
+
         return view("sidecar::index", [
             "model"              => $model,
             "report"             => $report,

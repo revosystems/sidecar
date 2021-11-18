@@ -11,8 +11,8 @@ use Revo\Sidecar\ExportFields\ExportField;
 
 class Filters
 {
-    protected $requestFilters = [];
-    protected $dates = [];
+    public $requestFilters = [];
+    public $dates = [];
     public $groupBy;
     public $sort;
 
