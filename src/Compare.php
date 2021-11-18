@@ -13,7 +13,7 @@ class Compare
     protected $period1Results;
     protected $period2Results;
 
-    protected ExportField $groupByField;
+    protected ?ExportField $groupByField;
     protected string $metric;
 
     public $results;
