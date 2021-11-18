@@ -22,6 +22,8 @@ namespace Revo\Sidecar;
 // [ ] Trand widget
 // [ ] Group by date, gets always sorted...
 // [ ] Calculate as job
+// [ ] Create Enum Field
+// [ ] Created EnumThrough Field
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

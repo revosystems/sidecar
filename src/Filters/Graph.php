@@ -106,7 +106,7 @@ class Graph
     /**
      * @return finds the dimension, first searching into dates
      */
-    private function dimension() : string {
+    private function dimension() : ?string {
         $dimension = $this->report->filters->groupBy->groupings->only(["created_at", "updated_at", "date", "opened", "closed"])->keys()->first();
         if ($dimension) { return $dimension; }
         return $this->report->filters->groupBy->groupings->keys()->first();
