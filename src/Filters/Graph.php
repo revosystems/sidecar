@@ -2,6 +2,7 @@
 
 namespace Revo\Sidecar\Filters;
 
+use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Report;
 
@@ -84,7 +85,7 @@ class Graph
         $dimension = $this->dimension();
         $metric = $this->metric();
         $this->labels = $this->results->mapWithKeys(function($row){
-            return [$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->getValue($row)];
+            return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->getValue($row)];
         });
         $metrics = $this->results->mapWithKeys(function($row) use($metric){
             return [(string)$row->{$metric} => $this->metricField->getValue($row)];
@@ -102,11 +103,16 @@ class Graph
         return $this;
     }
 
-    private function dimension(){
+    /**
+     * @return finds the dimension, first searching into dates
+     */
+    private function dimension() : string {
+        $dimension = $this->report->filters->groupBy->groupings->only(["created_at", "updated_at", "date", "opened", "closed"])->keys()->first();
+        if ($dimension) { return $dimension; }
         return $this->report->filters->groupBy->groupings->keys()->first();
     }
 
     private function metric(){
-        return $this->report->filters->groupBy->groupings->keys()->last();
+        return $this->report->filters->groupBy->groupings->except($this->dimension())->keys()->last();
     }
 }
