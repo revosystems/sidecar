@@ -4,9 +4,8 @@
 </div>
 
 <script>
-    const labels = @json($graph->labels);
     const data = {
-        labels: labels,
+        labels: @json($graph->labels),
         datasets: [
             @foreach($graph->values as $dataset)
             {

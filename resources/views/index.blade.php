@@ -5,6 +5,7 @@
       <div class="inline" style="font-size: 20px;"> {{ $report->getTitle() }} </div>
    </h2>
    @include('sidecar::filters')
+   @include('sidecar::graphs.compare-graph')
    @include('sidecar::widgets-ajax')
    @include('sidecar::graphs.graph-ajax')
 

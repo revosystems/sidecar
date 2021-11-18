@@ -12,10 +12,6 @@ class ReportsController
     public function index($model)
     {
         $report = Sidecar::make(ucFirst($model) . "Report");
-
-        $compare = new Compare($report);
-        $compare->calculate();
-
         $result = $report->paginate();
 
         return view("sidecar::index", [
@@ -23,6 +19,7 @@ class ReportsController
             "report"             => $report,
             "exporter"           => new HtmlExporter($result, $report),
             "graph"              => (new Graph($report, $result))->calculate(),
+            "compare"            => (new Compare($report))->calculate()
         ]);
     }
 
