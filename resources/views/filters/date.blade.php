@@ -22,11 +22,11 @@
             @icon(calendar)
             <input type="date" name="dates[{{$field->getSelectField()}}][start]"
                    id="start_date"
-                   value="{{request($field->getSelectField())['start'] ?? ""}}">
+                   value="{{$report->filters->dateFilterStartFor($field)}}">
 
             <input type="date" name="dates[{{$field->getSelectField()}}][end]"
                    id="end_date"
-                   value="{{request($field->getSelectField())['end'] ?? ""}}">
+                   value="{{$report->filters->dateFilterEndFor($field)}}">
 {{--            {{ Form::input('date', 'start_date', $field->filterStart(), ["id" => "start_date"]) }}--}}
 {{--            {{ Form::input('date', 'end_date',   $field->filterEnd(), ["id" => "end_date"]) }}--}}
             <div class="mt3 text-right"><button id="filter_date_button"> {{ __('admin.filter') }}</button></div>
