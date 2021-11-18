@@ -50,6 +50,6 @@ class Date extends ExportField
 
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
     {
-        return $filters->applyDateFilter($query, $key, $values);
+        return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $values);
     }
 }
