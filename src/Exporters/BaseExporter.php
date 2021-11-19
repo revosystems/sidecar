@@ -17,7 +17,7 @@ class BaseExporter
     {
         $this->data = $data;
         $this->fields = $report->fields()->filter(function(ExportField $field) use ($report) {
-            return $field->shouldBeEported($report->filters);
+            return $field->shouldBeExported($report->filters);
         });
     }
 

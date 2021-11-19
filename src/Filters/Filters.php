@@ -24,10 +24,10 @@ class Filters
     }
 
     public function apply($query, $fields) : EloquentBuilder {
-        $this->addFilters($query, $fields);
-        $this->addJoins($query, $fields);
-        $this->groupBy->group($query);
-        $this->sort->sort($query);
+        $this->addFilters($query, $fields)
+             ->addJoins($query, $fields)
+             ->addGroups($query, $fields)
+             ->addSorts($query, $fields);
         return $query;
     }
 
@@ -39,7 +39,7 @@ class Filters
         return in_array($value, $this->requestFilters[$key] ?? []);
     }
 
-    public function addFilters($query, $fields)
+    public function addFilters($query, $fields) : self
     {
         $this->fillDatesFieldsWithDefaultDatesWhenEmpty($fields);
 
@@ -49,6 +49,21 @@ class Filters
         collect($this->dates)->each(function($value, $key) use($query, $fields){
             optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
         });
+        return $this;
+    }
+
+    public function addGroups($query, $fields) : self
+    {
+        collect($this->groupBy->groupings)->each(function($type, $key) use($query, $fields){
+            optional($this->fieldFor($fields, $key))->applyGroupBy($this, $query, $key, $type);
+        });
+        return $this;
+    }
+
+    public function addSorts($query, $fields) : self
+    {
+        optional($this->fieldFor($fields, $this->sort->field))->applySort($this, $query);
+        return $this;
     }
 
     protected function fieldFor($fields, $filterField) :?ExportField {
@@ -56,6 +71,7 @@ class Filters
             return $field->getFilterField() == $filterField;
         });
     }
+
     public function applyFilter($query, $key, $value)
     {
         if (is_array($value)) {
@@ -85,11 +101,12 @@ class Filters
         return $query->whereBetween($key, [$values['start'], $values['end']]);
     }
 
-    public function addJoins($query, $fields)
+    public function addJoins($query, $fields) : self
     {
         $fields->each(function(ExportField $field) use($query) {
             $field->addJoin($query, $this, $this->groupBy);
         });
+        return $this;
     }
 
     private function fillDatesFieldsWithDefaultDatesWhenEmpty($fields): void

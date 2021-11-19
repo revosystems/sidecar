@@ -17,10 +17,10 @@ class Sort
         $this->order = $order ?? 'DESC';
     }
 
-    public function sort(Builder $query) : Builder
+    public function sort(Builder $query, $field = null) : Builder
     {
         if ($this->field == null) { return $query; }
-        return $query->orderBy($this->field, $this->order);
+        return $query->orderBy($field ?? $this->field, $this->order);
     }
 
     public static function queryUrlFor(ExportField $field, string $order = 'ASC') : string

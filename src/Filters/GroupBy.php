@@ -34,35 +34,40 @@ class GroupBy
         return isset($this->groupings[$key]) && $this->groupings[$key] == $type;
     }
 
-    public function group($query) : EloquentBuilder {
+    /*public function group($query) : EloquentBuilder {
         $this->groupings->each(function ($type, $key) use($query) {
            $this->groupBy($query, $key, $type);
         });
         return $query;
-    }
+    }*/
 
-    private function groupBy($query, $key, $type) : EloquentBuilder
+    public function groupBy($query, $key, $type) : EloquentBuilder
     {
         if ($key == null) { return $query; }
-
         if ($type == 'hour') {
             return $query->groupBy(DB::raw("hour({$key})"))->orderBy(DB::raw('hour(' . subTime($key, static::$openingTime) . ')'), 'ASC');
         }
         if ($type == 'day') {
-            return $query->groupBy(DB::raw('date(' . subTime($key, static::$openingTime) . ')'))->orderBy($key, 'DESC');
+            return $query->groupBy(DB::raw('date(' . subTime($key, static::$openingTime) . ')'))
+                         ->orderBy(DB::raw($key), 'DESC');
         }
         if ($type == 'dayOfWeek') {
             return $query->groupBy(DB::raw('dayofweek(' . subTime($key, static::$openingTime) . ')'));
         }
         if ($type == 'week') {
-            return $query->groupBy(DB::raw('yearweek(' . subTime($key, static::$openingTime) . ')'))/*->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))*/->orderBy($key, 'DESC');
+            return $query->groupBy(DB::raw('yearweek(' . subTime($key, static::$openingTime) . ')'))/*->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))*/
+                          ->orderBy(DB::raw($key), 'DESC');
         }
         if ($type == 'month') {
-            return $query->groupBy(DB::raw('month(' . subTime($key, static::$openingTime) . ')'))->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))->orderBy($key, 'DESC');
+            return $query->groupBy(DB::raw('month(' . subTime($key, static::$openingTime) . ')'))
+                          ->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))
+                          ->orderBy(DB::raw($key), 'DESC');
         }
         if ($type == 'quarter') {
-            return $query->groupBy(DB::raw('quarter(' . subTime($key, static::$openingTime) . ')'))->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))->orderBy($key, 'DESC');
+            return $query->groupBy(DB::raw('quarter(' . subTime($key, static::$openingTime) . ')'))
+                          ->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))
+                         ->orderBy(DB::raw($key), 'DESC');
         }
-        return $query->groupBy($key);
+        return $query->groupBy(DB::raw($key));
     }
 }

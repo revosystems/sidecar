@@ -46,10 +46,6 @@ class ExportField
         return $exportField;
     }
 
-    public function toHtml($row) : string {
-        return $this->getValue($row) ?? "";
-    }
-
     public function getTitle() : string {
         return $this->title;
     }
@@ -107,9 +103,9 @@ class ExportField
         return $this;
     }
 
-    // --------------------------------------------
-    // Filterable
-    // --------------------------------------------
+    //============================================================
+    // MARK: Filters
+    //============================================================
     public function filterable($filterable = true, $searchable = false) : self
     {
         $this->filterable = $filterable;
@@ -153,45 +149,15 @@ class ExportField
         return ['default'];
     }
 
-    public function hidden(bool $hidden = true) : self
-    {
-        $this->hidden = $hidden;
-        return $this;
-    }
-
     public function onlyWhenGrouping(bool $onlyWhenGrouping = true) : self
     {
         $this->onlyWhenGrouping = $onlyWhenGrouping;
         return $this;
     }
 
-    public function tdClasses(string $classes) : self
-    {
-        $this->tdClasses = $classes;
-        return $this;
-    }
-
-    public function getTDClasses() : string {
-        $classes = $this->tdClasses;
-        if ($this->hideMobile) { $classes .= " hide-mobile"; }
-        if ($this->isNumeric()) { $classes .= " text-right"; }
-        return $classes;
-    }
-
-
     public function isNumeric() : bool
     {
         return false;
-    }
-
-    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
-    {
-        return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
-    }
-
-    public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
-    {
-        return $query;
     }
 
     public function getEagerLoadingRelations()
@@ -199,7 +165,7 @@ class ExportField
         return null;
     }
 
-    public function shouldBeEported($filters) : bool
+    public function shouldBeExported($filters) : bool
     {
         if ($this->hidden) { return false; }
         if ($filters->groupBy->isGrouping()) {
@@ -212,6 +178,52 @@ class ExportField
     {
         $this->onTable = $table;
         return $this;
+    }
 
+    //=================================================
+    // MARK: HTML
+    //=================================================
+    public function toHtml($row) : string {
+        return $this->getValue($row) ?? "";
+    }
+
+    public function tdClasses(string $classes) : self {
+        $this->tdClasses = $classes;
+        return $this;
+    }
+
+    public function getTDClasses() : string {
+        $classes = $this->tdClasses;
+        if ($this->hideMobile) { $classes .= " hide-mobile"; }
+        if ($this->isNumeric()) { $classes .= " text-right"; }
+        return $classes;
+    }
+
+    public function hidden(bool $hidden = true) : self
+    {
+        $this->hidden = $hidden;
+        return $this;
+    }
+
+    //============================================================
+    // MARK: Filters
+    //============================================================
+    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
+    {
+        return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
+    }
+
+    public function applyGroupBy(Filters $filters, EloquentBuilder $query, $key, $type)
+    {
+        $filters->groupBy->groupBy($query, $this->databaseTableFull().'.'.$key, $type);
+    }
+
+    public function applySort(Filters $filters, EloquentBuilder $query){
+        $filters->sort->sort($query, $this->databaseTableFull().'.'.$key);
+    }
+
+    public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
+    {
+        return $query;
     }
 }

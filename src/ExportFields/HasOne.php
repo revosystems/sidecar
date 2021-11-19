@@ -16,6 +16,16 @@ class HasOne extends BelongsTo
         return $this;
     }
 
+    public function getSelectField(?GroupBy $groupBy = null): ?string
+    {
+        return null;
+    }
+
+    public function getFilterField(): string
+    {
+        return "no-filterable";
+    }
+
     public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy): EloquentBuilder
     {
         if (!$this->defaultJoin) { return $query; }
