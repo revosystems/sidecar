@@ -65,10 +65,26 @@ class HasMany extends ExportField
         return parent::toHtml($row);
     }
 
+    /**
+     * Define the link that the html version will point to
+     * @param $route the route
+     * @param null $linkClasses the link classes you want to append to the html tag
+     * @return $this
+     */
     public function withLink($route, $linkClasses = null) : self
     {
         $this->route = $route;
         $this->linkClasses = $linkClasses;
+        return $this;
+    }
+
+    /**
+     * When true, it will show the count of the hasmany, if not, it will show an implode of the relationshipDisplayField (use carefully)
+     * @param $count
+     * @return $this
+     */
+    public function count($count) : self {
+        $this->count = $count;
         return $this;
     }
 
