@@ -2,6 +2,8 @@
 
 namespace Revo\Sidecar;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class Sidecar
 {
 
@@ -16,7 +18,10 @@ class Sidecar
 
     static public function make($name) : ?Report
     {
-        $path = config('sidecar.reportsPath'). $name;
+        $path = config('sidecar.reportsPath') . $name;
+        if (!class_exists($path)) {
+            throw new ModelNotFoundException("Report not found");
+        }
         return new $path;
     }
 
