@@ -83,6 +83,13 @@ class BelongsToThrough extends ExportField
         return "{$this->pivot}.{$this->field}";
     }
 
+    public function applyGroupBy(Filters $filters, EloquentBuilder $query, $key, $type)
+    {
+        $pivot = $this->pivot()->getRelated()->getTable();
+        $filters->groupBy->groupBy($query, config('database.connections.mysql.prefix').$pivot.'.'.$key, $type);
+    }
+
+
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values): EloquentBuilder
     {
         $pivot = $this->pivot()->getRelated()->getTable();
