@@ -227,7 +227,8 @@ class ExportField
     }
 
     public function applySort(Filters $filters, EloquentBuilder $query){
-        $filters->sort->sort($query, $this->databaseTableFull().'.'.$key);
+//        dd($this->databaseTableFull(), $filters->sort->field);
+        $filters->sort->sort($query, $this->databaseTableFull().'.'.$filters->sort->field);
     }
 
     public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder

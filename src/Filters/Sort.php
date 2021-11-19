@@ -4,6 +4,7 @@ namespace Revo\Sidecar\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Revo\Sidecar\ExportFields\ExportField;
+use Illuminate\Support\Facades\DB;
 
 class Sort
 {
@@ -20,7 +21,7 @@ class Sort
     public function sort(Builder $query, $field = null) : Builder
     {
         if ($this->field == null) { return $query; }
-        return $query->orderBy($field ?? $this->field, $this->order);
+        return $query->orderBy(DB::raw($field) ?? $this->field, $this->order);
     }
 
     public static function queryUrlFor(ExportField $field, string $order = 'ASC') : string

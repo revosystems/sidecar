@@ -11,7 +11,7 @@ class HasOne extends BelongsTo
     protected bool $defaultJoin = false;
     protected bool $useLeftJoin = false;
 
-    public function withLeftJoin(bool $leftJoin) : self {
+    public function withLeftJoin(bool $leftJoin = true) : self {
         $this->useLeftJoin = $leftJoin;
         return $this;
     }
@@ -40,8 +40,8 @@ class HasOne extends BelongsTo
         $joinWith = $this->relation()->getRelated()->getTable();
         $foreignKey = $this->relation()->getForeignKeyName();
         if ($this->useLeftJoin) {
-            return $query->leftJoin($joinWith, "{$main}.{$foreignKey}", "{$joinWith}.id");
+            return $query->leftJoin($joinWith, "{$main}.id", "{$joinWith}.{$foreignKey}");
         }
-        return $query->join($joinWith, "{$main}.id", "{$joinWith}.id");
+        return $query->join($joinWith, "{$main}.id", "{$joinWith}.{$foreignKey}");
     }
 }
