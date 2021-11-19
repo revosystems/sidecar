@@ -5,17 +5,21 @@ namespace Revo\Sidecar\ExportFields;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
 
-class BelongsTo extends ExportField
+class HasMany extends ExportField
 {
     protected string $relationShipField = 'name';
     protected array $relationShipWith = [];
 
     protected ?string $route = null;
     protected ?string $linkClasses = null;
+    protected bool $count = true;
 
     public function getValue($row)
     {
-        return data_get($row, "{$this->field}.{$this->relationShipField}");
+        if ($this->count) {
+            return data_get($row, $this->field)->count();
+        }
+        return data_get($row, $this->field)->pluck($this->relationShipField)->implode(", ");
     }
 
     public function relationShipDisplayField(string $relationShipDisplayField) : self {
@@ -25,9 +29,8 @@ class BelongsTo extends ExportField
 
     public function getSelectField(?GroupBy $groupBy = null) : ?string
     {
-        $foreingKey = $this->foreingKey();
-        if ($groupBy && $groupBy->isGrouping() && !$groupBy->isGroupingBy($foreingKey)) { return null; }
-        return $foreingKey;
+        if ($groupBy && $groupBy->isGrouping()) { return null; }
+        return $this->databaseTableFull() . '.id';
     }
 
     private function foreingKey() : string {
@@ -36,24 +39,13 @@ class BelongsTo extends ExportField
 
     public function getFilterField() : string
     {
-        return $this->getSelectField();
+        return "not-filterable";
     }
 
     public function relationShipWith(array $with) : self
     {
         $this->relationShipWith = $with;
         return $this;
-    }
-
-    public function filterOptions() : array
-    {
-        return $this->relation()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
-    }
-
-    public function searchableRoute() : string
-    {
-        $searchClass = get_class($this->relation()->getRelated());
-        return route('sidecar.search.model', ["model" => $searchClass, "field" => $this->relationShipField]);
     }
 
     protected function relation(){

@@ -19,23 +19,22 @@ class ExportField
     public bool $filterable = false;
     public bool $filterSearchable = false;
     public bool $sortable = false;
-    public bool $hidden = false;
     public bool $onlyWhenGrouping = false;
 
-    public bool $hideMobile = false;
 
     public bool $groupable = false;
     public bool $comparable = false;
     public bool $groupableWithChart = false;
     public string $groupableAggregatedField;
     public string $groupableGraphType;
+    public ?string $onGroupingBy = null;
 
     public ?string $onTable = null;
 
     /** @var string The classes used when exporting to html fo the TD field */
     public $tdClasses = "";
-
-    public ?string $onGroupingBy = null;
+    public bool $hideMobile = false;
+    public bool $hidden = false;
 
 
     public static function make($field, $title = null, $dependsOnField = null)

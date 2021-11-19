@@ -4,11 +4,12 @@ namespace Revo\Sidecar\ExportFields;
 
 class Link extends ExportField
 {
-    protected ?string $route = null;
+    public ?string $route = null;
     protected ?string $linkClasses = "";
 
-    public function route($route) : self {
+    public function route($route, $classes = null) : self {
         $this->route = $route;
+        $this->linkClasses = $classes;
         return $this;
     }
 

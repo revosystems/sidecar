@@ -3,6 +3,7 @@
 namespace Revo\Sidecar\ExportFields;
 
 use Revo\Sidecar\Filters\Filters;
+use Revo\Sidecar\Filters\GroupBy;
 use function GuzzleHttp\Psr7\_parse_request_uri;
 
 class Id extends Link
