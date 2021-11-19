@@ -20,7 +20,8 @@ class CSVExporter extends BaseExporter
 
     public function download()
     {
-        return $this->makeResponse($this->report->getTitle());
+        $dates = collect($this->report->filters->dates)->first();
+        return $this->makeResponse(implode("_", [$this->report->getTitle(), $dates['start'],  $dates['end']]));
     }
 
     private function makeResponse($title)
