@@ -5,6 +5,8 @@ namespace Revo\Sidecar\Widgets;
 abstract class Widget
 {
     public $model;
+    public $onTable = null;
+
     public $title;
     public $field;
     public $display = 'bigNumber';
@@ -15,6 +17,12 @@ abstract class Widget
         $panel->field = $field;
         $panel->title = $title ?? __(config('sidecar.translationsPrefix').$field);
         return $panel;
+    }
+
+    public function onTable($table) : self
+    {
+        $this->onTable = $table;
+        return $this;
     }
 
     public function displayWith($display) : self {
