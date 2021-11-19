@@ -12,7 +12,7 @@ class Sum extends Widget
     }
     public function getSelectField($groupBy = null)
     {
-        return "sum({$this->field}) as {$this->field}";
+        return "sum({$this->fullField()}) as {$this->field}";
     }
 
     public function getValue($row): string

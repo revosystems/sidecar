@@ -8,6 +8,6 @@ class Count extends Sum
 
     public function getSelectField($groupBy = null)
     {
-        return "count({$this->field}) as {$this->field}";
+        return "count({$this->fullField()}) as {$this->field}";
     }
 }

@@ -58,6 +58,13 @@ abstract class Report
     }
 
     abstract protected function getFields() : array;
+
+    public function widgets() :\Illuminate\Support\Collection
+    {
+        return collect($this->getWidgets())->each(function (Widget $widget){
+            $widget->model = $this->model;
+        });
+    }
     public function getWidgets() : array { return []; }
 
     public function query() : Builder {
@@ -98,10 +105,14 @@ abstract class Report
 
     public function getWidgetsSelectFields($groupBy)
     {
-        return collect($this->getWidgets())->map(function(Widget $widget) use ($groupBy){
+        $modelTable = $this->getModelTable();
+        return $this->widgets()->map(function(Widget $widget) use ($groupBy){
             return $widget->getSelectField($groupBy);
-        })->flatten()->filter()->map(function($selectQuery){
-            return DB::raw($selectQuery);
+        })->flatten()->filter()->map(function($selectField) use($modelTable){
+            if (!Str::contains($selectField, '.') && !Str::contains($selectField, 'as') && !Str::contains($selectField, config('database.connections.mysql.prefix'))){
+                $selectField = "{$modelTable}.{$selectField}";
+            }
+            return DB::raw($selectField);
         })->all();
     }
 

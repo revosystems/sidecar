@@ -4,6 +4,7 @@ namespace Revo\Sidecar\Widgets;
 
 abstract class Widget
 {
+    public $model;
     public $title;
     public $field;
     public $display = 'bigNumber';
@@ -41,5 +42,17 @@ abstract class Widget
             'value' => $this->getValue($row),
             'title' => $this->getTitle()
         ])->render();
+    }
+
+    public function fullField() : string {
+        return $this->databaseTableFull() .'.'.$this->field;
+    }
+
+    public function databaseTable(): string {
+        return $this->onTable ?? (new $this->model)->getTable();
+    }
+
+    public function databaseTableFull() : string {
+        return config('database.connections.mysql.prefix') . $this->databaseTable();
     }
 }
