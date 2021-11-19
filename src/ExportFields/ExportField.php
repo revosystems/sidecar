@@ -29,6 +29,8 @@ class ExportField
     public string $groupableAggregatedField;
     public string $groupableGraphType;
 
+    public ?string $onTable = null;
+
     /** @var string The classes used when exporting to html fo the TD field */
     public $tdClasses = "";
 
@@ -76,7 +78,7 @@ class ExportField
     }
 
     public function databaseTable(): string {
-        return (new $this->model)->getTable();
+        return $this->onTable ?? (new $this->model)->getTable();
     }
 
     public function databaseTableFull() : string {
@@ -204,5 +206,12 @@ class ExportField
             return $this->onGroupingBy != null || $filters->groupBy->isGroupingBy($this->getFilterField());
         }
         return !$this->onlyWhenGrouping;
+    }
+
+    public function onTable(?string $table) : self
+    {
+        $this->onTable = $table;
+        return $this;
+
     }
 }
