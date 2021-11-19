@@ -2,27 +2,13 @@
 
 namespace Revo\Sidecar;
 
-// [x] Fix computed => average one not working properly?
-// [x] Fix computed (as currency)
-// [x] Graph, don't use ajax
-// [x] BelongsTo::make('sellingFormatPivot') => filtrar amb pivot
-// [x] Date groupable by week
-// [x] Widget, anar a buscar la ruta que toca
-// [x] Filterable => Quants molts, amb un searchable
-// [x] Widgets take into account filters
-// [x] Filterable => Searchable (ajax)
-// [x] Fix join collisions with fields names (for example PaymentsReport => filter by cashier and employee
-// [x] Catch report timeout => not possible
-// [x] Comparable reports => by period
 // [ ] Default joins
 // [ ] Add gates / policies
-// [ ] Dates => Default 7 days
 // [ ] Widgets => comprasion value in % with same period before
 // [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
 // [ ] Trand widget
 // [ ] Group by date, gets always sorted...
 // [ ] Calculate as job
-// [ ] Create Enum Field
 // [ ] Created EnumThrough Field
 // [ ] Belongs to through searchable
 use Illuminate\Database\Eloquent\Builder;
@@ -39,6 +25,7 @@ abstract class Report
     protected ?string $title = null;
     protected $with = [];
     protected int $pagination = 50;
+    public bool $exportable = true;
 
     public Filters $filters;
 
@@ -48,7 +35,7 @@ abstract class Report
 
     public function getTitle() : string
     {
-        return $this->title ?? $this->model;
+        return $this->title ?? trans_choice(config('sidecar.translationsPrefix'). strtolower(collect(explode("\\",$this->model))->last()), 2);
     }
 
     public function fields() : \Illuminate\Support\Collection {
@@ -80,6 +67,11 @@ abstract class Report
     public function paginate($pagination = null) {
 //        dd($this->queryWithFilters()->toSql());
         return $this->queryWithFilters()->paginate($pagination ?? $this->pagination)->withQueryString();
+    }
+
+    public function get()
+    {
+        return $this->queryWithFilters()->get();
     }
 
     public function widgetsQuery()

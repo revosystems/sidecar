@@ -10,11 +10,13 @@ use Revo\Sidecar\Report;
 class BaseExporter
 {
 
+    protected Report $report;
     protected $data;
     protected $fields;
 
     public function __construct($data, Report $report)
     {
+        $this->report = $report;
         $this->data = $data;
         $this->fields = $report->fields()->filter(function(ExportField $field) use ($report) {
             return $field->shouldBeExported($report->filters);

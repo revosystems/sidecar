@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Sidecar
 {
-
     protected static $servingCallback;
 
     public function __construct()
