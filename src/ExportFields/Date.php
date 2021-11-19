@@ -4,7 +4,9 @@ namespace Revo\Sidecar\ExportFields;
 
 use App\Models\EloquentBuilder;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Revo\Sidecar\Filters\Filters;
+use Revo\Sidecar\Filters\GroupBy;
 
 class Date extends ExportField
 {
@@ -30,12 +32,12 @@ class Date extends ExportField
     }
 
     protected function showAs(Carbon $date, $type){
-        if ($type == 'hour')     { return $date->format('H:00'); }
-        if ($type == 'day')      { return $date->format('d M Y'); }
-        if ($type == 'dayOfWeek'){ return $date->format('l'); }//dayOfWeek; }
-        if ($type == 'week')    { return $date->format('W (M Y)'); }
-        if ($type == 'month')    { return $date->format('M Y'); }
-        if ($type == 'quarter')    { return "Quarter " . ceil($date->month/3) . ' '. $date->format('Y'); }
+        if ($type == 'hour')      { return $date->format('H:00'); }
+        if ($type == 'day')       { return $date->format('d M Y'); }
+        if ($type == 'dayOfWeek') { return $date->format('l'); }//dayOfWeek; }
+        if ($type == 'week')      { return $date->format('W (M Y)'); }
+        if ($type == 'month')     { return $date->format('M Y'); }
+        if ($type == 'quarter')   { return "Quarter " . ceil($date->month/3) . ' '. $date->format('Y'); }
         return $date->toDateString();
     }
 
@@ -50,6 +52,9 @@ class Date extends ExportField
 
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
     {
-        return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $values);
+        if (!Str::contains($key, config('database.connections.mysql.prefix'))){
+            return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $values);
+        }
+        return $filters->applyDateFilter($query, str_replace(config('database.connections.mysql.prefix'), "", $key), $values);
     }
 }

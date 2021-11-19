@@ -16,6 +16,12 @@ class HasOne extends BelongsTo
         return $this;
     }
 
+    public function defaultJoin($defaultJoin = true) : self
+    {
+        $this->defaultJoin = $defaultJoin;
+        return $this;
+    }
+
     public function getSelectField(?GroupBy $groupBy = null): ?string
     {
         return null;
@@ -38,11 +44,4 @@ class HasOne extends BelongsTo
         }
         return $query->join($joinWith, "{$main}.id", "{$joinWith}.id");
     }
-
-    public function defaultJoin() : self
-    {
-        $this->defaultJoin = true;
-        return $this;
-    }
-
 }

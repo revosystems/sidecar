@@ -4,7 +4,7 @@ namespace Revo\Sidecar\ExportFields;
 
 class Enum extends ExportField
 {
-    protected array $options;
+    protected ?array $options = [];
 
     public function options(array $options) : self
     {
@@ -16,5 +16,4 @@ class Enum extends ExportField
     {
         return $this->options;
     }
-
 }

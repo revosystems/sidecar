@@ -3,6 +3,7 @@
 namespace Revo\Sidecar\ExportFields;
 use App\Models\EloquentBuilder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Revo\Sidecar\Filters\GroupBy;
 use Revo\Sidecar\Filters\Filters;
 
@@ -63,14 +64,19 @@ class ExportField
         if ($groupBy && $groupBy->isGrouping()){
             if ($groupBy->isGroupingBy($this->dependsOnField)) { return $this->dependsOnField; }
             if ($this->onGroupingBy == null)       { return null; }
-            return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$this->dependsOnField}";
+            //return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$this->dependsOnField}";
+            $as = collect(explode(".", $this->dependsOnField))->last();
+            return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$as}";
         }
         return $this->dependOnFieldFull();
 //        return $this->dependsOnField;
     }
 
-    public function dependOnFieldFull()
+    public function dependOnFieldFull() : string
     {
+        if (Str::contains($this->dependsOnField, config('database.connections.mysql.prefix'))){
+            return $this->dependsOnField;
+        }
         return $this->databaseTableFull(). "." . $this->dependsOnField;
     }
 

@@ -22,6 +22,9 @@ namespace Revo\Sidecar;
 // [ ] Trand widget
 // [ ] Group by date, gets always sorted...
 // [ ] Calculate as job
+// [ ] Create Enum Field
+// [ ] Created EnumThrough Field
+// [ ] Belongs to through searchable
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -86,7 +89,7 @@ abstract class Report
         })->map(function (ExportField $exportField) use($groupBy){
             return $exportField->getSelectField($groupBy);
         })->flatten()->filter()->unique()->map(function($selectField) use($modelTable){
-            if (!Str::contains($selectField, '.') && !Str::contains($selectField, 'as')){
+            if (!Str::contains($selectField, '.') && !Str::contains($selectField, 'as') && !Str::contains($selectField, config('database.connections.mysql.prefix'))){
                 $selectField = "{$modelTable}.{$selectField}";
             }
             return DB::raw($selectField);
