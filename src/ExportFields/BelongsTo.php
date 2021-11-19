@@ -28,6 +28,11 @@ class BelongsTo extends ExportField
         return $foreingKey;
     }
 
+    public function getFilterField() : string
+    {
+        return $this->getSelectField();
+    }
+
     public function relationShipWith(array $with) : self
     {
         $this->relationShipWith = $with;
