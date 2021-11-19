@@ -12,7 +12,7 @@ class Enum extends ExportField
         return $this;
     }
 
-    public function getFilterOptions() : array
+    public function filterOptions() : array
     {
         return $this->options;
     }

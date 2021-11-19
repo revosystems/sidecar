@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
+use Illuminate\Support\Facades\DB;
 
 class Filters
 {

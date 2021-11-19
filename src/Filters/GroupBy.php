@@ -66,7 +66,7 @@ class GroupBy
         if ($type == 'quarter') {
             return $query->groupBy(DB::raw('quarter(' . subTime($key, static::$openingTime) . ')'))
                           ->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))
-                         ->orderBy(DB::raw($key), 'DESC');
+                          ->orderBy(DB::raw($key), 'DESC');
         }
         return $query->groupBy(DB::raw($key));
     }

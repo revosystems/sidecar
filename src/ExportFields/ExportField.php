@@ -65,7 +65,8 @@ class ExportField
             if ($this->onGroupingBy == null)       { return null; }
             return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$this->dependsOnField}";
         }
-        return $this->dependsOnField;
+        return $this->dependOnFieldFull();
+//        return $this->dependsOnField;
     }
 
     public function dependOnFieldFull()
@@ -82,7 +83,8 @@ class ExportField
     }
 
     public function getFilterField() : string {
-        return $this->getSelectField();
+        //return $this->getSelectField();
+        return $this->dependsOnField;
     }
 
     public function sortable($sortable = true) : self
