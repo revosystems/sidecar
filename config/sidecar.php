@@ -9,4 +9,5 @@ return [
     'minSearchChars' => 3,
     'reportsPath'   => '\\App\\Reports\\',
     'scripts-stack' => 'edit-scripts',
+    'exportRoute'   => 'sidecar.report.export'
 ];

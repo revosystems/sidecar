@@ -18,6 +18,11 @@ class BelongsTo extends ExportField
         return data_get($row, "{$this->field}.{$this->relationShipField}");
     }
 
+    public function getFilterId($row)
+    {
+        return data_get($row, $this->foreingKey());
+    }
+
     public function relationShipDisplayField(string $relationShipDisplayField) : self {
         $this->relationShipField = $relationShipDisplayField;
         return $this;

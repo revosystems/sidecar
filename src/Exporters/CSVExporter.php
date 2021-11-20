@@ -2,6 +2,7 @@
 
 namespace Revo\Sidecar\Exporters;
 use \Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class CSVExporter extends BaseExporter
 {
@@ -36,5 +37,11 @@ class CSVExporter extends BaseExporter
             'Content-Encoding'    => 'UTF-8',
             'Content-Disposition' => 'attachment; filename="' . $title . '.csv"',  // Safari filename must be between commas
         ];
+    }
+
+    public function save($filename) : string
+    {
+        Storage::put($filename, $this->export());
+        return Storage::url($filename);
     }
 }

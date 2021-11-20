@@ -21,7 +21,6 @@ class ExportField
     public bool $sortable = false;
     public bool $onlyWhenGrouping = false;
 
-
     public bool $groupable = false;
     public bool $comparable = false;
     public bool $groupableWithChart = false;
@@ -35,6 +34,7 @@ class ExportField
     public $tdClasses = "";
     public bool $hideMobile = false;
     public bool $hidden = false;
+    public bool $filterOnClick = false;
 
 
     public static function make($field, $title = null, $dependsOnField = null)
@@ -191,7 +191,21 @@ class ExportField
     // MARK: HTML
     //=================================================
     public function toHtml($row) : string {
-        return $this->getValue($row) ?? "";
+        $value = $this->getValue($row) ?? "";
+        if ($this->filterOnClick){
+            return $this->filterLink($row, $value);
+        }
+        return $value;
+    }
+
+    public function filterLink($row, $value)
+    {
+        return "<a onclick='filterOnClick(\"{$this->getFilterField()}\", {$this->getFilterId($row)})' class='pointer'>{$value}</a>";
+    }
+
+    public function getFilterId($row)
+    {
+        return null;
     }
 
     public function tdClasses(string $classes) : self {
@@ -209,6 +223,12 @@ class ExportField
     public function hidden(bool $hidden = true) : self
     {
         $this->hidden = $hidden;
+        return $this;
+    }
+
+    public function filterOnClick() : self
+    {
+        $this->filterOnClick = true;
         return $this;
     }
 

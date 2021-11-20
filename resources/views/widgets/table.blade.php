@@ -35,4 +35,14 @@
 <div class="sidecar links links-bottom">
     {{ $rows->links() }}
 </div>
+
+    @push(config('sidecar.scripts-stack'))
+        <script>
+            function filterOnClick(field, value){
+                console.log("filter" + field + value);
+                $("#" + field).val(value);
+                $("#sidecar-form").submit();
+            }
+        </script>
+    @endpush
 @endif
