@@ -12,7 +12,6 @@ namespace Revo\Sidecar;
 // [ ] Created EnumThrough Field
 // [ ] Belongs to through searchable
 // [ ] Srotable belongstothroug => Fer el join
-// [ ] Datetime when only filterable
 // [ ] BelongsToMany filter on click, not working
 // [ ] Group by dates => link to next depth
 // [ ] Belongs to Throug => link to next depth

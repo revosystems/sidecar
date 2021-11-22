@@ -52,6 +52,7 @@ class Date extends ExportField
 
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
     {
+        if (!$this->filterable) { return $query; }
         if (!Str::contains($key, config('database.connections.mysql.prefix'))){
             return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $values);
         }

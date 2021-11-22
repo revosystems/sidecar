@@ -13,7 +13,7 @@ class Currency extends Number
         static::$currency  = $currency;
     }
 
-    public function getValue($row)
+    public function toHtml($row): string
     {
         if (static::$formatter){
             return static::$formatter->formatCurrency(parent::getValue($row) , 'EUR' );
