@@ -11,6 +11,12 @@ namespace Revo\Sidecar;
 // [ ] Calculate as job
 // [ ] Created EnumThrough Field
 // [ ] Belongs to through searchable
+// [ ] Srotable belongstothroug => Fer el join
+// [ ] Datetime when only filterable
+// [ ] BelongsToMany filter on click, not working
+// [ ] Group by dates => link to next depth
+// [ ] Belongs to Throug => link to next depth
+// [ ] Belongs to throug => with left join no ho ha fet?
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

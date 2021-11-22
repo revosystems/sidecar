@@ -3,6 +3,7 @@
 namespace Revo\Sidecar\ExportFields;
 
 use App\Models\EloquentBuilder;
+use App\Reports\V2\OrdersReport;
 use Revo\Sidecar\Filters\GroupBy;
 use Revo\Sidecar\Filters\Filters;
 
