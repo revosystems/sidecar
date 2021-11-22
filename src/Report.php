@@ -13,6 +13,7 @@ namespace Revo\Sidecar;
 // [ ] Belongs to Throug => link to next depth
 // [ ] Belongs to throug => with left join no ho ha fet?
 // https://apps.shopify.com/advanced-reports?locale=es
+// https://www.youtube.com/watch?v=FzBHMY8u5aQ
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
