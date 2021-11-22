@@ -10,7 +10,6 @@ namespace Revo\Sidecar;
 // [ ] Group by date, gets always sorted...
 // [ ] Calculate as job
 // [ ] Belongs to through searchable
-// [ ] Srotable belongstothroug => Fer el join
 // [ ] BelongsToMany filter on click, not working
 // [ ] Group by dates => link to next depth
 // [ ] Belongs to Throug => link to next depth
