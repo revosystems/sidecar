@@ -10,10 +10,9 @@ namespace Revo\Sidecar;
 // [ ] Group by date, gets always sorted...
 // [ ] Calculate as job
 // [ ] Belongs to through searchable
-// [ ] BelongsToMany filter on click, not working
-// [ ] Group by dates => link to next depth
 // [ ] Belongs to Throug => link to next depth
 // [ ] Belongs to throug => with left join no ho ha fet?
+// https://apps.shopify.com/advanced-reports?locale=es
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
