@@ -39,10 +39,19 @@
     @push(config('sidecar.scripts-stack'))
         <script>
             function filterOnClick(field, value){
-                console.log("filter" + field + value);
                 $("#" + field).val(value);
                 $("#sidecar-form").submit();
             }
+
+            function dateInDepth(field, value, start, end){
+                $("#sidecar-groupby").val(value);
+                // $("#dates[" + field + "][start]").val(start)
+                // $("#dates[" + field + "][end]").val(end)
+                 $("#start_date").val(start)
+                 $("#end_date").val(end)
+                 $("#sidecar-form").submit();
+            }
+
         </script>
     @endpush
 @endif

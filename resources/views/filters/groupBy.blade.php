@@ -1,7 +1,7 @@
 @if ($report->availableGroupings()->count() > 0)
     <div class="inline">
         <i class="fa fa-pie-chart fa-fw"></i>
-        <select name="groupBy[]" multiple>
+        <select id="sidecar-groupby" name="groupBy[]" multiple>
             <option value="">--</option>
             @foreach($report->availableGroupings() as $filter)
                 @foreach($filter->groupings() as $grouping)

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
+use Revo\Sidecar\Filters\DateDepth;
 
 class Date extends ExportField
 {
@@ -57,5 +58,14 @@ class Date extends ExportField
             return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $values);
         }
         return $filters->applyDateFilter($query, str_replace(config('database.connections.mysql.prefix'), "", $key), $values);
+    }
+
+
+    public function filterLink($row, $value)
+    {
+        $next = (new DateDepth())->next($this->field, $this->getCarbonDate(parent::getValue($row)), new Filters());
+        if (!$next) { return $this->getValue($row); }
+        $selectValue = $this->field . ":" . "day";
+        return "<a onclick='dateInDepth(\"{$this->getFilterField()}\", \"{$next['select']}\", \"{$next['start']}\", \"{$next['end']}\")' class='pointer'>{$value}</a>";
     }
 }
