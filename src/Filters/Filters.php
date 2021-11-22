@@ -105,7 +105,7 @@ class Filters
     public function addJoins($query, $fields) : self
     {
         $fields->each(function(ExportField $field) use($query) {
-            $field->addJoin($query, $this, $this->groupBy);
+            $field->addJoin($query, $this);
         });
         return $this;
     }

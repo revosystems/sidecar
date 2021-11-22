@@ -32,7 +32,7 @@ class HasOne extends BelongsTo
         return "no-filterable";
     }
 
-    public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy): EloquentBuilder
+    public function addJoin(EloquentBuilder $query, Filters $filters): EloquentBuilder
     {
         if (!$this->defaultJoin) { return $query; }
 

@@ -250,7 +250,7 @@ class ExportField
         $filters->sort->sort($query, $this->databaseTableFull().'.'.$filters->sort->field);
     }
 
-    public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
+    public function addJoin(EloquentBuilder $query, Filters $filters) : EloquentBuilder
     {
         return $query;
     }

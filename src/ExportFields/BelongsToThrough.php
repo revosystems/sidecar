@@ -65,9 +65,9 @@ class BelongsToThrough extends ExportField
         return $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
     }
 
-    public function addJoin(EloquentBuilder $query, Filters $filters, GroupBy $groupBy) : EloquentBuilder
+    public function addJoin(EloquentBuilder $query, Filters $filters) : EloquentBuilder
     {
-        if (!$filters->isFilteringBy($this->getFilterField()) && !$groupBy->isGroupingBy($this->getFilterField())) {
+        if (!$filters->isFilteringBy($this->getFilterField()) && !$filters->groupBy->isGroupingBy($this->getFilterField()) && $filters->sort->field != $this->getFilterField()) {
             return $query;
         }
         $pivot = $this->pivot()->getRelated()->getTable();
@@ -97,5 +97,10 @@ class BelongsToThrough extends ExportField
         return $filters->applyFilter($query, $pivot.'.'.$key, $values);
     }
 
+    public function applySort(Filters $filters, EloquentBuilder $query)
+    {
+        $pivot = $this->pivot()->getRelated()->getTable();
+        $filters->sort->sort($query, config('database.connections.mysql.prefix').$pivot.'.'.$filters->sort->field);
+    }
 
 }

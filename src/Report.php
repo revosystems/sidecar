@@ -9,7 +9,6 @@ namespace Revo\Sidecar;
 // [ ] Trand widget
 // [ ] Group by date, gets always sorted...
 // [ ] Calculate as job
-// [ ] Created EnumThrough Field
 // [ ] Belongs to through searchable
 // [ ] Srotable belongstothroug => Fer el join
 // [ ] BelongsToMany filter on click, not working
