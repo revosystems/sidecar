@@ -50,7 +50,6 @@
                  $("#end_date").val(end)
                  $("#sidecar-form").submit();
             }
-
         </script>
     @endpush
 @endif

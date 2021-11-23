@@ -5,9 +5,7 @@
 
         <div>
             @foreach($report->availableFilters()->sort() as $field)
-                @if ($field instanceof Revo\Sidecar\ExportFields\Date)
-                    @include('sidecar::filters.date-new')
-                @endif
+                @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date-new')
             @endforeach
             @if ($report->isComparable())
                 @include('sidecar::filters.dateCompare')
@@ -28,6 +26,12 @@
                             <div class="mt-4"> @include('sidecar::filters.select') </div>
                         @endif
                     @endforeach
+                    <div class="text-right mt-4 -mr-4">
+                        <button class="button secondary">
+                            <i class="fa fa-filter fa-fw"></i>
+                            {{ __(config('sidecar.translationsPrefix').'filter') }}
+                        </button>
+                    </div>
                 </div>
             </div>
            @include('sidecar::filters.applied')
