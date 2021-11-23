@@ -1,10 +1,12 @@
 <div class="sidecar-panel bg-white m-4 p-4 rounded shadow">
-    <div>{{ __(config('sidecar.translationsPrefix').$panel->title) }}</div>
-    <div>
+    <div class="flex justify-between">
+        <div>{{ __(config('sidecar.translationsPrefix').$panel->title) }}</div>
+        <div class="text-xl"> {{ $last }}</div>
+    </div>
+    <canvas id="chart-{{ $panel->slug() }}" height="70vh"></canvas>
+    <div class="mt-2">
         <a href="">{{ __(config('sidecar.translationsPrefix').'viewReport')}}</a>
     </div>
-    <div class="text-xl"> {{ $last }}</div>
-    <canvas id="chart-{{ $panel->slug() }}" height="65vh"></canvas>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -27,7 +29,7 @@
         data: data,
         options: {
             responsive:true,
-            // maintainAspectRatio:true,
+             // maintainAspectRatio:true,
             plugins:{
                 legend:{ display : false },
                 title: { display: false },

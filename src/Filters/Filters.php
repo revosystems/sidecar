@@ -17,6 +17,7 @@ class Filters
     public $dates = [];
     public $groupBy;
     public $sort;
+    public $limit = null;
 
     public function __construct() {
         $this->requestFilters = request('filters');
@@ -29,7 +30,8 @@ class Filters
         $this->addFilters($query, $fields)
              ->addJoins($query, $fields)
              ->addGroups($query, $fields)
-             ->addSorts($query, $fields);
+             ->addSorts($query, $fields)
+             ->addLimit($query);
         return $query;
     }
 
@@ -65,6 +67,14 @@ class Filters
     public function addSorts($query, $fields) : self
     {
         optional($this->fieldFor($fields, $this->sort->field))->applySort($this, $query);
+        return $this;
+    }
+
+    public function addLimit($query) : self
+    {
+        if ($this->limit) {
+            $query->limit($this->limit);
+        }
         return $this;
     }
 

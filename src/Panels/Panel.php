@@ -12,12 +12,16 @@ class Panel
     public Report $report;
     public string $title;
     public string $metric;
+    public string $dimension;
 
-    public function __construct(string $title, $report, Filters $filters = null, $metric)
+    public string $type = 'bigNumber';
+
+    public function __construct(string $title, $report, Filters $filters = null, $dimension, $metric)
     {
         $this->title = $title;
         $this->report = $report;
         $this->report->filters = $filters;
+        $this->dimension = $dimension;
         $this->metric = $metric;
     }
 
@@ -30,7 +34,7 @@ class Panel
     {
         $results = $this->report->get();
         $metric = $this->findMetricField();
-        return view('sidecar::panels.bigNumber', [
+        return view("sidecar::panels.{$this->type}", [
             "panel" => $this,
             "last"   => number_format($results->last()->{$this->metric}, 2),
             "values" => $this->getValues($results),
@@ -66,10 +70,10 @@ class Panel
         });
     }
 
-    public function findDimensionField() : ExportField
+    public function findDimensionField() : ? ExportField
     {
         return $this->report->fields()->first(function(ExportField $field){
-            return $field->field == "opened";
+            return $field->field == $this->dimension;
         });
     }
 }
