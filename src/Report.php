@@ -14,6 +14,7 @@ namespace Revo\Sidecar;
 // [ ] Belongs to throug => with left join no ho ha fet?
 // [ ] No ordena bé al agrupar?
 // [ ] Date field => get value, no te en compte el businessDate / timezone ?
+// [ ] Cachejar panels fins al dia següent
 // https://apps.shopify.com/advanced-reports?locale=es
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ
 use Illuminate\Database\Eloquent\Builder;
