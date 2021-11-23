@@ -13,6 +13,7 @@ namespace Revo\Sidecar;
 // [ ] Belongs to Throug => link to next depth
 // [ ] Belongs to throug => with left join no ho ha fet?
 // [ ] No ordena bé al agrupar?
+// [ ] Date field => get value, no te en compte el businessDate / timezone ?
 // https://apps.shopify.com/advanced-reports?locale=es
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ
 use Illuminate\Database\Eloquent\Builder;
@@ -57,27 +58,6 @@ abstract class Report
         });
     }
     public function getWidgets() : array { return []; }
-
-    public function query() : Builder {
-        return $this->model::with(array_merge($this->with, $this->findEagerLoadingNeedeRelationShips()));
-    }
-
-    public function queryWithFilters() : Builder
-    {
-        return ($this->filters)->apply($this->query(), $this->fields())
-                         ->select($this->getSelectFields($this->filters->groupBy));
-    }
-
-    public function paginate($pagination = null) {
-//        dd($this->queryWithFilters()->toSql());
-        return $this->queryWithFilters()->paginate($pagination ?? $this->pagination)->withQueryString();
-    }
-
-    public function get()
-    {
-//        dd($this->filters->groupBy, $this->queryWithFilters()->toSql());
-        return $this->queryWithFilters()->get();
-    }
 
     public function widgetsQuery()
     {
@@ -143,4 +123,27 @@ abstract class Report
         });
     }
 
+    //==================================================
+    // QUERY
+    //==================================================
+    public function query() : Builder {
+        return $this->model::with(array_merge($this->with, $this->findEagerLoadingNeedeRelationShips()));
+    }
+
+    public function queryWithFilters() : Builder
+    {
+        return ($this->filters)->apply($this->query(), $this->fields())
+            ->select($this->getSelectFields($this->filters->groupBy));
+    }
+
+    public function paginate($pagination = null) {
+//        dd($this->queryWithFilters()->toSql());
+        return $this->queryWithFilters()->paginate($pagination ?? $this->pagination)->withQueryString();
+    }
+
+    public function get()
+    {
+//        dd($this->filters->groupBy, $this->queryWithFilters()->toSql());
+        return $this->queryWithFilters()->get();
+    }
 }

@@ -1,5 +1,5 @@
 <div class="sidecar-panel bg-white m-4 p-4 rounded shadow">
-    <div class="flex justify-between">
+    <div class="flex justify-between font-bold">
         <div>{{ __(config('sidecar.translationsPrefix').$panel->title) }}</div>
         <div class="text-xl"> {{ $last }}</div>
     </div>

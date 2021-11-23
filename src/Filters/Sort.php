@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class Sort
 {
-
     public ?string $field;
     public ?string $order;
 
