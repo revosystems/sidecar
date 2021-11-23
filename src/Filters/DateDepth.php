@@ -29,7 +29,7 @@ class DateDepth
     {
         if ($period == "quarter"){ $date->startOfQuarter()->toDateString(); }
         if ($period == "month"){ $date->startOfMonth()->toDateString(); }
-        if ($period == "week"){ $date->startOfMonth()->toDateString(); }
+        if ($period == "week"){ $date->startOfWeek()->toDateString(); }
         if ($period == "day"){ $date->endOfDay()->toDateString(); }
         return $date->toDateString();
     }
@@ -38,7 +38,7 @@ class DateDepth
     {
         if ($period == "quarter"){ $date->endOfQuarter()->toDateString(); }
         if ($period == "month"){ $date->endOfMonth()->toDateString(); }
-        if ($period == "week"){ $date->endOfMonth()->toDateString(); }
+        if ($period == "week"){ $date->startOfWeek()->toDateString(); }
         if ($period == "day"){ $date->subDay()->endOfDay()->toDateString(); }
         return $date->toDateString();
     }

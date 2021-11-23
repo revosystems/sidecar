@@ -45,8 +45,7 @@
 
             function dateInDepth(field, value, start, end){
                 $("#sidecar-groupby").val(value);
-                // $("#dates[" + field + "][start]").val(start)
-                // $("#dates[" + field + "][end]").val(end)
+                 $("#date-range-" + field).val('custom')
                  $("#start_date").val(start)
                  $("#end_date").val(end)
                  $("#sidecar-form").submit();

@@ -18,7 +18,7 @@
         <div class="mt-4">
             <a class="button secondary dropdown">
                 @icon(filter)
-                {{ __(config('sidecar.translationsPrefix').'manageFilteres') }}
+                {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
             </a>
             <div class="dropdown-container p-4">
                 <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'filters') }}</div>
