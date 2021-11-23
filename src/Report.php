@@ -12,6 +12,7 @@ namespace Revo\Sidecar;
 // [ ] Belongs to through searchable
 // [ ] Belongs to Throug => link to next depth
 // [ ] Belongs to throug => with left join no ho ha fet?
+// [ ] No ordena bé al agrupar?
 // https://apps.shopify.com/advanced-reports?locale=es
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ
 use Illuminate\Database\Eloquent\Builder;
@@ -74,6 +75,7 @@ abstract class Report
 
     public function get()
     {
+//        dd($this->filters->groupBy, $this->queryWithFilters()->toSql());
         return $this->queryWithFilters()->get();
     }
 

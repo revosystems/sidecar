@@ -11,6 +11,10 @@
    @include('sidecar::graphs.graph-ajax')
 
    {!! $exporter->export() !!}
+
+   @push(config('sidecar.scripts-stack'))
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   @endpush
 @stop
 
 
