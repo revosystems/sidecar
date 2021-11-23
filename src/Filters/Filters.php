@@ -3,6 +3,7 @@
 namespace Revo\Sidecar\Filters;
 
 use App\Models\EloquentBuilder;
+use BadChoice\Thrust\Actions\Export;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -117,6 +118,22 @@ class Filters
         })->each(function(ExportField $field){
             $this->dates[$field->getFilterField()] = $this->getDefaultDates();
         });
+    }
+
+    public function dateFilterTitleFor(ExportField $field)
+    {
+        if ($period = $this->datePeriodFilterFor($field)) {
+            if ($period != 'custom') {
+                return __(config('sidecar.translationsPrefix') . $period);
+            }
+        }
+        return Carbon::parse($this->dateFilterStartFor($field))->format("jS F Y")  ." - " .
+               Carbon::parse($this->dateFilterEndFor($field))->format("jS F Y");
+    }
+
+    public function datePeriodFilterFor(ExportField $field) : ?string
+    {
+        return $this->dates[$field->getFilterField()]['period'] ?? null;
     }
 
     public function dateFilterStartFor(ExportField $field) {

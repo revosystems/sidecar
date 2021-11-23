@@ -13,6 +13,8 @@ class BelongsTo extends ExportField
     protected ?string $route = null;
     protected ?string $linkClasses = null;
 
+    protected $filterOptions = null;
+
     public function getValue($row)
     {
         return data_get($row, "{$this->field}.{$this->relationShipField}");
@@ -52,7 +54,10 @@ class BelongsTo extends ExportField
 
     public function filterOptions() : array
     {
-        return $this->relation()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
+        if (!$this->filterOptions) {
+            $this->filterOptions = $this->relation()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
+        }
+        return $this->filterOptions;
     }
 
     public function searchableRoute() : string

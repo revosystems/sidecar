@@ -14,6 +14,8 @@ class BelongsToThrough extends ExportField
     protected $pivot = null;
     protected bool $useLeftJoin = false;
 
+    protected $filterOptions = null;
+
     public function getValue($row)
     {
         return data_get($row, "{$this->pivot}.{$this->field}.{$this->relationShipField}");
@@ -53,7 +55,10 @@ class BelongsToThrough extends ExportField
 
     public function filterOptions() : array
     {
-        return $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
+        if (!$this->filterOptions) {
+            $this->filterOptions = $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
+        }
+        return $this->filterOptions;
     }
 
     public function getFilterId($row)

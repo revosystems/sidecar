@@ -10,6 +10,7 @@ class DateDepth
         "quarter" => "month",
         "month" => "week",
         "week" => "day",
+        "dayOfWeek" => "day",
         "day" => "hour"
     ];
 
