@@ -18,7 +18,7 @@
                 @icon(filter)
                 {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
             </a>
-            <div class="dropdown-container p-4">
+            <div class="dropdown-container p-4 mt-2">
                 <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'filters') }}</div>
                 <div class="">
                     @foreach($report->availableFilters()->sort() as $field)

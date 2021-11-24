@@ -18,7 +18,7 @@ class BelongsToThrough extends ExportField
 
     public function getValue($row)
     {
-        return data_get($row, "{$this->pivot}.{$this->field}.{$this->relationShipField}");
+        return data_get($row, "{$this->pivot}.{$this->field}.{$this->relationShipField}") ?? "--";
     }
 
     public function through(string $pivot) : self
