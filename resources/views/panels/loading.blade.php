@@ -1,5 +1,5 @@
-<div id="{{ $panel->slug() }}">
-    <div class="bg-white m-4 p-4 rounded shadow w-48 h-48">
+<div id="{{ $panel->slug() }}" class="flex-1 min-w-sm">
+    <div class="flex-1 bg-white m-4 p-4 rounded shadow">
         <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
     </div>
 </div>

@@ -9,7 +9,7 @@ use Revo\Sidecar\Report;
 
 abstract class Panel extends Report
 {
-    public string $type = 'bigNumber';
+    public string $type = 'trend';
 
     public function __construct(string $title, Filters $filters = null)
     {
