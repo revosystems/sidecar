@@ -26,6 +26,35 @@ class Filters
         $this->sort           = new Sort(request('sort'), request('sort_order'));
     }
 
+    //======================================================================
+    // SETUP HELPERS
+    //======================================================================
+    public function groupingBy($groupings) : self
+    {
+        $this->groupBy->groupings = collect($groupings);
+        return $this;
+    }
+
+    public function forDates(string $key, Carbon $start, ?Carbon $end = null) : self {
+        $this->dates[$key]['start'] = $start->toDateString();
+        $this->dates[$key]['end'] = ($end ?? $start)->toDateString();
+        return $this;
+    }
+
+    public function sortBy($key, $order = 'DESC') : self {
+        $this->sort->field = $key;
+        $this->sort->order = $order;
+        return $this;
+    }
+
+    public function limit($limit) : self {
+        $this->limit = $limit;
+        return $this;
+    }
+
+    //======================================================================
+    // LOGIC
+    //======================================================================
     public function apply($query, $fields) : EloquentBuilder {
         $this->addFilters($query, $fields)
              ->addJoins($query, $fields)
