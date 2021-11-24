@@ -6,13 +6,10 @@ namespace Revo\Sidecar;
 // [ ] Add gates / policies
 // [ ] Widgets => comprasion value in % with same period before
 // [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
-// [ ] Trand widget
-// [ ] Group by date, gets always sorted...
 // [ ] Calculate as job
 // [ ] Belongs to through searchable
 // [ ] Belongs to Throug => link to next depth
 // [ ] Belongs to throug => with left join no ho ha fet?
-// [ ] No ordena bé al agrupar?
 // [ ] Date field => get value, no te en compte el businessDate / timezone ?
 // [ ] Cachejar panels fins al dia següent
 // https://apps.shopify.com/advanced-reports?locale=es
