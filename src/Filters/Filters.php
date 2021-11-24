@@ -41,6 +41,15 @@ class Filters
         return $this;
     }
 
+    public function forPeriod(string $key, string $range) : self
+    {
+        $period = DateHelpers::periodFor($range);
+        $this->dates[$key]['perdiod'] = $period;
+        $this->dates[$key]['start'] = $period->start->toDateString();
+        $this->dates[$key]['end'] = $period->end->toDateString();
+        return $this;
+    }
+
     public function sortBy($key, $order = 'DESC') : self {
         $this->sort->field = $key;
         $this->sort->order = $order;
