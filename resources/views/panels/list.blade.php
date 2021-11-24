@@ -1,6 +1,6 @@
 <div class="sidecar-panel bg-white m-4 p-4 rounded shadow">
     <div class="flex justify-between font-bold">
-        <div>{{ __(config('sidecar.translationsPrefix').$panel->title) }}</div>
+        <div>{{ __(config('sidecar.translationsPrefix').$panel->getTitle()) }}</div>
     </div>
 
     <table class="table striped mt-4">

@@ -144,7 +144,7 @@ abstract class Report
 
     public function get()
     {
-//        dd($this->filters->groupBy, $this->queryWithFilters()->toSql());
+//        dd($this->filters, $this->queryWithFilters()->toSql());
         return $this->queryWithFilters()->get();
     }
 }

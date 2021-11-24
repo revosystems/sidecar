@@ -7,23 +7,26 @@ use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Report;
 
-class Panel
+abstract class Panel extends Report
 {
-    public Report $report;
-    public string $title;
-    public string $metric;
-    public string $dimension;
-
     public string $type = 'bigNumber';
 
-    public function __construct(string $title, $report, Filters $filters = null, $dimension, $metric)
+    public function __construct(string $title, Filters $filters = null)
     {
         $this->title = $title;
-        $this->report = $report;
-        $this->report->filters = $filters;
-        $this->dimension = $dimension;
-        $this->metric = $metric;
+        $this->filters = $filters;
     }
+
+    protected function getFields(): array
+    {
+        return [
+            $this->dimensionField(),
+            $this->metricField()
+        ];
+    }
+
+    abstract public function dimensionField() : ExportField;
+    abstract public function metricField() : ExportField;
 
     public function render() : string
     {
@@ -32,11 +35,13 @@ class Panel
 
     public function renderCalculated() : string
     {
-        $results = $this->report->get();
-        $metric = $this->findMetricField();
+        $results = $this->get();
+        $metric = $this->metricField();
+//        dd($this->getValues($results), $this->getLabels($results));
+
         return view("sidecar::panels.{$this->type}", [
             "panel" => $this,
-            "last"   => number_format($results->last()->{$this->metric}, 2),
+            "last"   => $metric->toHtml($results->last()),
             "values" => $this->getValues($results),
             "labels" => $this->getLabels($results)
         ])->render();
@@ -47,33 +52,20 @@ class Panel
         return Str::slug($this->title);
     }
 
-    public function getLabels($results)
+    public function getValues($results)
     {
-        $dimension = $this->findDimensionField();
+        $dimension = $this->metricField();
         return $results->map(function($value) use($dimension) {
             return $dimension->getValue($value);
         });
     }
 
-    public function getValues($results)
+    public function getLabels($results)
     {
-        $metric = $this->findMetricField();
+        $metric = $this->dimensionField();
         return $results->map(function($value) use($metric) {
             return optional($metric)->getValue($value) ?? $value->{$this->metric};
         });
     }
 
-    public function findMetricField() : ?ExportField
-    {
-        return $this->report->fields()->first(function(ExportField $field){
-            return $field->field == $this->metric;
-        });
-    }
-
-    public function findDimensionField() : ? ExportField
-    {
-        return $this->report->fields()->first(function(ExportField $field){
-            return $field->field == $this->dimension;
-        });
-    }
 }
