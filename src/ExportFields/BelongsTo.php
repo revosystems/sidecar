@@ -17,7 +17,7 @@ class BelongsTo extends ExportField
 
     public function getValue($row)
     {
-        return data_get($row, "{$this->field}.{$this->relationShipField}");
+        return data_get($row, "{$this->field}.{$this->relationShipField}") ?? "--";
     }
 
     public function getFilterId($row)

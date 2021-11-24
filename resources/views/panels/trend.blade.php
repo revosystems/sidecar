@@ -1,6 +1,9 @@
 <div class="sidecar-panel bg-white m-4 p-4 rounded shadow">
     <div class="flex justify-between font-bold">
-        <div>{!! __(config('sidecar.translationsPrefix').$panel->getTitle()) !!}</div>
+        <div class='has-tooltip cursor'>
+            <span class='tooltip rounded shadow-lg p-2 text-xs bg-black text-white mt-5'> {{ $panel->tooltip }}</span>
+            <div class="" style="text-decoration:underline dotted">{!! __(config('sidecar.translationsPrefix').$panel->getTitle()) !!}</div>
+        </div>
         <div class="text-xl"> {{ $last }}</div>
     </div>
     <canvas id="chart-{{ $panel->slug() }}" height="70vh"></canvas>
@@ -36,9 +39,9 @@
             },
             elements: {
                 point : {
-                    radius:0,
+                    radius:1,
                     borderWidth: 0,
-                    // hoverRadius: 0,
+                    hoverRadius: 8,
                 }
             },
             scales: {

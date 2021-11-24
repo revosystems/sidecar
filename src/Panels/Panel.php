@@ -10,6 +10,7 @@ use Revo\Sidecar\Report;
 abstract class Panel extends Report
 {
     public string $type = 'trend';
+    public string $tooltip = 'Some nice tooltip';
 
     public function __construct(string $title, Filters $filters = null)
     {
