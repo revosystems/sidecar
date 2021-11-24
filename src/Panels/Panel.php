@@ -2,6 +2,7 @@
 
 namespace Revo\Sidecar\Panels;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Filters\Filters;
@@ -35,16 +36,24 @@ abstract class Panel extends Report
 
     public function renderCalculated() : string
     {
-        $results = $this->get();
-        $metric = $this->metricField();
-//        dd($this->getValues($results), $this->getLabels($results));
+//        Cache::forget($this->cacheKey());
+        return Cache::remember($this->cacheKey(), now()->endOfDay(), function(){
+            $results = $this->get();
+            $metric = $this->metricField();
+            //dd($this->getValues($results), $this->getLabels($results));
 
-        return view("sidecar::panels.{$this->type}", [
-            "panel" => $this,
-            "last"   => $metric->toHtml($results->last()),
-            "values" => $this->getValues($results),
-            "labels" => $this->getLabels($results)
-        ])->render();
+            return view("sidecar::panels.{$this->type}", [
+                "panel"  => $this,
+                "last"   => $metric->toHtml($results->last()),
+                "values" => $this->getValues($results),
+                "labels" => $this->getLabels($results)
+            ])->render();
+        });
+    }
+
+    public function cacheKey(): string
+    {
+        return auth()->user()->tenant . '.panel.'.$this->slug();
     }
 
     public function slug() : string
@@ -62,9 +71,9 @@ abstract class Panel extends Report
 
     public function getLabels($results)
     {
-        $metric = $this->dimensionField();
-        return $results->map(function($value) use($metric) {
-            return optional($metric)->getValue($value) ?? $value->{$this->metric};
+        $dimension = $this->dimensionField();
+        return $results->map(function($value) use($dimension) {
+            return optional($dimension)->getValue($value) ?? "--";
         });
     }
 
