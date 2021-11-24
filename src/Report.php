@@ -27,6 +27,7 @@ abstract class Report
 {
     protected $model;
     protected ?string $title = null;
+    protected ?string $tooltip = null;
     protected $with = [];
     protected int $pagination = 50;
     public bool $exportable = true;
@@ -40,6 +41,12 @@ abstract class Report
     public function getTitle() : string
     {
         return $this->title ?? trans_choice(config('sidecar.translationsPrefix'). strtolower(collect(explode("\\",$this->model))->last()), 2);
+    }
+
+    public function getTooltip() : ?string
+    {
+        if (!$this->tooltip) { return null; }
+        return __(config('sidecar.translationsPrefix').$this->tooltip);
     }
 
     public function fields() : \Illuminate\Support\Collection {

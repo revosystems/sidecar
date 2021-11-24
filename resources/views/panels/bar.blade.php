@@ -1,12 +1,10 @@
-<div class="sidecar-panel bg-white m-4 p-4 rounded shadow">
-    <div class="flex justify-between font-bold">
-        <div>{!! __(config('sidecar.translationsPrefix').$panel->getTitle()) !!}</div>
-    </div>
+@extends('sidecar::panels.layout')
+
+@section('content')
     <canvas id="chart-{{ $panel->slug() }}" height="77vh"></canvas>
-    <div class="mt-2">
-        <a href="">{{ __(config('sidecar.translationsPrefix').'viewReport')}}</a>
-    </div>
-</div>
+@stop
+
+@section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const data = {
@@ -14,7 +12,7 @@
         datasets: [
             {
                 lineTension: 0,
-                borderWidth: 1,
+                borderWidth: 0,
                 backgroundColor: "#E75129",
                 borderColor: "#E75129",
                 data: @json($values),
@@ -64,3 +62,4 @@
     };
     const myChart = new Chart(document.getElementById('chart-' + '{{ $panel->slug() }}'), config);
 </script>
+@stop

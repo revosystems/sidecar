@@ -1,16 +1,14 @@
-<div class="sidecar-panel bg-white m-4 p-4 rounded shadow">
-    <div class="flex justify-between font-bold">
-        <div class='has-tooltip cursor'>
-            <span class='tooltip rounded shadow-lg p-2 text-xs bg-black text-white mt-4'> {{ $panel->tooltip }}</span>
-            <div class="" style="text-decoration:underline dotted">{!! __(config('sidecar.translationsPrefix').$panel->getTitle()) !!}</div>
-        </div>
-        <div class="text-xl"> {{ $last }}</div>
-    </div>
+@extends('sidecar::panels.layout')
+
+@section('top-right')
+    <div class="text-xl"> {{ $last }}</div>
+@stop
+
+@section('content')
     <canvas id="chart-{{ $panel->slug() }}" height="70vh"></canvas>
-    <div class="mt-2">
-        <a href="">{{ __(config('sidecar.translationsPrefix').'viewReport')}}</a>
-    </div>
-</div>
+@stop
+
+@section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const data = {
@@ -68,3 +66,4 @@
     };
     const myChart = new Chart(document.getElementById('chart-' + '{{ $panel->slug() }}'), config);
 </script>
+@stop
