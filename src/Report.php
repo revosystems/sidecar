@@ -14,9 +14,10 @@ namespace Revo\Sidecar;
 // [ ] Date depth hour => filtear per data i hores, sense agrupar llavors
 // [ ] Poder fer fill de tots els dies (amb 0)
 // [ ] Panel => comparable
-// [ ] Sort html arrows com el de shopify
+// ID sortable when grouping by, no ho fa bé
 // https://apps.shopify.com/advanced-reports?locale=es
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

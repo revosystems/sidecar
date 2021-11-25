@@ -6,14 +6,19 @@
         <thead class="sticky">
         <tr>
         @foreach($fields as $field)
-            <th class="{{ $field->getTDClasses() }}">
+            <th class="sidecar-th {{ $field->getTDClasses() }}">
                 @if ($field->sortable)
-                    <div class='sortableHeader'>{{ $field->getTitle() }}
-                        <div class='sortArrows'>
-                            <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'ASC') }}' class='sortUp'>▲</a>
-                            <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class='sortDown'>▼</a>
-                        </div>
-                    </div>
+                    @if($report->filters->sort->field == $field->getFilterField())
+                        @if (strtolower($report->filters->sort->order) == 'desc')
+                            <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'ASC') }}' class='bg-gray-200 rounded px-2 py-1 text-black'> {{ $field->getTitle() }} ▼ </a>
+                        @else
+                            <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class='bg-gray-200 rounded px-2 py-1 text-black'> {{ $field->getTitle() }} ▲ </a>
+                        @endif
+                    @else
+                        <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class=''> {{ $field->getTitle() }} </a>
+                    @endif
+
+
                 @else
                     {{ $field->getTitle() }}
                 @endif
