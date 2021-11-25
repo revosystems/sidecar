@@ -12,14 +12,14 @@
                 {
                     label: '{{ $dataset['title'] }}',
                     @if (in_array($graph->getType(), ['pie', 'doughnug']) || count($graph->values) > 1)
-                        backgroundColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
-                        borderColor: '{{$graph->colors[$loop->index] ?? "#E75129"}}',
+                        backgroundColor: '{{Revo\Sidecar\Filters\Graph::$colors[$loop->index] ?? "#E75129"}}',
+                        borderColor: '{{Revo\Sidecar\Filters\Graph::$colors[$loop->index] ?? "#E75129"}}',
                     @elseif ($graph->getType() == 'line')
                         backgroundColor: "#E75129",
                         borderColor: "#E75129",
                     @else
-                        backgroundColor: @json($graph->colors),
-                        borderColor: @json($graph->colors),
+                        backgroundColor: @json(Revo\Sidecar\Filters\Graph::$colors),
+                        borderColor: @json(Revo\Sidecar\Filters\Graph::$colors),
                     @endif
                     data: @json($dataset['values']),
                 },

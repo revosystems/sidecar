@@ -12,6 +12,7 @@ use Revo\Sidecar\Filters\DateDepth;
 class Date extends ExportField
 {
     static $timezone = "Europe/Madrid";
+    static $openingTime = "00:00:00";
     public ?string $icon = 'calendar';
 
     public function getValue($row)
@@ -54,10 +55,12 @@ class Date extends ExportField
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
     {
         if (!$this->filterable) { return $query; }
+        $businessRange = static::businessRange($values['start'], $values['end']);
+
         if (!Str::contains($key, config('database.connections.mysql.prefix'))){
-            return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $values);
+            return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $businessRange);
         }
-        return $filters->applyDateFilter($query, str_replace(config('database.connections.mysql.prefix'), "", $key), $values);
+        return $filters->applyDateFilter($query, str_replace(config('database.connections.mysql.prefix'), "", $key), $businessRange);
     }
 
 
@@ -67,5 +70,20 @@ class Date extends ExportField
         if (!$next) { return $this->getValue($row); }
         $selectValue = $this->field . ":" . "day";
         return "<a onclick='dateInDepth(\"{$this->getFilterField()}\", \"{$next['select']}\", \"{$next['start']}\", \"{$next['end']}\")' class='pointer'>{$value}</a>";
+    }
+
+    //===============================================================
+    // DATE RANGES
+    //===============================================================
+    public static function businessRange(string $start = null, string $end = null) : array {
+        $start       = ! $start ? Carbon::now() : Carbon::parse($start);
+        $end         =  ! $end  ? $start->copy() : Carbon::parse($end);
+        $openingTime = static::$openingTime;
+        return [
+            getParsedUTCDate($start->toDateString() . ' ' . $openingTime),
+            getParsedUTCDate($end->toDateString() . ' ' . $openingTime)->addDay()
+        ];
+
+        return Carbon::parse($date, static::timezone)->utc();
     }
 }

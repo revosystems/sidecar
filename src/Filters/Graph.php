@@ -16,7 +16,7 @@ class Graph
     public $labels;
     public $values;
 
-    public $colors = ["#E75129", "#B4B473", "#E2AA76", "#E9D25F", "#69625F", "#A39F9E", "#EB4E5D", "#F1EAC1", "#1A2E39", "#CDB194"];
+    public static $colors = ["#E75129", "#B4B473", "#E9D25F", "#77E2CD", "#A39F9E", "#EB4E5D", "#F1EAC1", "#C26BE0", "#69625F", "#E2828D", "#1A2E39", "#CDB194", "#E2AA76"];
 
     public function __construct(Report $report, $results = null)
     {

@@ -4,12 +4,11 @@ namespace Revo\Sidecar\Filters;
 
 use App\Models\EloquentBuilder;
 use Illuminate\Support\Facades\DB;
+use Revo\Sidecar\ExportFields\Date;
 
 class GroupBy
 {
     public $groupings;
-
-    public static $openingTime = "00:00";
 
     public function __construct(?array $groupings) {
         $this->groupings = collect($groupings)->mapWithKeys(function($value){
@@ -46,28 +45,28 @@ class GroupBy
         if ($key == null) { return $query; }
         if ($type == 'hour') {
             return $query->groupBy(DB::raw("hour({$key})"))
-                /*->orderBy(DB::raw('hour(' . subTime($key, static::$openingTime) . ')'), 'ASC')*/;
+                /*->orderBy(DB::raw('hour(' . subTime($key, Date::$openingTime) . ')'), 'ASC')*/;
         }
         if ($type == 'day') {
-            return $query->groupBy(DB::raw('date(' . subTime($key, static::$openingTime) . ')'))
+            return $query->groupBy(DB::raw('date(' . subTime($key, Date::$openingTime) . ')'))
                          /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'dayOfWeek') {
-            return $query->groupBy(DB::raw('dayofweek(' . subTime($key, static::$openingTime) . ')'));
+            return $query->groupBy(DB::raw('dayofweek(' . subTime($key, Date::$openingTime) . ')'));
         }
         if ($type == 'week') {
-            return $query->groupBy(DB::raw('yearweek(' . subTime($key, static::$openingTime) . ')'))
-                           /*->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))*/
+            return $query->groupBy(DB::raw('yearweek(' . subTime($key, Date::$openingTime) . ')'))
+                           /*->groupBy(DB::raw('year(' . subTime($key, Date::$openingTime) . ')'))*/
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'month') {
-            return $query->groupBy(DB::raw('month(' . subTime($key, static::$openingTime) . ')'))
-                          ->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))
+            return $query->groupBy(DB::raw('month(' . subTime($key, Date::$openingTime) . ')'))
+                          ->groupBy(DB::raw('year(' . subTime($key, Date::$openingTime) . ')'))
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'quarter') {
-            return $query->groupBy(DB::raw('quarter(' . subTime($key, static::$openingTime) . ')'))
-                          ->groupBy(DB::raw('year(' . subTime($key, static::$openingTime) . ')'))
+            return $query->groupBy(DB::raw('quarter(' . subTime($key, Date::$openingTime) . ')'))
+                          ->groupBy(DB::raw('year(' . subTime($key, Date::$openingTime) . ')'))
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         return $query->groupBy(DB::raw($key));

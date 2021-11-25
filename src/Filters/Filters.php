@@ -148,7 +148,7 @@ class Filters
         if ($values['start'] == null) {
             return $query->where($key, '<', $values['end']);
         }*/
-        return $query->whereBetween($key, [$values['start'], $values['end']]);
+        return $query->whereBetween($key, [$values[0], $values[1]]);
     }
 
     public function addJoins($query, $fields) : self
@@ -202,7 +202,6 @@ class Filters
                 ])->filter()->implode("&");
         })->implode("&");
 
-
         $filters = collect($this->requestFilters)->map(function($value, $key){
             return "filters[$key]={$value}";
         })->implode("&");
@@ -211,6 +210,7 @@ class Filters
             return "groupBy[]={$key}:{$type}";
         })->implode("&");
 
-        return collect([$dates, $filters, $groupings])->implode("&");
+        $sort = $this->sort->field ? "sort={$this->sort->field}&sort_order={$this->sort->order}" : null;
+        return collect([$dates, $filters, $groupings, $sort])->filter()->implode("&");
     }
 }

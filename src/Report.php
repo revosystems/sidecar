@@ -10,9 +10,8 @@ namespace Revo\Sidecar;
 // [ ] Belongs to through searchable
 // [ ] Belongs to Throug => link to next depth
 // [ ] Belongs to throug => with left join no ho ha fet?
-// [ ] Date field => get value, no te en compte el businessDate / timezone ?
 // [ ] Date depth hour => filtear per data i hores, sense agrupar llavors
-// [ ] Poder fer fill de tots els dies (amb 0)
+// [ ] Poder omplir tots els dies (amb 0)
 // [ ] Panel => comparable
 // ID sortable when grouping by, no ho fa bé
 // https://apps.shopify.com/advanced-reports?locale=es

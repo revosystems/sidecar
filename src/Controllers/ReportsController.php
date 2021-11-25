@@ -2,10 +2,12 @@
 
 namespace Revo\Sidecar\Controllers;
 
+use Illuminate\Support\Facades\Cookie;
 use Revo\Sidecar\Compare;
 use Revo\Sidecar\Exporters\HtmlExporter;
 use Revo\Sidecar\Facades\Sidecar;
 use Revo\Sidecar\Filters\Graph;
+use Revo\Sidecar\CustomReports;
 
 class ReportsController
 {
@@ -49,5 +51,13 @@ class ReportsController
         return view("sidecar::graphs.graph", [
             'graph' => $graph
         ]);
+    }
+
+
+    public function save()
+    {
+        CustomReports::save(request('name'), request('url'));
+//        dd(CustomReports::all());
+        return back()->with(['message' => 'new report saved']);
     }
 }
