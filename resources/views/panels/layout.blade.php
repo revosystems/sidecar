@@ -12,9 +12,11 @@
     </div>
 
     @yield('content')
+    @if($link = $panel->getFullReportLink())
     <div class="mt-2">
-        <a href="">{{ __(config('sidecar.translationsPrefix').'viewReport')}}</a>
+        <a href="{{$link}}">{{ __(config('sidecar.translationsPrefix').'viewReport')}}</a>
     </div>
+    @endif
 </div>
 
     @yield('scripts')

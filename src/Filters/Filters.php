@@ -44,7 +44,7 @@ class Filters
     public function forPeriod(string $key, string $range) : self
     {
         $period = DateHelpers::periodFor($range);
-        $this->dates[$key]['perdiod'] = $period;
+        $this->dates[$key]['period'] = $range;
         $this->dates[$key]['start'] = $period->start->toDateString();
         $this->dates[$key]['end'] = $period->end->toDateString();
         return $this;
@@ -190,5 +190,27 @@ class Filters
 
     public function dateFilterEndFor(ExportField $field) {
         return $this->dates[$field->getFilterField()]['end'] ?? "";
+    }
+
+    public function getQueryString() : string
+    {
+        $dates = collect($this->dates)->map(function ($values, $key){
+            return collect([
+                isset($values['period']) ? "dates[$key][period]={$values['period']}" : null ,
+                "dates[$key][start]={$values['start']}",
+                "dates[$key][end]={$values['end']}",
+                ])->filter()->implode("&");
+        })->implode("&");
+
+
+        $filters = collect($this->requestFilters)->map(function($value, $key){
+            return "filters[$key]={$value}";
+        })->implode("&");
+
+        $groupings = $this->groupBy->groupings->map(function($type, $key){
+            return "groupBy[]={$key}:{$type}";
+        })->implode("&");
+
+        return collect([$dates, $filters, $groupings])->implode("&");
     }
 }
