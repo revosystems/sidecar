@@ -5,7 +5,7 @@ Route::group(['prefix' => config('sidecar.routePrefix', 'sidecar'), 'namespace' 
     Route::get('{report}/widgets', 'ReportsController@widgets') ->name('sidecar.report.widgets');
     Route::get('{report}/graph'  , 'ReportsController@graph')   ->name('sidecar.report.graph');
 
-    Route::post('report/save'  , 'ReportsController@save')   ->name('sidecar.report.save');
+    Route::post('report/save'  , 'ReportsController@store')   ->name('sidecar.report.store');
 
     Route::get('panel/{class}'  , 'PanelsController@show')   ->name('sidecar.panel');
 

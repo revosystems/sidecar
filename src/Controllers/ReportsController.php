@@ -54,10 +54,9 @@ class ReportsController
     }
 
 
-    public function save()
+    public function store()
     {
         CustomReports::save(request('name'), request('url'));
-//        dd(CustomReports::all());
         return back()->with(['message' => 'new report saved']);
     }
 }
