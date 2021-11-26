@@ -5,6 +5,7 @@ namespace Revo\Sidecar;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
+use Carbon\Carbon;
 
 class Compare
 {
@@ -19,6 +20,7 @@ class Compare
     public $results;
     public $labels;
 
+    public $period;
     public $start;
     public $end;
 
@@ -37,6 +39,7 @@ class Compare
     public function setPeriod2Dates()
     {
         $this->period2->filters = clone $this->period1->filters;
+        $this->period  = request('compare')['period'] ?? "custom";
         $this->start = request('compare')['start'] ?? "";
         $this->end = request('compare')['end'] ?? "";
 
@@ -86,5 +89,15 @@ class Compare
     public function isComparing() : bool
     {
         return request('shouldCompare') == 'true';
+    }
+
+    public function getTitle() : string
+    {
+        if ($this->period != 'custom') {
+            return __(config('sidecar.translationsPrefix') . $this->period);
+        }
+
+        return Carbon::parse($this->start)->format("jS F Y") . " - " .
+               Carbon::parse($this->end)->format("jS F Y");
     }
 }

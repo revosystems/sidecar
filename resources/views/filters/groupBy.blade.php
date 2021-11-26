@@ -7,8 +7,7 @@
             @foreach($report->availableGroupings() as $filter)
                 @foreach($filter->groupings() as $grouping)
                     <option value="{{$filter->getFilterField()}}:{{$grouping}}"
-                            @if ($report->filters->groupBy->isGroupingBy($filter->getFilterField(), $grouping)) selected @endif
-                    >
+                            @if ($report->filters->groupBy->isGroupingBy($filter->getFilterField(), $grouping)) selected @endif>
                         {{ str_replace(" (default)", "", "{$filter->getTitle()} ({$grouping})") }}
                     </option>
                 @endforeach

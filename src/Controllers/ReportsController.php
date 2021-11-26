@@ -52,11 +52,4 @@ class ReportsController
             'graph' => $graph
         ]);
     }
-
-
-    public function store()
-    {
-        CustomReports::save(request('name'), request('url'));
-        return back()->with(['message' => 'new report saved']);
-    }
 }
