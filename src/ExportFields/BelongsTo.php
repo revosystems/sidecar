@@ -12,6 +12,7 @@ class BelongsTo extends ExportField
 
     protected ?string $route = null;
     protected ?string $linkClasses = null;
+    protected ?string $linkField = null;
 
     protected $filterOptions = null;
 
@@ -78,15 +79,16 @@ class BelongsTo extends ExportField
     public function toHtml($row): string
     {
         if($this->route){
-            return link_to_route($this->route, $this->getValue($row), $row->{$this->foreingKey()}, ['class' => $this->linkClasses]);
+            return link_to_route($this->route, $this->getValue($row), data_get($row, $this->linkField), ['class' => $this->linkClasses]);
         }
         return parent::toHtml($row);
     }
 
-    public function withLink($route, $linkClasses = null) : self
+    public function withLink($route, $linkClasses = null, $linkField = null) : self
     {
         $this->route = $route;
         $this->linkClasses = $linkClasses;
+        $this->linkField    = $linkField ?? $this->foreingKey();
         return $this;
     }
 
