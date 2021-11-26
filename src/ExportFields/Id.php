@@ -30,4 +30,11 @@ class Id extends Link
         return parent::toHtml($row);
     }
 
+    public function applySort(Filters $filters, EloquentBuilder $query)
+    {
+        if (!$filters->groupBy->isGrouping()){
+            return parent::applySort($filters, $query);
+        }
+        $filters->sort->sort($query, $filters->sort->field);
+    }
 }
