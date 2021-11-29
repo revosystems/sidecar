@@ -73,6 +73,11 @@ class Filters
         return $query;
     }
 
+    public function filtersFor($field)
+    {
+        return collect($this->requestFilters[$field] ?? []);
+    }
+
     public function isFilteringBy($key, $value = null) : bool
     {
         if ($value == null) {
@@ -127,7 +132,16 @@ class Filters
         if (is_array($value)) {
             return $query->whereIn($key, $value);
         }
-        $query->where($key, $value);
+        return $query->where($key, $value);
+    }
+
+    public function applySearch($query, $key, $values)
+    {
+        return $query->where(function ($query) use($values, $key) {
+            collect($values)->each(function($value) use($query, $key) {
+                $query->orWhere($key, 'like', "%{$value}%");
+            });
+        });
     }
 
     private function getDefaultDates() : array{

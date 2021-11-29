@@ -200,7 +200,7 @@ class ExportField
 
     public function filterLink($row, $value)
     {
-        return "<a onclick='filterOnClick(\"{$this->getFilterField()}\", {$this->getFilterId($row)})' class='pointer'>{$value}</a>";
+        return "<a onclick='filterOnClick(\"{$this->getFilterField()}\", \"{$this->getFilterId($row)}\")' class='pointer'>{$value}</a>";
     }
 
     public function getFilterId($row)
@@ -240,10 +240,16 @@ class ExportField
         return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
     }
 
+    public function applySearch(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
+    {
+        return $filters->applySearch($query, $this->databaseTable().'.'.$key, $values);
+    }
+
     public function applyGroupBy(Filters $filters, EloquentBuilder $query, $key, $type)
     {
         $filters->groupBy->groupBy($query, $this->databaseTableFull().'.'.$key, $type);
     }
+
 
     public function applySort(Filters $filters, EloquentBuilder $query){
 //        dd($this->databaseTableFull(), $filters->sort->field);
