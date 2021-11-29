@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Report;
+use Revo\Sidecar\Sidecar;
 
 abstract class Panel extends Report
 {
@@ -53,7 +54,10 @@ abstract class Panel extends Report
 
     public function cacheKey(): string
     {
-        return auth()->user()->tenant . '.panel.'.$this->slug();
+        if (Sidecar::$usesMultitenant) {
+            return auth()->user()->id . '.panel.' . $this->slug();
+        }
+        return $this->slug();
     }
 
     public function slug() : string

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class Sidecar
 {
     protected static $servingCallback;
+    public static $usesMultitenant = true;
 
     public function __construct()
     {

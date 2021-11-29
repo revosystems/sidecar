@@ -30,7 +30,10 @@ class CustomReports
 
     public static function key() : string
     {
-        return collect([static::$key, auth()->id()])->implode("_");
+        if (Sidecar::$usesMultitenant) {
+            return collect([static::$key, auth()->id()])->implode("_");
+        }
+        return static::$key;
     }
 
 
