@@ -22,7 +22,7 @@ class ExportField
     public bool $onlyWhenGrouping = false;
 
     public bool $groupable = false;
-    public bool $comparable = false;
+    //public bool $comparable = false;
     public bool $groupableWithChart = false;
     public string $groupableAggregatedField;
     public string $groupableGraphType;
@@ -59,6 +59,10 @@ class ExportField
         return data_get($row, $this->field);
     }
 
+    /**
+     * @param GroupBy|null $groupBy
+     * @return string|null the select field (or array of select fields) to include in the query
+     */
     public function getSelectField(?GroupBy $groupBy = null)
     {
         if ($groupBy && $groupBy->isGrouping()){
