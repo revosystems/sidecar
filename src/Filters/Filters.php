@@ -229,8 +229,9 @@ class Filters
         return collect([$dates, $filters, $groupings, $sort])->filter()->implode("&");
     }
 
-    private function cleanupFilters(array $filters): array
+    private function cleanupFilters(?array $filters): ?array
     {
+        if (!$filters) { return $filters; }
         return collect($filters)->reject(function ($value, $key) {
             return isset($value['operand']) && (!isset($value['value']) || $value['value'] == null);
         })->all();

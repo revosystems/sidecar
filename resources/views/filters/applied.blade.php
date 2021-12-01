@@ -5,7 +5,7 @@
                 <div class="inline bg-gray-200 text-xs text-gray-600 rounded p-1 mr-1">
                 {{ $value }}
                 @if ($field instanceof \Revo\Sidecar\ExportFields\Number)
-                    : {{ $report->filters->filtersFor($field->getFilterField())['value'] }}
+                    {{ $report->filters->filtersFor($field->getFilterField())['value'] }}
                 @endif
                 </div>
             @endif

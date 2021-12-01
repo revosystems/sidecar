@@ -21,11 +21,12 @@ class Number extends ExportField
     public function filterOptions() : array
     {
         return [
-            "=" => "equal",
-            ">" => "greater",
-            ">=" => "greaterOrEqual",
-            "<" => "lower",
-            "<=" => "lowerOrEqual",
+            "=" => "=",
+            ">" => ">",
+            ">=" => ">=",
+            "<" => "<",
+            "<=" => "<=",
+            "<>" => "<>",
         ];
     }
 

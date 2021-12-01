@@ -3,7 +3,7 @@
         <input type="hidden" name="sort" value="{{request('sort')}}">
         <input type="hidden" name="sort_order" value="{{request('sort_order')}}">
 
-        <div>
+        <div class="inline">
             @foreach($report->availableFilters() as $field)
                 @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date-new')
             @endforeach
@@ -13,12 +13,12 @@
             @include('sidecar::filters.groupBy')
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 ml-4 inline">
             <a class="button secondary dropdown">
                 @icon(filter)
                 {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
             </a>
-            <div class="dropdown-container p-4 mt-2">
+            <div class="dropdown-container p-4 mt-2 ml-8">
                 <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'filters') }}</div>
                 <div class="">
                     @foreach($report->availableFilters() as $field)
