@@ -7,7 +7,7 @@ use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
 use function GuzzleHttp\Psr7\_parse_request_uri;
 
-class Id extends Link
+class Id extends Number
 {
     public static function make($field = 'id', $title = null, $dependsOnField = null)
     {
@@ -30,11 +30,8 @@ class Id extends Link
         return parent::toHtml($row);
     }
 
-    public function applySort(Filters $filters, EloquentBuilder $query)
+    public function isNumeric(): bool
     {
-        if (!$filters->groupBy->isGrouping()){
-            return parent::applySort($filters, $query);
-        }
-        $filters->sort->sort($query, $filters->sort->field);
+        return false;
     }
 }

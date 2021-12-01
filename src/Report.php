@@ -145,7 +145,7 @@ abstract class Report
     }
 
     public function paginate($pagination = null) {
-//        dd($this->queryWithFilters()->toSql());
+//        dd($this->filters, $this->queryWithFilters()->toSql());
         return $this->queryWithFilters()->paginate($pagination ?? $this->pagination)->withQueryString();
     }
 

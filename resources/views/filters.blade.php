@@ -23,7 +23,7 @@
                 <div class="">
                     @foreach($report->availableFilters()->sort() as $field)
                         @if (!($field instanceof Revo\Sidecar\ExportFields\Date))
-                            <div class="mt-4"> @include('sidecar::filters.select') </div>
+                            <div class="mt-4"> @include('sidecar::filters.filter') </div>
                         @endif
                     @endforeach
                     <div class="text-right mt-4 -mr-4">

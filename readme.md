@@ -96,7 +96,7 @@ Function               | Description
 sortable()             | Indicates that the field can be sorted and it will show the sort arrows for it
 hideMobile()           | Appends the class `hide-mobile` to the field column
 onGroupingBy()         | You can defined how the field works when the report is being grouped by, almost all export fields already provide a default behavior that makes sense but you can override it with this
-filterable()           | Makes the field filterable
+filterable()           | Makes the field filterable, setting the second parameter to true, will use an ajax query to get the filter options
 icon()		           | You can define a font-awesome icon to be displayed instead of the title on the filters list
 filterOptions()        | If you don't want the default filter options the `ExportField` provides, you can set your own with this function
 groupable()	           | Define if a field is groupable
@@ -115,6 +115,7 @@ onTable()			   | There are some fields that are on another table (after a join) 
 ##### Number
 · It will align the row to the right
 · When grouping by, by default will do a sum (you can change to it with the `onGroupingBy()` funciton)
+· When filtering it will allow you to chose the operator
 
 ##### Decimal
 · Extends from number

@@ -35,7 +35,8 @@ class ExportField
     public bool $hideMobile = false;
     public bool $hidden = false;
     public bool $filterOnClick = false;
-
+    public ?string $route = null;
+    protected ?string $linkClasses = "";
 
     public static function make($field, $title = null, $dependsOnField = null)
     {
@@ -195,6 +196,9 @@ class ExportField
         if ($this->filterOnClick){
             return $this->filterLink($row, $value);
         }
+        if ($this->route){
+            return link_to_route($this->route, $value, $value, ['class' => $this->linkClasses]);
+        }
         return $value;
     }
 
@@ -226,9 +230,19 @@ class ExportField
         return $this;
     }
 
-    public function filterOnClick() : self
-    {
+    public function filterOnClick() : self {
         $this->filterOnClick = true;
+        return $this;
+    }
+
+    public function route($route, $classes = null) : self {
+        $this->route = $route;
+        $this->linkClasses = $classes;
+        return $this;
+    }
+
+    public function linkClasses($classes) : self{
+        $this->linkClasses = $classes;
         return $this;
     }
 

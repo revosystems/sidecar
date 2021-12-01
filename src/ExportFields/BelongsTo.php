@@ -10,8 +10,6 @@ class BelongsTo extends ExportField
     protected string $relationShipField = 'name';
     protected array $relationShipWith = [];
 
-    protected ?string $route = null;
-    protected ?string $linkClasses = null;
     protected ?string $linkField = null;
 
     protected $filterOptions = null;
