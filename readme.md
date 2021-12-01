@@ -58,7 +58,7 @@ class OrdersReport extends Report {
 	protected $model  = Post::class;
 
 	public function getFields() : array{
-     	   return [ ];
+     	return [ ];	
     }
 }
 ```
@@ -106,32 +106,64 @@ onlyWhenGrouping()     | Mark a field to be displayed only when the report is be
 tdClasses()			   | Add your own TD Classes that you want to be appended to the column
 hidden()			   | To not display the field 
 filterOnClick()		   | Some fields can add a link when clicked that filters the report for its value
-
+route()				   | You can define a route that will be linked (using the field as the parameter)
+onTable()			   | There are some fields that are on another table (after a join) you can define the table with this function (usualy goes along with a `HasOne::defaultJoin`)
 
 ##### Text
 · When filtering it will perform a `like` and you can enter you custom search text
+
 ##### Number
 · It will align the row to the right
 · When grouping by, by default will do a sum (you can change to it with the `onGroupingBy()` funciton)
+
 ##### Decimal
 · Extends from number
+
 ##### Currency
 · Extends from number
 
 ##### Date
 · This field allows different grouping by options (hour, day, dayOfWeek, week, month, quarter)
+· When enabling the filterable, by default uses the last 7 days
+· The filterOnClick option, performs a depth grouping filter, so if you group by month, and you click Novemeber, it will filter just november, grouping by week
 
 ##### Computed
-##### Id
-##### BelongsTo
-##### BelongsToThrough
-##### HasMany
-##### HasOne
-##### Enum
-##### Icon
-##### Link
+· This field allows you to perform operations on the field, for example `Computed::make('guests/total')` 
+· You can define the groupingBy operation as well `Computed::make('guests/total')->onGroupingBy('sum(guests)/sum(total)')` 
 
-##### Create your ExportField
+##### Id
+· Id field shows the `id` of the row
+· When grouping by, it will perform a count
+· It is very common to use the id only when grouping `Id::make()->onlyWhenGrouping()`
+
+##### BelongsTo
+· When you have a belongs to relationship on your model, you can use this field to automatically create the filters/groups by
+· By default it will use the `name` field on the relationship, use the `relationShipDisplayField($field)` function to use another field
+· It will perform the needed joins when sorting / grouping By
+
+##### BelongsToThrough
+· When you have a belongs to through relationship on your model, you can use this field to automatically create the filters/groups by, it will perform 
+· By default it will use the `name` field on the relationship, use the `relationShipDisplayField($field)` function to use another field
+· It will perform the needed joins when sorting / grouping By
+
+##### HasMany
+· This field, will display all the hasMany models related, imploding the name with a `, `. By default it will use the `name` field on the relation, you can change it with `relationShipDisplayField($field)`
+· This field is not filterable neither groupable
+
+##### HasOne
+· It provides the `defaultJoin()` option to perform the join in every query
+· It is not filterable neither groupable
+
+##### Enum
+· It works for fields that are enum (consts) like a `status` or `type` 
+· There is the `options()` function where you define the array of `[["value" => "displayName"]]` that will be used to display and filter
+
+##### Icon
+· A simple field, that will show the fontawesome icon using the `field` value as icon name  
+
+#### Create your ExportField
+You can create your own Export Fields by just extending any of the previous fields, or the main `Sidecar\ExportFields\ExportField`
+
 
 
 ### Widgets
