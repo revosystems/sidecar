@@ -40,7 +40,7 @@ class Number extends ExportField
     public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values): EloquentBuilder
     {
         if ($values['value'] == null) { return $query; }
-        var_dump($values['operand'], $values['value']);
+        //dd($values['operand'], $values['value']);
         return $query->where($this->databaseTable().'.'.$key, $values['operand'], $values['value']);
     }
 }

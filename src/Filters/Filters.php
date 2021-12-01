@@ -20,10 +20,11 @@ class Filters
     public $limit = null;
 
     public function __construct() {
-        $this->requestFilters = request('filters');
+        $this->requestFilters = $this->cleanupFilters(request('filters'));
         $this->dates          = request('dates');
         $this->groupBy        = new GroupBy(request('groupBy'));
         $this->sort           = new Sort(request('sort'), request('sort_order'));
+
     }
 
     //======================================================================
@@ -123,7 +124,7 @@ class Filters
 
     protected function fieldFor($fields, $filterField) :?ExportField {
         return $fields->first(function(ExportField $field) use($filterField){
-            return $field->getFilterField() == $filterField;
+            return $field->filterable && $field->getFilterField() == $filterField;
         });
     }
 
@@ -226,5 +227,12 @@ class Filters
 
         $sort = $this->sort->field ? "sort={$this->sort->field}&sort_order={$this->sort->order}" : null;
         return collect([$dates, $filters, $groupings, $sort])->filter()->implode("&");
+    }
+
+    private function cleanupFilters(array $filters): array
+    {
+        return collect($filters)->reject(function ($value, $key) {
+            return isset($value['operand']) && (!isset($value['value']) || $value['value'] == null);
+        })->all();
     }
 }

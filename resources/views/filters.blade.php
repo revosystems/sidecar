@@ -4,7 +4,7 @@
         <input type="hidden" name="sort_order" value="{{request('sort_order')}}">
 
         <div>
-            @foreach($report->availableFilters()->sort() as $field)
+            @foreach($report->availableFilters() as $field)
                 @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date-new')
             @endforeach
             @if ($report->isComparable())
@@ -21,7 +21,7 @@
             <div class="dropdown-container p-4 mt-2">
                 <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'filters') }}</div>
                 <div class="">
-                    @foreach($report->availableFilters()->sort() as $field)
+                    @foreach($report->availableFilters() as $field)
                         @if (!($field instanceof Revo\Sidecar\ExportFields\Date))
                             <div class="mt-4"> @include('sidecar::filters.filter') </div>
                         @endif

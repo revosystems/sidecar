@@ -5,13 +5,12 @@ namespace Revo\Sidecar\ExportFields;
 use App\Models\EloquentBuilder;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
-use function GuzzleHttp\Psr7\_parse_request_uri;
 
 class Id extends Number
 {
     public static function make($field = 'id', $title = null, $dependsOnField = null)
     {
-        return parent::make($field, $title, $dependsOnField)->onGroupingBy('count');
+        return parent::make($field, $title, $dependsOnField)->onGroupingBy('count')->icon('bullseye');
     }
 
     public function getTitle(): string
