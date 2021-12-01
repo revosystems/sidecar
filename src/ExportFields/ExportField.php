@@ -136,18 +136,18 @@ class ExportField
         return $this;
     }
 
-    public function comparable(string $comparable = 'total') : self
-    {
-        $this->comparable = $comparable;
-        return $this;
-    }
-
     public function groupableWithGraph($aggregatedField = 'total', $type = 'bar') : self
     {
         $this->groupable = true;
         $this->groupableWithChart = true;
         $this->groupableAggregatedField = $aggregatedField;
         $this->groupableGraphType = $type;
+        return $this;
+    }
+
+    public function comparable(string $comparable = 'total') : self
+    {
+        $this->comparable = $comparable;
         return $this;
     }
 
