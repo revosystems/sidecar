@@ -338,4 +338,4 @@ class TopPaymentMethods extends Panel
 
     ...
 }
-```
+``
