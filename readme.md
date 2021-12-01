@@ -27,9 +27,8 @@ exportRoute			| sidecar.report.export		| When exporting, `sidecar` provides its 
 You can customize some runtime variables implementing the `serving callback`
 
 ```
-class AppServiceProvider extends ServiceProvider
-	
-	    public function boot() {
+class AppServiceProvider extends ServiceProvider	
+    public function boot() {
         Sidecar::$usesMultitenant = true;	// When true, all the caches and jobs will use the `auth()->user()->id` as prefix
 	    Sidecar::serving(function(){	
 	            \Revo\Sidecar\ExportFields\Date::$timezone = auth()->user()->timezone;							// The timezone to display the dates
