@@ -1,25 +1,10 @@
 <?php
 
-namespace Revo\Sidecar\Tests;
+namespace Tests;
 
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends BaseTestCase
 {
-  public function setUp(): void
-  {
-    parent::setUp();
-    // additional setup
-  }
-
-  protected function getPackageProviders($app)
-  {
-    return [
-      //BlogPackageServiceProvider::class,
-    ];
-  }
-
-  protected function getEnvironmentSetUp($app)
-  {
-    // perform environment setup
-  }
+    use CreatesApplication;
 }

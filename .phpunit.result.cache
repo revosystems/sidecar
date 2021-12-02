@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Revo\\Sidecar\\Tests\\Unit\\ReportTest::test_can_generate_a_simple_report":4,"Tests\\Feature\\ExampleTest::test_example":4},"times":{"Tests\\Unit\\ExampleTest::test_example":0.002,"Tests\\Feature\\ExampleTest::test_example":0.024}}
