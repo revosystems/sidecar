@@ -328,14 +328,14 @@ This dashboard panels will be cached until the next day, and will be loaded with
 
 #### Panel Type
 
-There are different types of `Panels`, `bar`, `list`, `trend` (default), and `pie`
+There are different types of `Panels` defined by the enum `PanelType`, `bar`, `list`, `trend` (default), and `pie`
 
 ```
 class TopPaymentMethods extends Panel
 {
     ...
 
-    public string $type = 'pie';
+    public PanelType $type = PanelType::pie;
 
     ...
 }

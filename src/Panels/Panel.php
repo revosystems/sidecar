@@ -9,9 +9,16 @@ use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Report;
 use Revo\Sidecar\Sidecar;
 
+enum PanelType : string {
+    case trend = 'trend';
+    case list = 'list';
+    case bar = 'bar';
+    case pie = 'pie';
+}
+
 abstract class Panel extends Report
 {
-    public string $type = 'trend';
+    public PanelType $type = PanelType::trend;
 
     public function __construct(string $title, Filters $filters = null)
     {
@@ -37,13 +44,13 @@ abstract class Panel extends Report
 
     public function renderCalculated() : string
     {
-//        Cache::forget($this->cacheKey());
+        //Cache::forget($this->cacheKey());
         return Cache::remember($this->cacheKey(), now()->endOfDay(), function(){
             $results = $this->get();
             $metric = $this->metricField();
             //dd($this->getValues($results), $this->getLabels($results));
 
-            return view("sidecar::panels.{$this->type}", [
+            return view("sidecar::panels.{$this->type->value}", [
                 "panel"  => $this,
                 "last"   => $metric->toHtml($results->last()),
                 "values" => $this->getValues($results),
