@@ -6,5 +6,5 @@
     @endforeach
 </select>
 <input id="{{$field->getFilterField()}}" type="number" name="filters[{{$field->getFilterField()}}][value]"
-       style="width: 240px"
+       style="width: 241px"
        value="{{data_get($filterValues, 'value', '')}}">

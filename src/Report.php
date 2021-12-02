@@ -7,13 +7,11 @@ namespace Revo\Sidecar;
 // [ ] Widgets => comprasion value in % with same period before
 // [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
 // [ ] Calculate as job
-// [ ] Belongs to through searchable
-// [ ] Belongs to Throug => link to next depth
 // [ ] Belongs to throug => with left join no ho ha fet?
 // [ ] Date depth hour => filtear per data i hores, sense agrupar llavors
 // [ ] Poder omplir tots els dies (amb 0)
 // [ ] Panel => comparable
-// ID sortable when grouping by, no ho fa bé
+// [ ]Export, borrar els vells
 // https://apps.shopify.com/advanced-reports?locale=es
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ
 

@@ -8,8 +8,8 @@ use App\Models\Menu\MenuItem;
 class ModelsController
 {
     public function search($model, $field = 'name'){
-        return $model::where($field,'like',"%" . request("search") . "%")
-            ->limit(150)
+        return (request('search') != '' ? $model::where($field,'like',"%" . request("search") . "%") : $model::query())
+            ->limit(100)
             ->pluck($field, 'id')->map(function($value, $key){
                 return ["id" => $key, "name" => $value];
             });
