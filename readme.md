@@ -4,7 +4,7 @@
 
 `composer require revosystems/sidecar`
 
-> You need to have `tailwind 2.x`, `JQuery` and `apline 3.x in you main template
+> You need to have `tailwind 2.x`, `JQuery` and `apline 3.x` in you main template
 
 
 ### Configuration
