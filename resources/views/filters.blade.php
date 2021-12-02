@@ -3,16 +3,16 @@
         <input type="hidden" name="sort" value="{{request('sort')}}">
         <input type="hidden" name="sort_order" value="{{request('sort_order')}}">
 
-        <div class="inline">
+        <div class="flex flex-row justify-left">
             @foreach($report->availableFilters() as $field)
-                @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date-new')
+                @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date')
             @endforeach
             @if ($report->isComparable())
                 @include('sidecar::filters.dateCompare')
             @endif
             @include('sidecar::filters.groupBy')
+            @include('sidecar::filters.manage')
         </div>
-        @include('sidecar::filters.manage')
         @include('sidecar::filters.applied')
         <div class="mt-4">
             <button class="button primary">

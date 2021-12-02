@@ -1,6 +1,6 @@
-<div class="inline">
+<div class="flex flex-row space-x-2 align-middle">
     @if($field->getIcon())
-        <i class="fa fa-{{$field->getIcon()}} fa-fw"></i>
+        <i class="fa fa-{{$field->getIcon()}} fa-fw mt-2"></i>
     @else
         {{ $field->getTitle() }}
     @endif

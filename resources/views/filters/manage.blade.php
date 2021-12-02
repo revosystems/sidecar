@@ -1,9 +1,9 @@
-<div class="mt-4 ml-4 inline" x-data="{ isOpen: false }">
+<div class="relative" x-data="{ isOpen: false }">
     <a class="button secondary" @click="isOpen = !isOpen">
         @icon(filter)
         {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
     </a>
-    <div class="p-4 mt-2 ml-12 absolute bg-white shadow-xl" @click.outside="isOpen = false" x-cloak x-show.transition="isOpen">
+    <div class="p-4 absolute bg-white shadow-xl z-50" x-cloak x-show.transition="isOpen">
         <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'filters') }}</div>
         <div class="">
             @foreach($report->availableFilters() as $field)
