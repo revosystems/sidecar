@@ -12,35 +12,14 @@
             @endif
             @include('sidecar::filters.groupBy')
         </div>
-
-        <div class="mt-4 ml-4 inline">
-            <a class="button secondary dropdown">
-                @icon(filter)
-                {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
-            </a>
-            <div class="dropdown-container p-4 mt-2 ml-12">
-                <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'filters') }}</div>
-                <div class="">
-                    @foreach($report->availableFilters() as $field)
-                        @if (!($field instanceof Revo\Sidecar\ExportFields\Date))
-                            <div class="mt-4"> @include('sidecar::filters.filter') </div>
-                        @endif
-                    @endforeach
-                    <div class="text-right mt-4 -mr-4">
-                        <button class="button secondary">
-                            <i class="fa fa-filter fa-fw"></i>
-                            {{ __(config('sidecar.translationsPrefix').'filter') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-           @include('sidecar::filters.applied')
-            <div class="mt-4">
-                <button class="button primary">
+        @include('sidecar::filters.manage')
+        @include('sidecar::filters.applied')
+        <div class="mt-4">
+            <button class="button primary">
 {{--                    <i class="fa fa-filter fa-fw"></i>--}}
-                    {{ __(config('sidecar.translationsPrefix').'apply') }}
-                </button>
-            </div>
+                {{ __(config('sidecar.translationsPrefix').'apply') }}
+            </button>
         </div>
     </form>
+
 </div>

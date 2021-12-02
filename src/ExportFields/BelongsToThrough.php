@@ -134,4 +134,10 @@ class BelongsToThrough extends ExportField
     {
         return $this->pivot()->getRelated()->getTable();
     }
+
+    public function searchableRoute() : string
+    {
+        $searchClass = get_class($this->pivot()->getRelated()->{$this->field}()->getRelated());
+        return route('sidecar.search.model', ["model" => $searchClass, "field" => $this->relationShipField]);
+    }
 }

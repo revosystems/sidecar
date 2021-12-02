@@ -1,38 +1,40 @@
 <a class="secondary button" onclick="shiftInterval(-1)"><</a>
-<a class="button secondary dropdown">
-    @icon(calendar)
-    {{ $report->filters->dateFilterTitleFor($field) }}
-</a>
-<div class="dropdown-container ml-4 p-4">
-    <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'dateRange') }}</div>
-    <select id=date-range-{{$field->getFilterField()}} name="dates[{{$field->getFilterField()}}][period]" style="width: 300px;">
-        @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
-            <option value="{{$range}}"
-                    @if($report->filters->datePeriodFilterFor($field) == $range) selected @endif
-                    x-period-start="{{$period->start->toDateString()}}"
-                    x-period-end="{{$period->end->toDateString()}}">
-                {{ __(config('sidecar.translationsPrefix').$range) }}
-            </option>
-        @endforeach
-        <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) selected @endif>{{ __('admin.custom') }} </option>
-    </select>
-    <div class="grid">
-        <div id="custom-date-range" class="  @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else hidden @endif">
-            <div class="text-gray-400 uppercase mb-2 mt-4">{{ __(config('sidecar.translationsPrefix').'custom') }}</div>
-            @icon(calendar)
-            <input type="date" id="start_date"
-                   name="dates[{{$field->getFilterField()}}][start]"
-                   value="{{$report->filters->dateFilterStartFor($field)}}">
+<div x-data="{ isOpen: false }" class="inline">
+    <a class="button secondary" @click="isOpen = !isOpen">
+        @icon(calendar)
+        {{ $report->filters->dateFilterTitleFor($field) }}
+    </a>
+    <div class="ml-4 p-4 absolute bg-white shadow-xl" @click.outside="isOpen = false" x-cloak x-show.transition="isOpen">
+        <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'dateRange') }}</div>
+        <select id=date-range-{{$field->getFilterField()}} name="dates[{{$field->getFilterField()}}][period]" style="width: 300px;">
+            @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
+                <option value="{{$range}}"
+                        @if($report->filters->datePeriodFilterFor($field) == $range) selected @endif
+                        x-period-start="{{$period->start->toDateString()}}"
+                        x-period-end="{{$period->end->toDateString()}}">
+                    {{ __(config('sidecar.translationsPrefix').$range) }}
+                </option>
+            @endforeach
+            <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) selected @endif>{{ __('admin.custom') }} </option>
+        </select>
+        <div class="grid">
+            <div id="custom-date-range" class="  @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else hidden @endif">
+                <div class="text-gray-400 uppercase mb-2 mt-4">{{ __(config('sidecar.translationsPrefix').'custom') }}</div>
+                @icon(calendar)
+                <input type="date" id="start_date"
+                       name="dates[{{$field->getFilterField()}}][start]"
+                       value="{{$report->filters->dateFilterStartFor($field)}}">
 
-            <input type="date" id="end_date"
-                   name="dates[{{$field->getFilterField()}}][end]"
-                   value="{{$report->filters->dateFilterEndFor($field)}}">
+                <input type="date" id="end_date"
+                       name="dates[{{$field->getFilterField()}}][end]"
+                       value="{{$report->filters->dateFilterEndFor($field)}}">
 
-            <div class="mt-4 text-right">
-                <button id="filter_date_button" class="button">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
-                    {{ __('admin.filter') }}
-                </button>
+                <div class="mt-4 text-right">
+                    <button id="filter_date_button" class="button">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                        {{ __('admin.filter') }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
