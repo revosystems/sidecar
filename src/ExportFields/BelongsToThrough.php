@@ -53,10 +53,15 @@ class BelongsToThrough extends ExportField
         return $this;
     }
 
-    public function filterOptions() : array
+    public function filterOptions(?Filters $filters = null) : array
     {
         if (!$this->filterOptions) {
-            $this->filterOptions = $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
+            if ($this->filterSearchable) {
+                $in = ($filters ?? new Filters())->filtersFor($this->getFilterField());
+                $this->filterOptions = $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->whereIn('id', $in)->get()->pluck($this->relationShipField, 'id')->all();
+            }else {
+                $this->filterOptions = $this->pivot()->getRelated()->{$this->field}()->getRelated()->with($this->relationShipWith)->get()->pluck($this->relationShipField, 'id')->all();
+            }
         }
         return $this->filterOptions;
     }

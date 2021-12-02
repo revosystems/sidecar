@@ -21,15 +21,15 @@
             <div class="grid">
                 <div id="custom-date-range" class="@if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else hidden @endif">
                     <div class="text-gray-400 uppercase mb-2 mt-4">{{ __(config('sidecar.translationsPrefix').'custom') }}</div>
-                    @icon(calendar)
-                    <input type="date" id="start_date"
-                           name="dates[{{$field->getFilterField()}}][start]"
-                           value="{{$report->filters->dateFilterStartFor($field)}}">
+                    <div class="flex flex-row space-x-2">
+                        <input type="date" id="start_date" style="width:145px"
+                               name="dates[{{$field->getFilterField()}}][start]"
+                               value="{{$report->filters->dateFilterStartFor($field)}}">
 
-                    <input type="date" id="end_date"
-                           name="dates[{{$field->getFilterField()}}][end]"
-                           value="{{$report->filters->dateFilterEndFor($field)}}">
-
+                        <input type="date" id="end_date" style="width:145px"
+                               name="dates[{{$field->getFilterField()}}][end]"
+                               value="{{$report->filters->dateFilterEndFor($field)}}">
+                    </div>
                     <div class="mt-4 text-right">
                         <button id="filter_date_button" class="button">
                             <i class="fa fa-filter" aria-hidden="true"></i>

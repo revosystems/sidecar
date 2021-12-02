@@ -24,10 +24,11 @@
         <div class="grid">
             <div id="compare-custom-date-range" class="@if($compare->period == 'custom' || $compare->period == null) @else hidden @endif">
                 <div class="text-gray-400 uppercase mb-2 mt-4">{{ __(config('sidecar.translationsPrefix').'custom') }}</div>
-                @icon(calendar)
-                <input type="date" name="compare[start]" id="compare_start_date" value="{{$compare->start}}">
-                <input type="date" name="compare[end]"   id="compare_end_date"   value="{{$compare->end}}">
-                <input id="shouldCompare" hidden name="shouldCompare" value="false">
+                <div class="flex flex-row space-x-2">
+                    <input style="width:145px" type="date" name="compare[start]" id="compare_start_date" value="{{$compare->start}}">
+                    <input style="width:145px" type="date" name="compare[end]"   id="compare_end_date"   value="{{$compare->end}}">
+                    <input id="shouldCompare" hidden name="shouldCompare" value="false">
+                </div>
 
                 <div class="mt-6 text-right mb-1">
                     <a id="compare_date_button" class="button p-2" onclick="$('#shouldCompare').val('true'); $('#sidecar-form').submit(); ">
