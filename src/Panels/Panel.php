@@ -22,8 +22,8 @@ abstract class Panel extends Report
     protected function getFields(): array
     {
         return [
-            $this->dimensionField(),
-            $this->metricField()
+            $this->dimensionField()->groupable(),
+            $this->metricField()->sortable()
         ];
     }
 

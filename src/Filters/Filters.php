@@ -124,7 +124,7 @@ class Filters
 
     protected function fieldFor($fields, $filterField) :?ExportField {
         return $fields->first(function(ExportField $field) use($filterField){
-            return $field->filterable && $field->getFilterField() == $filterField;
+            return ($field->filterable || $field->groupable || $field->sortable) && $field->getFilterField() == $filterField;
         });
     }
 
