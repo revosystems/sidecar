@@ -3,7 +3,7 @@
     "description": "Laravel report tool",
     "type": "library",
     "require": {
-        "php": "^7.3",
+        "php": "^8.0",
         "laravel/framework": "8.x"
     },
     "license": "MIT",
