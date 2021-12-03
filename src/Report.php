@@ -13,7 +13,6 @@ namespace Revo\Sidecar;
 // [ ] Panel => comparable
 // [ ]Export, borrar els vells
 // [ ] Comparar quarter 2 vs quarter 3 no xuta
-// [ ] FilterOnClick => belongs to, belongs to throught no funcionen
 // [ ] Ha fallat l'export
 
 // https://apps.shopify.com/advanced-reports?locale=es

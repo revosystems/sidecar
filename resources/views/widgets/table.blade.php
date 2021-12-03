@@ -44,7 +44,9 @@
     @push(config('sidecar.scripts-stack'))
         <script>
             function filterOnClick(field, value){
-                $("#" + field).val(value);
+                //$("#" + field).val(value);
+                //When it is ajax, the option does not exist in the select
+                $("#" + field).append('<option value="'+ value + '" selected="selected">'+value+'</option>');
                 $("#sidecar-form").submit();
             }
 
