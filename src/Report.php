@@ -12,6 +12,10 @@ namespace Revo\Sidecar;
 // [ ] Poder omplir tots els dies (amb 0)
 // [ ] Panel => comparable
 // [ ]Export, borrar els vells
+// [ ] Comparar quarter 2 vs quarter 3 no xuta
+// [ ] FilterOnClick => belongs to, belongs to throught no funcionen
+// [ ] Ha fallat l'export
+
 // https://apps.shopify.com/advanced-reports?locale=es
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ
 
