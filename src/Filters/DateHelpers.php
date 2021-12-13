@@ -59,16 +59,16 @@ class DateHelpers
             return CarbonPeriod::since(now()->startOfYear())->until(now()->endOfDay());
         }
         if($range == '1quarter') {
-            return CarbonPeriod::since(now()->startOfYear())->until(now()->endOfDay());
+            return CarbonPeriod::since(now()->startOfYear())->until(now()->startOfYear()->addQuarter());
         }
         if($range == '2quarter') {
-            return CarbonPeriod::since(now()->startOfYear())->until(now()->endOfDay());
+            return CarbonPeriod::since(now()->startOfYear()->addQuarters(1))->until(now()->startOfYear()->addQuarters(2));
         }
         if($range == '3quarter') {
-            return CarbonPeriod::since(now()->startOfYear())->until(now()->endOfDay());
+            return CarbonPeriod::since(now()->startOfYear()->addQuarters(2))->until(now()->startOfYear()->addQuarters(3));
         }
         if($range == '4quarter') {
-            return CarbonPeriod::since(now()->startOfYear())->until(now()->endOfDay());
+            return CarbonPeriod::since(now()->startOfYear()->addQuarters(3))->until(now()->startOfYear()->addQuarters(4));
         }
         return CarbonPeriod::since(now()->startOfDay())->until(now()->endOfDay());
     }
