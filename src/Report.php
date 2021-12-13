@@ -11,8 +11,7 @@ namespace Revo\Sidecar;
 // [ ] Date depth hour => filtear per data i hores, sense agrupar llavors
 // [ ] Poder omplir tots els dies (amb 0)
 // [ ] Panel => comparable
-// [ ]Export, borrar els vells
-// [ ] Comparar quarter 2 vs quarter 3 no xuta
+// [ ] Export, borrar els vells
 // [ ] Ha fallat l'export
 // [ ] Al Date::businessRange fa servir getPArsedUTCDate que no esta al projecte
 //
