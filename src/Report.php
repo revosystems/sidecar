@@ -14,6 +14,8 @@ namespace Revo\Sidecar;
 // [ ]Export, borrar els vells
 // [ ] Comparar quarter 2 vs quarter 3 no xuta
 // [ ] Ha fallat l'export
+// [ ] Al Date::businessRange fa servir getPArsedUTCDate que no esta al projecte
+//
 
 // https://apps.shopify.com/advanced-reports?locale=es
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ

@@ -86,4 +86,9 @@ class Date extends ExportField
 
         return Carbon::parse($date, static::timezone)->utc();
     }
+
+    public static function offsetHours() : int
+    {
+        return Carbon::now(static::timezone)->offsetHours;
+    }
 }
