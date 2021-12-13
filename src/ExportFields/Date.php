@@ -14,6 +14,7 @@ class Date extends ExportField
     static $timezone = "Europe/Madrid";
     static $openingTime = "00:00:00";
     public ?string $icon = 'calendar';
+    public $timeFilterable = false;
 
     public function getValue($row)
     {
@@ -27,6 +28,12 @@ class Date extends ExportField
             return $this->showAs($this->getCarbonDate($value), $filters->groupBy->groupings[$this->field]);
         }
         return $this->getNonGroupedValue($value);
+    }
+
+    public function timeFilterable($timeFilterable = true) : self
+    {
+        $this->timeFilterable = $timeFilterable;
+        return $this;
     }
 
     public function getNonGroupedValue($value) : string {

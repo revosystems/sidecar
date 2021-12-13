@@ -168,8 +168,12 @@ class Filters
     public function applyTimeFilter($query, $key, $values)
     {
         $offsetHours = Date::offsetHours();
-        return $query->whereRaw("TIME(DATE_ADD(" . $key . ", INTERVAL {$this->offsetHours} HOUR)) > '{$values['start_time']}'");
-        return $query->whereRaw("TIME(DATE_ADD(" . $key . ", INTERVAL {$this->offsetHours} HOUR)) < '{$values['end_time']}'");
+        if ($start = $values['start_time']) {
+            $query->whereRaw("TIME(DATE_ADD(" . $key . ", INTERVAL {$this->offsetHours} HOUR)) > '{$start}'");
+        }
+        if ($end = $values['end_time']) {
+            $query->whereRaw("TIME(DATE_ADD(" . $key . ", INTERVAL {$this->offsetHours} HOUR)) < '{$end}'");
+        }
     }
 
     public function addJoins($query, $fields) : self

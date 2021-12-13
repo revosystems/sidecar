@@ -10,7 +10,11 @@
             @foreach($report->availableFilters() as $field)
                 @if (!($field instanceof Revo\Sidecar\ExportFields\Date))
                     <tr class="h-10">@include('sidecar::filters.filter')</tr>
+                @elseif($field->timeFilterable)
+                    <tr class="h-10">@include('sidecar::filters.filter')</tr>
                 @endif
+
+
             @endforeach
             </table>
             <div class="text-right mt-4 mr-4">
