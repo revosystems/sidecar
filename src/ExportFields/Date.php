@@ -65,9 +65,11 @@ class Date extends ExportField
         $businessRange = static::businessRange($values['start'], $values['end']);
 
         if (!Str::contains($key, config('database.connections.mysql.prefix'))){
-            return $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $businessRange);
+            $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $businessRange);
+            return $filters->applyTimeFilter($query, $this->databaseTable().'.'.$key, $values);
         }
-        return $filters->applyDateFilter($query, str_replace(config('database.connections.mysql.prefix'), "", $key), $businessRange);
+        $filters->applyDateFilter($query, str_replace(config('database.connections.mysql.prefix'), "", $key), $businessRange);
+        return $filters->applyTimeFilter($query, str_replace(config('database.connections.mysql.prefix'), "", $key), $values);
     }
 
 
@@ -96,6 +98,6 @@ class Date extends ExportField
 
     public static function offsetHours() : int
     {
-        return Carbon::now(static::timezone)->offsetHours;
+        return Carbon::now(static::$timezone)->offsetHours;
     }
 }

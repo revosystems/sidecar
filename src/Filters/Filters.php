@@ -7,6 +7,7 @@ use BadChoice\Thrust\Actions\Export;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
 use Illuminate\Support\Facades\DB;
@@ -168,12 +169,18 @@ class Filters
     public function applyTimeFilter($query, $key, $values)
     {
         $offsetHours = Date::offsetHours();
-        if ($start = $values['start_time']) {
-            $query->whereRaw("TIME(DATE_ADD(" . $key . ", INTERVAL {$this->offsetHours} HOUR)) > '{$start}'");
+        if (!Str::contains($key, config('database.connections.mysql.prefix'))){
+            $key = config('database.connections.mysql.prefix') . $key;
         }
-        if ($end = $values['end_time']) {
-            $query->whereRaw("TIME(DATE_ADD(" . $key . ", INTERVAL {$this->offsetHours} HOUR)) < '{$end}'");
+        if ($start = $values['start_time'] ?? null) {
+            $start = Carbon::parse($start)->subHours($offsetHours)->toTimeString();
+            $query->whereRaw("TIME(" . $key . ") > '{$start}'");
         }
+        if ($end = $values['end_time'] ?? null) {
+            $end = Carbon::parse($end)->subHours($offsetHours)->toTimeString();
+            $query->whereRaw("TIME(" . $key . ") < '{$end}'");
+        }
+        return $query;
     }
 
     public function addJoins($query, $fields) : self

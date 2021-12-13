@@ -136,6 +136,7 @@ onTable()			   | There are some fields that are on another table (after a join) 
 · This field allows different grouping by options (hour, day, dayOfWeek, week, month, quarter)
 · When enabling the filterable, by default uses the last 7 days
 · The filterOnClick option, performs a depth grouping filter, so if you group by month, and you click Novemeber, it will filter just november, grouping by week
+· Date field also comes with a `timeFilterable()` that shows a time frame filter as well
 
 ##### Computed
 · This field allows you to perform operations on the field, for example `Computed::make('guests/total')` 
