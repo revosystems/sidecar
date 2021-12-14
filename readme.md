@@ -125,6 +125,8 @@ onTable()			   | There are some fields that are on another table (after a join) 
 · It will align the row to the right
 · When grouping by, by default will do a sum (you can change to it with the `onGroupingBy()` funciton)
 · When filtering it will allow you to chose the operator and the amount
+· It provides the function `trimZeros()` that will remove the trailing zeros of decimal values
+
 
 ##### Decimal
 · Extends from number
