@@ -29,13 +29,12 @@
                     <input style="width:145px" type="date" name="compare[end]"   id="compare_end_date"   value="{{$compare->end}}">
                     <input id="shouldCompare" hidden name="shouldCompare" value="false">
                 </div>
-
-                <div class="mt-6 text-right mb-1">
-                    <a id="compare_date_button" class="button p-2" onclick="$('#shouldCompare').val('true'); $('#sidecar-form').submit(); ">
-                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                        {{ __('admin.compare') }}
-                    </a>
-                </div>
+            </div>
+            <div class="mt-6 text-right mb-1">
+                <a id="compare_date_button" class="button p-2" onclick="$('#shouldCompare').val('true'); $('#sidecar-form').submit(); ">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                    {{ __('admin.compare') }}
+                </a>
             </div>
         </div>
     </div>

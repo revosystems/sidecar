@@ -14,7 +14,7 @@
             @include('sidecar::filters.manage')
         </div>
         @include('sidecar::filters.applied')
-        <div class="mt-4">
+        <div id='sidecar-apply-button' class="mt-4 hidden">
             <button class="button primary">
 {{--                    <i class="fa fa-filter fa-fw"></i>--}}
                 {{ __(config('sidecar.translationsPrefix').'apply') }}
