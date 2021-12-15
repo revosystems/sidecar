@@ -46,8 +46,8 @@
             function filterOnClick(field, value){
                 //$("#" + field).val(value);
                 //When it is ajax, the option does not exist in the select
-                document.getElementById(field).append('<option value="'+ value + '" selected="selected">'+value+'</option>');
-                document.getElementById("sidecar-form").submit()
+                $('#' + field).append('<option value="'+ value + '" selected="selected">'+value+'</option>');
+                $("#sidecar-form").submit()
             }
 
             function dateInDepth(field, value, start, end){

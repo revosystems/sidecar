@@ -44,7 +44,7 @@ abstract class Panel extends Report
 
     public function renderCalculated() : string
     {
-        //Cache::forget($this->cacheKey());
+//        Cache::forget($this->cacheKey());
         return Cache::remember($this->cacheKey(), now()->endOfDay(), function(){
             $results = $this->get();
             $metric = $this->metricField();
