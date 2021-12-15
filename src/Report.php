@@ -15,8 +15,6 @@ namespace Revo\Sidecar;
 // [ ] Al Date::businessRange fa servir getPArsedUTCDate que no esta al projecte
 // [ ] Filter on click no va!
 // [ ] Tooltips a cada field
-// [ ] ContentsReport => filtrar per tipus d'item
-// [ ] invoice number filterable (rollo text)
 //
 
 // https://apps.shopify.com/advanced-reports?locale=es

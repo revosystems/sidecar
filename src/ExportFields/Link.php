@@ -2,7 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-class Link extends ExportField
+class Link extends Text
 {
     public function getLinkTitle($row) : string {
         return $this->getValue($row);
