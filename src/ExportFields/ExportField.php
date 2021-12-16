@@ -247,6 +247,7 @@ class ExportField
 
     public function filterOnClick() : self {
         $this->filterOnClick = true;
+        $this->filterable = true;
         return $this;
     }
 

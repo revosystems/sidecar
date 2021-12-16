@@ -10,8 +10,8 @@ class HasMany extends ExportField
     protected string $relationShipField = 'name';
     protected array $relationShipWith = [];
 
-    protected ?string $route = null;
-    protected ?string $linkClasses = null;
+//    public ?string $route = null;
+//    protected ?string $linkClasses = null;
     protected bool $count = true;
 
     public function getValue($row)
@@ -33,7 +33,7 @@ class HasMany extends ExportField
         return $this->databaseTableFull() . '.id';
     }
 
-    private function foreingKey() : string {
+    protected function foreingKey() : string {
         return $this->relation()->getForeignKeyName();
     }
 
