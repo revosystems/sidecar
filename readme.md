@@ -117,6 +117,8 @@ hidden()			   | To not display the field
 filterOnClick()		   | Some fields can add a link when clicked that filters the report for its value
 route()				   | You can define a route that will be linked (using the field as the parameter)
 onTable()			   | There are some fields that are on another table (after a join) you can define the table with this function (usualy goes along with a `HasOne::defaultJoin`)
+withTooltip()         | You can give a tooltip to the fields that will be shown in the header to explain a bit more about it
+
 
 ##### Text
 · When filtering it will perform a `like` and you can enter you custom search text

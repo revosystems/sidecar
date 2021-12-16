@@ -89,8 +89,8 @@ class Date extends ExportField
         $end         =  ! $end  ? $start->copy() : Carbon::parse($end);
         $openingTime = static::$openingTime;
         return [
-            getParsedUTCDate($start->toDateString() . ' ' . $openingTime),
-            getParsedUTCDate($end->toDateString() . ' ' . $openingTime)->addDay()
+            static::getParsedUTCDate($start->toDateString() . ' ' . $openingTime),
+            static::getParsedUTCDate($end->toDateString() . ' ' . $openingTime)->addDay()
         ];
 
         return Carbon::parse($date, static::timezone)->utc();
@@ -99,5 +99,10 @@ class Date extends ExportField
     public static function offsetHours() : int
     {
         return Carbon::now(static::$timezone)->offsetHours;
+    }
+
+    static function getParsedUTCDate($date)
+    {
+        return Carbon::parse($date, static::$timezone)->utc();
     }
 }

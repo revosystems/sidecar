@@ -14,6 +14,7 @@ class ExportField
     public    $field;
     protected $dependsOnField;
     protected $title;
+    protected ?string $tooltip = null;
     public ?string $icon = null;
 
     public bool $filterable = false;
@@ -49,6 +50,10 @@ class ExportField
 
     public function getTitle() : string {
         return $this->title;
+    }
+
+    public function getTooltip() : ?string {
+        return $this->tooltip;
     }
 
     public function getIcon() :?string {
@@ -184,6 +189,12 @@ class ExportField
             return $this->onGroupingBy != null || $filters->groupBy->isGroupingBy($this->getFilterField());
         }
         return !$this->onlyWhenGrouping;
+    }
+
+    public function withTooltip($tooltip) : self
+    {
+        $this->tooltip = $tooltip;
+        return $this;
     }
 
     public function onTable(?string $table) : self

@@ -12,9 +12,6 @@ namespace Revo\Sidecar;
 // [ ] Poder omplir tots els dies (amb 0)
 // [ ] Panel => comparable
 // [ ] Export, borrar els vells
-// [ ] Al Date::businessRange fa servir getPArsedUTCDate que no esta al projecte
-// [ ] Filter on click no va!
-// [ ] Tooltips a cada field
 //
 
 // https://apps.shopify.com/advanced-reports?locale=es

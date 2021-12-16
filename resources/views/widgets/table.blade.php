@@ -7,23 +7,9 @@
         <tr>
         @foreach($fields as $field)
             <th class="sidecar-th {{ $field->getTDClasses() }}">
-                @if ($field->sortable)
-                    @if($report->filters->sort->field == $field->getFilterField())
-                        @if (strtolower($report->filters->sort->order) == 'desc')
-                            <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'ASC') }}' class='bg-gray-200 rounded px-2 py-1 text-black'> {{ $field->getTitle() }} ▼ </a>
-                        @else
-                            <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class='bg-gray-200 rounded px-2 py-1 text-black'> {{ $field->getTitle() }} ▲ </a>
-                        @endif
-                    @else
-                        <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class=''> {{ $field->getTitle() }} </a>
-                    @endif
-
-
-                @else
-                    {{ $field->getTitle() }}
-                @endif
+               @include('sidecar::widgets.fieldHeader')
             </th>
-        @endforeach
+            @endforeach
         </tr></thead>
         <tbody>
         @foreach($rows as $row)
