@@ -1,5 +1,5 @@
 <div x-data="{ isOpen: false }" class="relative" >
-    <a class="secondary button" @click="isOpen = !isOpen">
+    <a class="secondary button" x-on:click="isOpen = !isOpen">
         <i class="fa fa-bar-chart" aria-hidden="true"></i>
         @if($compare->isComparing())
             {{ $compare->getTitle() }}
@@ -8,7 +8,7 @@
         @endif
     </a>
 
-    <div class="p-4 bg-white shadow-xl absolute z-50 mt-2" @click.outside="isOpen = false" x-cloak x-show.transition="isOpen">
+    <div class="p-4 bg-white shadow-xl absolute z-50 mt-2" x-on:click.outside="isOpen = false" x-cloak x-show.transition="isOpen">
         <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'dateRange') }}</div>
         <select id=date-range-compare name="compare[period]" style="width: 300px;">
             @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)

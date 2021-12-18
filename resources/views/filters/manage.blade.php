@@ -1,5 +1,5 @@
 <div class="relative" x-data="{ isOpen: false }">
-    <a class="button secondary" @click="isOpen = !isOpen">
+    <a class="button secondary" x-on:click="isOpen = !isOpen">
         @icon(filter)
         {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
     </a>

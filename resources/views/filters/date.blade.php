@@ -1,11 +1,11 @@
 <div class="relative flex flex-row relative">
     <div x-data="{ isOpen: false }">
     <a class="secondary button" onclick="shiftInterval(-1)"><</a>
-        <a class="button secondary" @click="isOpen = !isOpen">
+        <a class="button secondary" x-on:click="isOpen = !isOpen">
             @icon(calendar)
             {{ $report->filters->dateFilterTitleFor($field) }}
         </a>
-        <div class="p-4 absolute z-50 mt-2 bg-white shadow-xl" @click.outside="isOpen = false" x-cloak x-show="isOpen" x-transition>
+        <div class="p-4 absolute z-50 mt-2 bg-white shadow-xl" x-on:click.outside="isOpen = false" x-cloak x-show="isOpen" x-transition>
             <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'dateRange') }}</div>
             <select id=date-range-{{$field->getFilterField()}} name="dates[{{$field->getFilterField()}}][period]" style="width: 300px;">
                 @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
