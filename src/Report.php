@@ -12,6 +12,7 @@ namespace Revo\Sidecar;
 // [ ] Poder omplir tots els dies (amb 0)
 // [ ] Panel => comparable
 // [ ] Export, borrar els vells
+// [ ] Text, filterOnClick no xuta!
 //
 
 // https://apps.shopify.com/advanced-reports?locale=es
