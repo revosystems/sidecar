@@ -2,12 +2,12 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Revo\Sidecar\Filters\Filters;
 
 class Text extends ExportField
 {
-    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values): EloquentBuilder
+    public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
     {
         return parent::applySearch($filters, $query, $key, $values);
     }

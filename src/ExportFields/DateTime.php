@@ -2,7 +2,6 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use App\Models\EloquentBuilder;
 use Carbon\Carbon;
 use Revo\Sidecar\Filters\Filters;
 

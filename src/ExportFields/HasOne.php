@@ -2,7 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
 
@@ -32,7 +32,7 @@ class HasOne extends BelongsTo
         return "no-filterable";
     }
 
-    public function addJoin(EloquentBuilder $query, Filters $filters): EloquentBuilder
+    public function addJoin(Builder $query, Filters $filters): Builder
     {
         if (!$this->defaultJoin) { return $query; }
 

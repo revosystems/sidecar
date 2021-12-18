@@ -2,7 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use App\Reports\V2\OrdersReport;
 use Revo\Sidecar\Filters\GroupBy;
 use Revo\Sidecar\Filters\Filters;
@@ -73,7 +73,7 @@ class BelongsToThrough extends ExportField
         return data_get($row, "{$this->pivot}.{$foreignKey}");
     }
 
-    public function addJoin(EloquentBuilder $query, Filters $filters) : EloquentBuilder
+    public function addJoin(Builder $query, Filters $filters) : Builder
     {
         if (!$filters->isFilteringBy($this->getFilterField()) && !$filters->groupBy->isGroupingBy($this->getFilterField()) && $filters->sort->field != $this->getFilterField()) {
             return $query;
@@ -92,19 +92,19 @@ class BelongsToThrough extends ExportField
         return "{$this->pivot}.{$this->field}";
     }
 
-    public function applyGroupBy(Filters $filters, EloquentBuilder $query, $key, $type)
+    public function applyGroupBy(Filters $filters, Builder $query, $key, $type)
     {
         $pivot = $this->getPivotTable();
         $filters->groupBy->groupBy($query, config('database.connections.mysql.prefix').$pivot.'.'.$key, $type);
     }
 
-    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values): EloquentBuilder
+    public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
     {
         $pivot = $this->getPivotTable();
         return $filters->applyFilter($query, $pivot.'.'.$key, $values);
     }
 
-    public function applySort(Filters $filters, EloquentBuilder $query)
+    public function applySort(Filters $filters, Builder $query)
     {
         $pivot = $this->getPivotTable();
         $filters->sort->sort($query, config('database.connections.mysql.prefix').$pivot.'.'.$filters->sort->field);

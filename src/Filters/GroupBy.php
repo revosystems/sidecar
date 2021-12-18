@@ -45,30 +45,35 @@ class GroupBy
         if ($key == null) { return $query; }
         if ($type == 'hour') {
             return $query->groupBy(DB::raw("hour({$key})"))
-                /*->orderBy(DB::raw('hour(' . subTime($key, Date::$openingTime) . ')'), 'ASC')*/;
+                /*->orderBy(DB::raw('hour(' . $this->>subTime($key, Date::$openingTime) . ')'), 'ASC')*/;
         }
         if ($type == 'day') {
-            return $query->groupBy(DB::raw('date(' . subTime($key, Date::$openingTime) . ')'))
+            return $query->groupBy(DB::raw('date(' . $this->subTime($key, Date::$openingTime) . ')'))
                          /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'dayOfWeek') {
-            return $query->groupBy(DB::raw('dayofweek(' . subTime($key, Date::$openingTime) . ')'));
+            return $query->groupBy(DB::raw('dayofweek(' . $this->subTime($key, Date::$openingTime) . ')'));
         }
         if ($type == 'week') {
-            return $query->groupBy(DB::raw('yearweek(' . subTime($key, Date::$openingTime) . ')'))
-                           /*->groupBy(DB::raw('year(' . subTime($key, Date::$openingTime) . ')'))*/
+            return $query->groupBy(DB::raw('yearweek(' . $this->subTime($key, Date::$openingTime) . ')'))
+                           /*->groupBy(DB::raw('year(' . $this->>subTime($key, Date::$openingTime) . ')'))*/
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'month') {
-            return $query->groupBy(DB::raw('month(' . subTime($key, Date::$openingTime) . ')'))
-                          ->groupBy(DB::raw('year(' . subTime($key, Date::$openingTime) . ')'))
+            return $query->groupBy(DB::raw('month(' . $this->subTime($key, Date::$openingTime) . ')'))
+                          ->groupBy(DB::raw('year(' . $this->subTime($key, Date::$openingTime) . ')'))
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'quarter') {
-            return $query->groupBy(DB::raw('quarter(' . subTime($key, Date::$openingTime) . ')'))
-                          ->groupBy(DB::raw('year(' . subTime($key, Date::$openingTime) . ')'))
+            return $query->groupBy(DB::raw('quarter(' . $this->subTime($key, Date::$openingTime) . ')'))
+                          ->groupBy(DB::raw('year(' . $this->subTime($key, Date::$openingTime) . ')'))
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         return $query->groupBy(DB::raw($key));
+    }
+
+    function subTime($field, $time)
+    {
+        return "SUBTIME({$field}, '{$time}')";
     }
 }
