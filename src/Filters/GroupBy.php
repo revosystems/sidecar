@@ -2,7 +2,7 @@
 
 namespace Revo\Sidecar\Filters;
 
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Revo\Sidecar\ExportFields\Date;
 
@@ -33,14 +33,14 @@ class GroupBy
         return isset($this->groupings[$key]) && $this->groupings[$key] == $type;
     }
 
-    /*public function group($query) : EloquentBuilder {
+    /*public function group($query) : Builder {
         $this->groupings->each(function ($type, $key) use($query) {
            $this->groupBy($query, $key, $type);
         });
         return $query;
     }*/
 
-    public function groupBy($query, $key, $type) : EloquentBuilder
+    public function groupBy($query, $key, $type) : Builder
     {
         if ($key == null) { return $query; }
         if ($type == 'hour') {

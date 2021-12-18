@@ -19,7 +19,6 @@
 @push(config('sidecar.scripts-stack'))
     <script>
         $('#sidecar-groupby').change(function(){
-            console.log("here");
             $('#sidecar-apply-button').show('fast');
         });
     </script>

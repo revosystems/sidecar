@@ -7,6 +7,15 @@
 > You need to have `tailwind 2.x`, `JQuery` and `apline 3.x` in you main template
 
 
+Add the blades path to the tailwindcss config file
+
+```
+purge: [
+    ...
+    './vendor/revosystems/sidecar/**/*.blade.php',
+  ],
+```
+
 ### Configuration
 Publish the configuration tot adapt it to you project
 

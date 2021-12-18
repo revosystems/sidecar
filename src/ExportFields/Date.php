@@ -2,7 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Revo\Sidecar\Filters\Filters;
@@ -59,7 +59,7 @@ class Date extends ExportField
         return ['hour', 'day', 'dayOfWeek', 'week', 'month', 'quarter'];
     }
 
-    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
+    public function applyFilter(Filters $filters, Builder $query, $key, $values) : Builder
     {
         if (!$this->filterable) { return $query; }
         $businessRange = static::businessRange($values['start'], $values['end']);
