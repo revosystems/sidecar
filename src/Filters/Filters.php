@@ -2,11 +2,10 @@
 
 namespace Revo\Sidecar\Filters;
 
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use BadChoice\Thrust\Actions\Export;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
@@ -65,7 +64,7 @@ class Filters
     //======================================================================
     // LOGIC
     //======================================================================
-    public function apply($query, $fields) : EloquentBuilder {
+    public function apply($query, $fields) : Builder {
         $this->addFilters($query, $fields)
              ->addJoins($query, $fields)
              ->addGroups($query, $fields)

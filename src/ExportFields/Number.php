@@ -2,7 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use phpDocumentor\Reflection\Types\Parent_;
 use Revo\Sidecar\Filters\Filters;
 
@@ -55,7 +55,7 @@ class Number extends ExportField
         ];
     }
 
-    public function applySort(Filters $filters, EloquentBuilder $query)
+    public function applySort(Filters $filters, Builder $query)
     {
         if (!$filters->groupBy->isGrouping()){
             return parent::applySort($filters, $query);
@@ -63,7 +63,7 @@ class Number extends ExportField
         $filters->sort->sort($query, $filters->sort->field);
     }
 
-    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values): EloquentBuilder
+    public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
     {
         if ($values['value'] == null) { return $query; }
         //dd($values['operand'], $values['value']);

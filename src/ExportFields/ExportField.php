@@ -1,7 +1,7 @@
 <?php
 
 namespace Revo\Sidecar\ExportFields;
-use App\Models\EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\Filters\GroupBy;
@@ -265,28 +265,28 @@ class ExportField
     //============================================================
     // MARK: Filters
     //============================================================
-    public function applyFilter(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
+    public function applyFilter(Filters $filters, Builder $query, $key, $values) : Builder
     {
         return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
     }
 
-    public function applySearch(Filters $filters, EloquentBuilder $query, $key, $values) : EloquentBuilder
+    public function applySearch(Filters $filters, Builder $query, $key, $values) : Builder
     {
         return $filters->applySearch($query, $this->databaseTable().'.'.$key, $values);
     }
 
-    public function applyGroupBy(Filters $filters, EloquentBuilder $query, $key, $type)
+    public function applyGroupBy(Filters $filters, Builder $query, $key, $type)
     {
         $filters->groupBy->groupBy($query, $this->databaseTableFull().'.'.$key, $type);
     }
 
 
-    public function applySort(Filters $filters, EloquentBuilder $query){
+    public function applySort(Filters $filters, Builder $query){
 //        dd($this->databaseTableFull(), $filters->sort->field);
         $filters->sort->sort($query, $this->databaseTableFull().'.'.$filters->sort->field);
     }
 
-    public function addJoin(EloquentBuilder $query, Filters $filters) : EloquentBuilder
+    public function addJoin(Builder $query, Filters $filters) : Builder
     {
         return $query;
     }
