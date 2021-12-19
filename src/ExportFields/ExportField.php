@@ -245,9 +245,10 @@ class ExportField
         return $this;
     }
 
-    public function filterOnClick() : self {
+    public function filterOnClick($searchable = true) : self {
         $this->filterOnClick = true;
         $this->filterable = true;
+        $this->filterSearchable = true;
         return $this;
     }
 
