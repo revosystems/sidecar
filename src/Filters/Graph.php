@@ -28,7 +28,7 @@ class Graph
 
     public function doesApply(){
         return $this->report->filters->groupBy->groupings->count() > 0 && $this->report->filters->groupBy->groupings->count() < 3
-               && $this->dimensionField != null;
+            && $this->dimensionField != null;
     }
 
     public function getType() : string {
@@ -52,6 +52,11 @@ class Graph
         });
     }
 
+    public function findMetricFieldForOneGrouping(): ?ExportField
+    {
+        return $this->report->filters->fieldFor($this->report->fields(), $this->dimensionField->groupableAggregatedField);
+    }
+
     public function calculate() : self {
         if (!$this->doesApply()) { return $this; }
         if (!$this->results) {
@@ -71,10 +76,16 @@ class Graph
         $this->labels = $this->results->map(function($row){
             return $this->dimensionField->getValue($row);
         });
+        $metricField = $this->findMetricFieldForOneGrouping();
+        $metrics = $this->results->map(function($row) use($metricField){
+            return $metricField->getValue($row);
+        });
+
         $this->values = [
             [
                 "title" => "",
-                "values" => $this->results->pluck($this->dimensionField->groupableAggregatedField),
+                "values" => $metrics,
+//                "values" => $this->results->pluck($this->dimensionField->groupableAggregatedField), //now we find the export field
             ]
         ];
         return $this;
@@ -115,4 +126,6 @@ class Graph
     private function metric() : ?string{
         return $this->report->filters->groupBy->groupings->except($this->dimension())->keys()->last();
     }
+
+
 }

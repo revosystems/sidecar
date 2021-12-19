@@ -35,10 +35,4 @@ class Currency extends Number
         }
         return number_format($this->getValue($row), 2) . ' €';
     }
-
-    public function isNumeric() : bool
-    {
-        return true;
-    }
-
 }

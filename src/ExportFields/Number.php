@@ -8,7 +8,6 @@ use Revo\Sidecar\Filters\Filters;
 
 class Number extends ExportField
 {
-
     protected $trimZeros = false;
 
     public static function make($field, $title = null, $dependsOnField = null)
