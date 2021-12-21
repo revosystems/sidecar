@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false }" class="relative" >
+<div x-data="{ isOpen: false }" class="relative mx-2" >
     <a class="secondary button" x-on:click="isOpen = !isOpen">
         <i class="fa fa-bar-chart" aria-hidden="true"></i>
         @if($compare->isComparing())
