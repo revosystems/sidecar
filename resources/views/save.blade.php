@@ -1,10 +1,10 @@
-<div class="float-right mt-4 mr-2">
-    <a class="button secondary dropdown">
+<div class="float-right mt-4 mr-2" x-data="{open:false}">
+    <a class="button secondary relative" x-on:click="open=!open">
         <i class="fa fa-clone" aria-hidden="true"></i>
         {{ __(config('sidecar.translationsPrefix').'save') }}
     </a>
 
-    <div class="dropdown-container m-4 p-4" style="right:0px">
+    <div class="dropdown m-4 p-4 right-0" x-on:click.away="open=!open" x-show="open" x-transition x-cloak>
         <div class="mb-4">
         {{ __(config('sidecar.translationsPrefix').'saveReportTitle') }}
         </div>

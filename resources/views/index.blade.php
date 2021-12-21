@@ -7,7 +7,7 @@
    <h2 class="text-xl ml-6 mb-8 mt-4 font-bold">
       @if($tooltip = $report->getTooltip())
          <div class='has-tooltip cursor max-w-sm'>
-            <span class='tooltip rounded shadow-lg p-2 text-xs bg-black text-white mt-7'> {{ $tooltip }}</span>
+            <span class='tooltip rounded shadow-lg p-2 text-xs bg-black text-white mt-7'> {!! $tooltip !!}</span>
             <div class="" style="text-decoration:underline dotted">{!! $report->getTitle() !!}</div>
          </div>
       @else
