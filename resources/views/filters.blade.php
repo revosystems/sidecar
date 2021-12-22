@@ -3,7 +3,7 @@
         <input type="hidden" name="sort" value="{{request('sort')}}">
         <input type="hidden" name="sort_order" value="{{request('sort_order')}}">
 
-        <div class="flex flex-row justify-left">
+        <div class="flex flex-row justify-left items-center space-x-2">
             @foreach($report->availableFilters() as $field)
                 @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date')
             @endforeach
