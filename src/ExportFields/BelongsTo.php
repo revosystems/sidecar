@@ -13,6 +13,7 @@ class BelongsTo extends ExportField
     protected ?string $linkField = null;
 
     protected $filterOptions = null;
+    protected ?array $filterOptionsIds = null;
 
     public function getValue($row)
     {
@@ -55,6 +56,10 @@ class BelongsTo extends ExportField
     {
         if (!$this->filterOptions) {
             $query = $this->relation()->getRelated()->with($this->relationShipWith);
+            if ($this->filterOptionsIds){
+                $query->whereIn('id', $this->filterOptionsIds);
+            }
+            logger($query->toSql());
             if ($this->filterSearchable) {
                 $in = ($filters ?? new Filters())->filtersFor($this->getFilterField());
                 if ($in->count() == 0) return [];
@@ -65,10 +70,19 @@ class BelongsTo extends ExportField
         return $this->filterOptions;
     }
 
+    /**
+     * @param $ids add the filter scope ids to filter
+     * @return $this
+     */
+    public function filterOptionsIdsScope($ids) : self {
+        $this->filterOptionsIds = $ids;
+        return $this;
+    }
+
     public function searchableRoute() : string
     {
         $searchClass = get_class($this->relation()->getRelated());
-        return route('sidecar.search.model', ["model" => $searchClass, "field" => $this->relationShipField]);
+        return route('sidecar.search.model', ["model" => $searchClass, "field" => $this->relationShipField , "onlyIds" => $this->filterOptionsIds]);
     }
 
     protected function relation(){

@@ -163,7 +163,9 @@ withTooltip()         | You can give a tooltip to the fields that will be shown 
 ##### BelongsTo
 · When you have a belongs to relationship on your model, you can use this field to automatically create the filters/groups by
 · By default it will use the `name` field on the relationship, use the `relationShipDisplayField($field)` function to use another field
-· It will perform the needed joins when sorting / grouping By
+· It will perform the needed joins when sorting / grouping By   
+· You can scope the belongs by filter options by providing the list of ids `filterOptionsIdsScope()`    
+> You would usually filter the whole query as well to avoid accessing issues   
 
 ##### BelongsToThrough
 · When you have a belongs to through relationship on your model, you can use this field to automatically create the filters/groups by, it will perform 

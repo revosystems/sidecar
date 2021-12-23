@@ -8,7 +8,7 @@
 @if($field->filterSearchable)
     @push(config('sidecar.scripts-stack'))
         <script>
-            new RVAjaxSelect2('{{ $field->searchableRoute()  }}').show('#{{$field->getFilterField()}}');
+            new RVAjaxSelect2('{!! $field->searchableRoute()  !!}').show('#{{$field->getFilterField()}}');
         </script>
     @endpush
 @endif
