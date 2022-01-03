@@ -2,6 +2,7 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use Illuminate\Database\Eloquent\Builder;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
 
@@ -9,6 +10,8 @@ class BelongsTo extends ExportField
 {
     protected string $relationShipField = 'name';
     protected array $relationShipWith = [];
+    protected bool $defaultJoin = false;
+    protected bool $useLeftJoin = false;
 
     protected ?string $linkField = null;
 
@@ -35,6 +38,17 @@ class BelongsTo extends ExportField
         $foreingKey = $this->foreingKey();
         if ($groupBy && $groupBy->isGrouping() && !$groupBy->isGroupingBy($foreingKey)) { return null; }
         return $foreingKey;
+    }
+
+    public function defaultJoin($defaultJoin = true) : self
+    {
+        $this->defaultJoin = $defaultJoin;
+        return $this;
+    }
+
+    public function withLeftJoin(bool $leftJoin = true) : self {
+        $this->useLeftJoin = $leftJoin;
+        return $this;
     }
 
     private function foreingKey() : string {
@@ -108,6 +122,19 @@ class BelongsTo extends ExportField
         $this->linkClasses = $linkClasses;
         $this->linkField    = $linkField ?? $this->foreingKey();
         return $this;
+    }
+
+    public function addJoin(Builder $query, Filters $filters): Builder
+    {
+        if (!$this->defaultJoin) { return $query; }
+
+        $main = (new $this->model)->getTable();
+        $joinWith = $this->relation()->getRelated()->getTable();
+        $foreignKey = $this->relation()->getForeignKeyName();
+        if ($this->useLeftJoin) {
+            return $query->leftJoin($joinWith, "{$main}.{$foreignKey}", "{$joinWith}.id");
+        }
+        return $query->join($joinWith, "{$main}.{$foreignKey}", "{$joinWith}.id");
     }
 
 }

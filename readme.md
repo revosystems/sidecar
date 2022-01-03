@@ -145,6 +145,9 @@ withTooltip()         | You can give a tooltip to the fields that will be shown 
 ##### Currency
 · Extends from number
 
+##### Percentage
+· Extends from number and adds a % symbol to the html export  
+
 ##### Date
 · This field allows different grouping by options (hour, day, dayOfWeek, week, month, quarter)
 · When enabling the filterable, by default uses the last 7 days
@@ -165,6 +168,7 @@ withTooltip()         | You can give a tooltip to the fields that will be shown 
 · By default it will use the `name` field on the relationship, use the `relationShipDisplayField($field)` function to use another field
 · It will perform the needed joins when sorting / grouping By   
 · You can scope the belongs by filter options by providing the list of ids `filterOptionsIdsScope()`    
+· If you need to perform the join always you can call the `defaultJoin()`       
 > You would usually filter the whole query as well to avoid accessing issues   
 
 ##### BelongsToThrough
