@@ -13,8 +13,6 @@
                 @elseif($field->timeFilterable)
                     <tr class="h-10">@include('sidecar::filters.filter')</tr>
                 @endif
-
-
             @endforeach
             </table>
             <div class="text-right mt-4 mr-4">
