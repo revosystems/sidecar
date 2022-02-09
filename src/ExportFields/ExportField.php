@@ -15,6 +15,7 @@ class ExportField
     protected $dependsOnField;
     protected $title;
     protected ?string $tooltip = null;
+    protected ?string $filterTooltip = null;
     public ?string $icon = null;
 
     public bool $filterable = false;
@@ -54,6 +55,10 @@ class ExportField
 
     public function getTooltip() : ?string {
         return $this->tooltip;
+    }
+
+    public function getFilterTooltip() : ?string {
+        return $this->filterTooltip ?? $this->getTitle();
     }
 
     public function getIcon() :?string {
@@ -194,6 +199,12 @@ class ExportField
     public function withTooltip($tooltip) : self
     {
         $this->tooltip = $tooltip;
+        return $this;
+    }
+
+    public function withFilterTooltip($tooltip) : self
+    {
+        $this->filterTooltip = $tooltip;
         return $this;
     }
 
