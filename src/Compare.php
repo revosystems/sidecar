@@ -62,7 +62,7 @@ class Compare
 
         $this->labels = $this->period1Results->keys()->merge($this->period2Results->keys())->unique();
         $this->results = collect([$this->period1Results, $this->period2Results])->map(function ($results, $index) {
-           return ['title' => 'Period ' . ($index + 1), 'values' => $this->labels->mapWithKeys(function($groupId) use($results){
+           return ['title' => __(config('sidecar.translationsPrefix').'period'). ' ' . ($index + 1), 'values' => $this->labels->mapWithKeys(function($groupId) use($results){
               return [$groupId => $results[$groupId] ?? 0];
            })];
         })->toArray();
