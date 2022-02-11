@@ -55,6 +55,7 @@ abstract class Panel extends Report
             return view("sidecar::panels.{$this->type->value}", [
                 "panel"  => $this,
                 "last"   => $metric->toHtml($results->last()),
+                "lastLabel" => $this->getLabels($results)->last(),
                 "values" => $this->getValues($results),
                 "labels" => $this->getLabels($results)
             ])->render();

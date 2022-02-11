@@ -1,7 +1,11 @@
 @extends('sidecar::panels.layout')
 
 @section('top-right')
-    <div class="text-xl"> {{ $last }}</div>
+    <div class='has-tooltip cursor'>
+        <span class='tooltip rounded shadow-lg p-2 text-xs bg-black text-white mt-8'> {{ $lastLabel }}</span>
+        <div class="text-xl"> {{ $last }} </div>
+    </div>
+
 @stop
 
 @section('content')
