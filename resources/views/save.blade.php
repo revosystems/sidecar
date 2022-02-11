@@ -11,7 +11,7 @@
         <form action="{{ route('sidecar.report.store') }}" method="post">
             {{ csrf_field() }}
             <input type="hidden" name="url" value="{{ request()->fullUrl() }}">
-            <input name="name" placeholder="My Report" required>
+            <input name="name" placeholder="{{ __(config('sidecar.translationsPrefix').'myReport') }}" required>
             <br>
             <div class="mb-2 text-gray-400 text-sm mt-1">
                 {{ __(config('sidecar.translationsPrefix').'saveReportDesc') }}
