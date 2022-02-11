@@ -6,8 +6,13 @@
             @foreach($report->availableGroupings() as $filter)
                 @foreach($filter->groupings() as $grouping)
                     <option value="{{$filter->getFilterField()}}:{{$grouping}}"
-                            @if ($report->filters->groupBy->isGroupingBy($filter->getFilterField(), $grouping)) selected @endif>
-                        {{ str_replace(" (default)", "", "{$filter->getTitle()} ({$grouping})") }}
+                        @if ($report->filters->groupBy->isGroupingBy($filter->getFilterField(), $grouping)) selected @endif>
+                        @if ($grouping == "default")
+                            {{ str_replace(" (default)", "", "{$filter->getTitle()}") }}
+                        @else
+                            @php $groupingTranslated = __c(config('sidecar.translationsPrefix').$grouping); @endphp
+                            {{ str_replace(" (default)", "", "{$filter->getTitle()} ({$groupingTranslated})") }}
+                        @endif
                     </option>
                 @endforeach
             @endforeach
