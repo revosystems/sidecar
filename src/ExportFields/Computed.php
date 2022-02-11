@@ -37,4 +37,9 @@ class Computed extends ExportField
         $this->displayFormat = $format;
         return $this;
     }
+
+    public function getTitle(): string
+    {
+        return __(config('thrust.translationsPrefix').$this->title);
+    }
 }
