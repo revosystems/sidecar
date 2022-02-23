@@ -63,7 +63,7 @@ class Date extends ExportField
     {
         if (!$this->filterable) { return $query; }
         $businessRange = static::businessRange($values['start'], $values['end']);
-
+        session()->put('sidecar.date', ['start' => $values['start'], 'end' => $values['end'], 'period' => $values['period']]);
         if (!Str::contains($key, config('database.connections.mysql.prefix'))){
             $filters->applyDateFilter($query, $this->databaseTable().'.'.$key, $businessRange);
             return $filters->applyTimeFilter($query, $this->databaseTable().'.'.$key, $values);

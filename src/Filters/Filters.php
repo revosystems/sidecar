@@ -144,7 +144,10 @@ class Filters
         });
     }
 
-    private function getDefaultDates() : array{
+    private function getDefaultDates() : array {
+        if (session('sidecar.date') != null) {
+            return session('sidecar.date');
+        }
         return [
             'start' => Carbon::today()->subDays(7)->toDateString(),
             'end' => Carbon::today()->toDateString()
