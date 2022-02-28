@@ -11,8 +11,8 @@ use Revo\Sidecar\Filters\DateDepth;
 
 class Date extends ExportField
 {
-    static $timezone = "Europe/Madrid";
-    static $openingTime = "00:00:00";
+    static $timezone = 'Europe/Madrid';
+    static $openingTime = '00:00:00';
     public ?string $icon = 'calendar';
     public $timeFilterable = false;
 
@@ -20,8 +20,8 @@ class Date extends ExportField
     {
         $value = parent::getValue($row);
 
-        if (! $value || $value == "--") {
-            return "--";
+        if (! $value || $value == '--') {
+            return '--';
         }
         $filters = (new Filters());
         if ($filters->groupBy && $filters->groupBy->isGroupingBy($this->field)){
