@@ -22,7 +22,7 @@
    {!! $exporter->export() !!}
 
    @push(config('sidecar.scripts-stack'))
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      {!! \Revo\Sidecar\Sidecar::chartJs() !!}
    @endpush
 @stop
 

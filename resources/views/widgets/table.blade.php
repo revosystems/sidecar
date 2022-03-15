@@ -2,7 +2,7 @@
 <div class="sidecar links links-top">
     {{ $rows->links() }}
 </div>
-<table class="{{$tableClasses}}">
+<table class="sidecar-table {{$tableClasses}}">
         <thead class="sticky">
         <tr>
         @foreach($fields as $field)
