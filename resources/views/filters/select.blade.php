@@ -5,10 +5,12 @@
     @endforeach
 </select>
 
-@if($field->filterSearchable)
-    @push(config('sidecar.scripts-stack'))
-        <script>
-            new RVAjaxSelect2('{!! $field->searchableRoute()  !!}').show('#{{$field->getFilterField()}}');
-        </script>
-    @endpush
-@endif
+@push(config('sidecar.scripts-stack'))
+<script>
+    @if($field->filterSearchable)
+        new RVAjaxSelect2('{!! $field->searchableRoute()  !!}').show('#{{$field->getFilterField()}}');
+    @else
+        $("#{{$field->getFilterField()}}").select2()
+    @endif
+    </script>
+@endpush

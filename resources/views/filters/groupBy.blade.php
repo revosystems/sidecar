@@ -28,6 +28,7 @@
         })
         $('#sidecar-groupby').change(function(){
             $('#sidecar-apply-button').show('fast');
+            $('#sidecar-apply-button').removeClass('hidden');
         });
     </script>
 @endpush
