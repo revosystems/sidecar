@@ -17,6 +17,7 @@ class Filters
     public $dates = [];
     public $groupBy;
     public $sort;
+    public $aggregateField = null;
     public $limit = null;
 
     public function __construct() {
@@ -24,6 +25,7 @@ class Filters
         $this->dates          = request('dates');
         $this->groupBy        = new GroupBy(request('groupBy'));
         $this->sort           = new Sort(request('sort'), request('sort_order'));
+        $this->aggregateField = request('aggregateField');
     }
 
     //======================================================================

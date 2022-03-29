@@ -54,7 +54,7 @@ class Graph
 
     public function findMetricFieldForOneGrouping(): ?ExportField
     {
-        return $this->report->filters->fieldFor($this->report->fields(), $this->dimensionField->groupableAggregatedField);
+        return $this->report->filters->fieldFor($this->report->fields(), $this->getAggregateField());
     }
 
     public function calculate() : self {
@@ -85,7 +85,7 @@ class Graph
             [
                 "title" => "",
                 "values" => $metrics,
-//                "values" => $this->results->pluck($this->dimensionField->groupableAggregatedField), //now we find the export field
+//                "values" => $this->results->pluck($this->getAggregateField()), //now we find the export field
             ]
         ];
         return $this;
@@ -97,18 +97,14 @@ class Graph
         $metric = $this->metric();
         $this->labels = $this->results->mapWithKeys(function($row){
             return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->getValue($row)];
-        })->unique();
+        });
         $metrics = $this->results->mapWithKeys(function($row) use($metric){
             return [(string)$row->{$metric} => $this->metricField->getValue($row)];
         });
 
         $a = $metrics->map(function($name, $metric) use($dimension) {
             return ["title" => $name, "values" => $this->labels->map(function($dimensionValue, $dimensionKey) use($dimension, $metric) {
-                $result = $this->results->where($this->metric(), $metric)->first(function($row) use($dimensionValue) {
-                    return $this->dimensionField->getValue($row) == $dimensionValue;
-                });
-                return $result->{$this->dimensionField->groupableAggregatedField} ?? 0;
-//                return $this->results->where($dimension, $dimensionKey)->where($this->metric(), $metric)->first()->{$this->dimensionField->groupableAggregatedField} ?? 0;
+                return $this->results->where($dimension, $dimensionKey)->where($this->metric(), $metric)->first()->{$this->getAggregateField()} ?? 0;
             })->values()];
         });
 
@@ -129,6 +125,11 @@ class Graph
 
     private function metric() : ?string{
         return $this->report->filters->groupBy->groupings->except($this->dimension())->keys()->last();
+    }
+
+    public function getAggregateField(): string
+    {
+        return $this->report->filters->aggregateField ?? $this->dimensionField->groupableAggregatedField;
     }
 
 
