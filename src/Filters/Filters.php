@@ -58,6 +58,12 @@ class Filters
         return $this;
     }
 
+    public function aggregateWith($aggregateField)
+    {
+        $this->aggregateField = $aggregateField ;
+        return $this;
+    }
+
     public function limit($limit) : self {
         $this->limit = $limit;
         return $this;
@@ -246,8 +252,10 @@ class Filters
             return "groupBy[]={$key}:{$type}";
         })->implode("&");
 
+
+        $aggregateField = $this->aggregateField ? "aggregateField={$this->aggregateField}" : null;
         $sort = $this->sort->field ? "sort={$this->sort->field}&sort_order={$this->sort->order}" : null;
-        return collect([$dates, $filters, $groupings, $sort])->filter()->implode("&");
+        return collect([$dates, $filters, $groupings, $sort, $aggregateField])->filter()->implode("&");
     }
 
     private function cleanupFilters(?array $filters): ?array
