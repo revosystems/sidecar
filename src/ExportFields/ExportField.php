@@ -214,6 +214,10 @@ class ExportField
         return $this;
     }
 
+    public function toCsv($row) { 
+        return $this->getValue($row);
+    }
+
     //=================================================
     // MARK: HTML
     //=================================================

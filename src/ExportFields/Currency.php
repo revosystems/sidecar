@@ -35,4 +35,12 @@ class Currency extends Number
         }
         return number_format($this->getValue($row), 2) . ' €';
     }
+
+    public function toCsv($row)
+    {
+        if ($this->fromInteger) {
+            return $this->getValue($row);
+        }
+        return number_format($this->getValue($row), 2);
+    }
 }
