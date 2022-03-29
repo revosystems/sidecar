@@ -12,10 +12,10 @@ class Enum extends ExportField
         return $this;
     }
 
-    public function toHtml($row): string
+    /*public function toHtml($row): string
     {
         return $this->options[parent::toHtml($row)];
-    }
+    }*/
 
     public function filterOptions() : array
     {
