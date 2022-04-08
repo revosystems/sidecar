@@ -73,7 +73,6 @@ class BelongsTo extends ExportField
             if ($this->filterOptionsIds){
                 $query->whereIn('id', $this->filterOptionsIds);
             }
-            logger($query->toSql());
             if ($this->filterSearchable) {
                 $in = ($filters ?? new Filters())->filtersFor($this->getFilterField());
                 if ($in->count() == 0) return [];
