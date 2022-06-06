@@ -83,6 +83,17 @@ public function query() : Builder {
 }
 ```
 
+We can also add MainActions as a button in the top right corner.
+
+```
+public function mainActions(): array
+{
+    return [
+        MainAction::make(?string $title = null, ?string $icon = null, ?string $url = '')
+    ];
+}
+```
+
 #### More features
 
 Param          | Description
@@ -91,7 +102,7 @@ Param          | Description
 `$tooltip`     | You can add a tooltip to explain a bit about the report just filling this field
 `$with`        | Even `sidecar` detects automatically the needed withs depending on the export fields, you can also add some extra ones filling this field
 `$pagination`  | By default it will paginate for 50 rows to display, you can modify the defaul value for your report
-`$exportable`  | Reports are exportable by default, you can set it to false to disable the feature for this report
+`$exportable`  | Reports are exportable by default, you can set it to false to disable the feature for this report
 
 
 ### Fields
@@ -126,7 +137,7 @@ hidden()			   | To not display the field
 filterOnClick()		   | Some fields can add a link when clicked that filters the report for its value
 route()				   | You can define a route that will be linked (using the field as the parameter)
 onTable()			   | There are some fields that are on another table (after a join) you can define the table with this function (usualy goes along with a `HasOne::defaultJoin`)
-withTooltip()         | You can give a tooltip to the fields that will be shown in the header to explain a bit more about it
+withTooltip()          | You can give a tooltip to the fields that will be shown in the header to explain a bit more about it
 
 
 ##### Text
