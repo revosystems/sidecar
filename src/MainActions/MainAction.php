@@ -15,13 +15,13 @@ class MainAction
 
     public function display(Report $report): string
     {
-        return "<a class='button secondary relative' href='" . $this->url . "'>" . $this->getIcon() . $this->getTitle() . "</a>";
+        return "<a class='button secondary relative' href='{$this->url}'> {$this->getIcon()} {$this->getTitle()} </a>";
     }
 
     protected function getIcon(): string
     {
         return $this->icon
-            ? "<i class='fa fa-$this->icon'></i> "
+            ? "<i class='fa fa-{$this->icon}'></i> "
             : '';
     }
 
