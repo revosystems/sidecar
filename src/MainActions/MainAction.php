@@ -6,17 +6,11 @@ use Revo\Sidecar\Report;
 
 class MainAction
 {
-    public string $title;
-    public string $icon;
-    public string $url;
+    public function __construct(public ?string $title = null, public ?string $icon = null, public ?string $url = '') {}
 
     public static function make(?string $title = null, ?string $icon = null, ?string $url = '')
     {
-        $action = new static;
-        $action->title = $title;
-        $action->icon  = $icon;
-        $action->url  = $url;
-        return $action;
+        return new static($title, $icon, $url);
     }
 
     public function display(Report $report): string
