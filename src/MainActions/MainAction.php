@@ -6,9 +6,9 @@ use Revo\Sidecar\Report;
 
 class MainAction
 {
-    public string $title;
-    public string $icon;
-    public string $url;
+    public ?string $title;
+    public ?string $icon;
+    public ?string $url;
 
     public static function make(?string $title = null, ?string $icon = null, ?string $url = '')
     {
