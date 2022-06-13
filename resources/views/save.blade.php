@@ -1,4 +1,4 @@
-<div class="float-right mt-4 {{$report->exportable ? 'mr-2' : 'mr-4'}}" x-data="{open:false}">
+<div class="float-right mt-4 mr-4" x-data="{open:false}">
     <a class="button secondary relative" x-on:click="open=!open">
         <i class="fa fa-clone" aria-hidden="true"></i>
         {{ __(config('sidecar.translationsPrefix').'save') }}

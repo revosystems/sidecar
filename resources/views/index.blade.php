@@ -1,8 +1,8 @@
 @extends(config('sidecar.indexLayout'))
 
 @section('content')
-    @include('sidecar::export')
     @include('sidecar::save')
+    @include('sidecar::export')
     @include('sidecar::mainActions')
 
     <h2 class="text-xl ml-6 mb-8 mt-4 font-bold">
