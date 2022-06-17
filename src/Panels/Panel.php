@@ -45,7 +45,7 @@ abstract class Panel extends Report
     public function renderCalculated() : string
     {
         if (app()->environment('local')) {
-            Cache::forget($this->cacheKey());
+            $this->clearCache();
         }
         return Cache::remember($this->cacheKey(), now()->endOfDay(), function(){
             $results = $this->get();
@@ -94,6 +94,10 @@ abstract class Panel extends Report
     public function getFullReportLink() : ?string
     {
         return null;
+    }
+
+    public function clearCache(){
+        Cache::forget($this->cacheKey());
     }
 
 }
