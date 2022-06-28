@@ -86,7 +86,7 @@ abstract class Report
                 $selectField = "{$modelTable}.{$selectField}";
             }
             return DB::raw($selectField);
-        })->all();
+        })->unique()->all();
     }
 
     public function getWidgetsSelectFields($groupBy)
