@@ -5,7 +5,7 @@
             @icon(calendar)
             {{ $report->filters->dateFilterTitleFor($field) }}
         </a>
-        <div class="p-4 absolute z-50 mt-8 bg-white shadow-xl " x-on:click.outside="isOpen = false" x-cloak x-show="isOpen" x-transition>
+        <div class="p-4 absolute z-50 mt-8 bg-white shadow-xl" x-on:click.away="isOpen = false" x-cloak x-show="isOpen" x-transition>
             <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'dateRange') }}</div>
             <select id=date-range-{{$field->getFilterField()}} name="dates[{{$field->getFilterField()}}][period]" style="width: 300px;">
                 @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
