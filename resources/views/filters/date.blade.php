@@ -19,7 +19,7 @@
                 <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) selected @endif>{{ __('admin.custom') }} </option>
             </select>
             <div class="grid">
-                <div id="custom-date-range" class="@if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else hidden @endif">
+                <div id="custom-date-range" style="@if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else display:none; @endif">
                     <div class="text-gray-400 uppercase mb-2 mt-4">{{ __(config('sidecar.translationsPrefix').'custom') }}</div>
                     <div class="flex flex-row space-x-2">
                         <input type="date" id="start_date" style="width:145px"
