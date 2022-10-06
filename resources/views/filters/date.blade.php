@@ -2,7 +2,7 @@
 {{--    <div class="space-x-1">--}}
         <a class="button secondary small" onclick="shiftInterval(-1)"><</a>
         <a class="button secondary" x-on:click="isOpen = !isOpen">
-            @icon(calendar)
+            @icon({{$field->getIcon()}})
             {{ $report->filters->dateFilterTitleFor($field) }}
         </a>
         <div class="p-4 absolute z-50 mt-8 bg-white shadow-xl" x-on:click.away="isOpen = false" x-cloak x-show="isOpen" x-transition>
