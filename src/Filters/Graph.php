@@ -52,7 +52,7 @@ class Graph
         });
     }
 
-    public function findMetricFieldForOneGrouping(): ?ExportField
+    public function findAggregatedField(): ?ExportField
     {
         return $this->report->filters->fieldFor($this->report->fields(), $this->getAggregateField());
     }
@@ -76,7 +76,7 @@ class Graph
         $this->labels = $this->results->map(function($row){
             return $this->dimensionField->getValue($row);
         });
-        $metricField = $this->findMetricFieldForOneGrouping();
+        $metricField = $this->findAggregatedField();
         $metrics = $this->results->map(function($row) use($metricField){
             return $metricField->getValue($row);
         });
@@ -85,7 +85,6 @@ class Graph
             [
                 "title" => "",
                 "values" => $metrics,
-//                "values" => $this->results->pluck($this->getAggregateField()), //now we find the export field
             ]
         ];
         return $this;
@@ -93,7 +92,7 @@ class Graph
 
     public function calculateForTwoGroupings()
     {
-        $dimension = $this->dimension();
+        $aggregatedField = $this->findAggregatedField();
         $metric = $this->metric();
         $this->labels = $this->results->mapWithKeys(function($row){
             return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->getValue($row)];
@@ -101,18 +100,20 @@ class Graph
         $metrics = $this->results->mapWithKeys(function($row) use($metric){
             return [(string)$row->{$metric} => $this->metricField->getValue($row)];
         });
-        $a = $metrics->map(function($name, $metric) use($dimension) {
-            return ["title" => $name, "values" => $this->labels->map(function($dimensionValue, $dimensionKey) use($dimension, $metric) {
-                $result = $this->results->where($this->metric(), $metric)->first(function($row) use($dimensionValue) {
-                    return $this->dimensionField->getValue($row) == $dimensionValue;
-                });
-                return $result->{$this->getAggregateField()} ?? 0;
-//                return $this->results->where($dimension, $dimensionKey)->where($this->metric(), $metric)->first()->{$this->dimensionField->groupableAggregatedField} ?? 0;
-            })->values()];
+        $a = $metrics->map(function($name, $metric) use ($aggregatedField) {
+            return [
+                "title" => $name,
+                "values" => $this->labels->map(function($dimensionValue) use($metric, $aggregatedField) {
+                    $result = $this->results->where($this->metric(), $metric)->first(function($row) use($dimensionValue) {
+                        return $this->dimensionField->getValue($row) == $dimensionValue;
+                    });
+                    $value = $result->{$this->getAggregateField()} ?? 0;
+                    return $aggregatedField->mapValue($value);
+                })->values()
+            ];
         });
         $this->labels = $this->labels->values();
         $this->values = $a->toArray();
-//        dd($this->values);
         return $this;
     }
 
