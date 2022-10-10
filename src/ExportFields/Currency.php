@@ -43,4 +43,11 @@ class Currency extends Number
         }
         return number_format($this->getValue($row), 2);
     }
+
+    public function mapValue(mixed $value): mixed
+    {
+        return $this->fromInteger
+            ? parent::mapValue($value) / 100
+            : parent::mapValue($value);
+    }
 }

@@ -52,7 +52,7 @@ class Graph
         });
     }
 
-    public function findMetricFieldForOneGrouping(): ?ExportField
+    public function findAggregatedField(): ?ExportField
     {
         return $this->report->filters->fieldFor($this->report->fields(), $this->getAggregateField());
     }
@@ -76,7 +76,7 @@ class Graph
         $this->labels = $this->results->map(function($row){
             return $this->dimensionField->getValue($row);
         });
-        $metricField = $this->findMetricFieldForOneGrouping();
+        $metricField = $this->findAggregatedField();
         $metrics = $this->results->map(function($row) use($metricField){
             return $metricField->getValue($row);
         });
@@ -92,7 +92,7 @@ class Graph
 
     public function calculateForTwoGroupings()
     {
-        $aggregatedField = $this->findMetricFieldForOneGrouping();
+        $aggregatedField = $this->findAggregatedField();
         $metric = $this->metric();
         $this->labels = $this->results->mapWithKeys(function($row){
             return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->getValue($row)];
@@ -108,9 +108,7 @@ class Graph
                         return $this->dimensionField->getValue($row) == $dimensionValue;
                     });
                     $value = $result->{$this->getAggregateField()} ?? 0;
-                    return ($aggregatedField->fromInteger ?? false)
-                        ? $value / 100
-                        : $value;
+                    return $aggregatedField->mapValue($value);
                 })->values()
             ];
         });

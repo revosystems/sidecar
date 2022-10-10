@@ -125,6 +125,11 @@ class ExportField
         return $this;
     }
 
+    public function mapValue(mixed $value): mixed
+    {
+        return $value;
+    }
+
     //============================================================
     // MARK: Filters
     //============================================================
