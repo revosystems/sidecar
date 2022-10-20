@@ -88,7 +88,7 @@ class Filters
 
     public function isFilteringBy($key, $value = null) : bool
     {
-        if ($value == null) {
+        if ($value === null) {
             return array_key_exists($key, $this->requestFilters ?? []);
         }
         return in_array($value, $this->requestFilters[$key] ?? []);
