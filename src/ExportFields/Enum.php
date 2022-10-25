@@ -14,7 +14,7 @@ class Enum extends ExportField
 
     public function toHtml($row): string
     {
-        return $this->options[parent::toHtml($row)];
+        return $this->options[parent::toHtml($row)] ?? '';
     }
 
     public function filterOptions() : array
