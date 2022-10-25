@@ -3,7 +3,6 @@
 namespace Revo\Sidecar\ExportFields;
 
 use Illuminate\Database\Eloquent\Builder;
-use App\Reports\V2\OrdersReport;
 use Revo\Sidecar\Filters\GroupBy;
 use Revo\Sidecar\Filters\Filters;
 
@@ -40,7 +39,7 @@ class BelongsToThrough extends ExportField
         if ($groupBy && !$groupBy->isGroupingBy($foreingKey)) { return $pivotSelectField; }
         return [
             $pivotSelectField,
-            config('database.connections.mysql.prefix'). $this->getPivotTable() .'.'.$foreingKey,
+            config('database.connections.mysql.prefix'). $this->getPivotTableAlias() .'.'.$foreingKey,
         ];
     }
 
@@ -80,11 +79,12 @@ class BelongsToThrough extends ExportField
         }
         $pivot = $this->getPivotTable();
         $main = (new $this->model)->getTable();
+        $pivotAlias = $this->getPivotTableAlias();
         $foreingKey = ($this->pivot()->getForeignKeyName());
         if ($this->useLeftJoin) {
-            return $query->leftJoin($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
+            return $query->leftJoin("{$pivot} as {$pivotAlias}", "{$pivotAlias}.id", "{$main}.{$foreingKey}");
         }
-        return $query->join($pivot, "{$pivot}.id", "{$main}.{$foreingKey}");
+        return $query->join("{$pivot} as {$pivotAlias}", "{$pivotAlias}.id", "{$main}.{$foreingKey}");
     }
 
     public function getEagerLoadingRelations()
@@ -94,20 +94,20 @@ class BelongsToThrough extends ExportField
 
     public function applyGroupBy(Filters $filters, Builder $query, $key, $type)
     {
-        $pivot = $this->getPivotTable();
-        $filters->groupBy->groupBy($query, config('database.connections.mysql.prefix').$pivot.'.'.$key, $type);
+        $pivotAlias = $this->getPivotTableAlias();
+        $filters->groupBy->groupBy($query, config('database.connections.mysql.prefix').$pivotAlias.'.'.$key, $type);
     }
 
     public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
     {
-        $pivot = $this->getPivotTable();
-        return $filters->applyFilter($query, $pivot.'.'.$key, $values);
+        $pivotAlias = $this->getPivotTableAlias();
+        return $filters->applyFilter($query, $pivotAlias.'.'.$key, $values);
     }
 
     public function applySort(Filters $filters, Builder $query)
     {
-        $pivot = $this->getPivotTable();
-        $filters->sort->sort($query, config('database.connections.mysql.prefix').$pivot.'.'.$filters->sort->field);
+        $pivotAlias = $this->getPivotTableAlias();
+        $filters->sort->sort($query, config('database.connections.mysql.prefix').$pivotAlias.'.'.$filters->sort->field);
     }
 
     //======================================================
@@ -139,6 +139,12 @@ class BelongsToThrough extends ExportField
     private function getPivotTable() : string
     {
         return $this->pivot()->getRelated()->getTable();
+    }
+
+    /** Returns the picot table name alias */
+    private function getPivotTableAlias(): string
+    {
+        return $this->field . ucfirst($this->getPivotTable());
     }
 
     public function searchableRoute() : string
