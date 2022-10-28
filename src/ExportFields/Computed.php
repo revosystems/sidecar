@@ -2,6 +2,8 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use Illuminate\Database\Eloquent\Builder;
+use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
 
 class Computed extends ExportField
@@ -36,6 +38,14 @@ class Computed extends ExportField
     public function displayFormat(string $format) : self {
         $this->displayFormat = $format;
         return $this;
+    }
+
+    public function getFilterField() : string {
+        return $this->title; // Computed fields has to use their name to filter or sort
+    }
+
+    public function applySort(Filters $filters, Builder $query){
+        $filters->sort->sort($query, $filters->sort->field); // Computed fields are not database fields, so we don't need to add the database full
     }
 
     public function getTitle(): string
