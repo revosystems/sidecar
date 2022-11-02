@@ -6,7 +6,7 @@
 
     <div class="dropdown bg-white absolute shadow-xl z-50 m-4 p-4 right-0" x-on:click.away="open=!open" x-show="open" x-transition x-cloak>
         <div class="mb-4">
-        {{ __(config('sidecar.translationsPrefix').'saveReportTitle') }}
+            {{ __(config('sidecar.translationsPrefix').'saveReportTitle') }}
         </div>
         <form action="{{ route('sidecar.report.store') }}" method="post">
             {{ csrf_field() }}

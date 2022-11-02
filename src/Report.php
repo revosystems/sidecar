@@ -34,6 +34,7 @@ abstract class Report
     protected $with = [];
     protected int $pagination = 50;
     public bool $exportable = true;
+    public bool $canBeSaved = true;
 
     public Filters $filters;
 
