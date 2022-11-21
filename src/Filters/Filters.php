@@ -2,14 +2,12 @@
 
 namespace Revo\Sidecar\Filters;
 
-use Illuminate\Database\Eloquent\Builder;
-use BadChoice\Thrust\Actions\Export;
-use Carbon\CarbonPeriod;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
-use Illuminate\Support\Facades\DB;
 
 class Filters
 {
@@ -236,22 +234,9 @@ class Filters
 
     public function getQueryString() : string
     {
-        $dates = collect($this->dates)->map(function ($values, $key){
-            return collect([
-                isset($values['period']) ? "dates[$key][period]={$values['period']}" : null ,
-                "dates[$key][start]={$values['start']}",
-                "dates[$key][end]={$values['end']}",
-                ])->filter()->implode("&");
-        })->implode("&");
-
-        $filters = collect($this->requestFilters)->map(function($value, $key){
-            return "filters[$key]={$value}";
-        })->implode("&");
-
-        $groupings = $this->groupBy->groupings->map(function($type, $key){
-            return "groupBy[]={$key}:{$type}";
-        })->implode("&");
-
+        $dates = $this->getDatesQuery()->implode("&");
+        $filters = $this->getFiltersQuery()->implode("&");
+        $groupings = $this->getGroupsQuery()->implode("&");
 
         $aggregateField = $this->aggregateField ? "aggregateField={$this->aggregateField}" : null;
         $sort = $this->sort->field ? "sort={$this->sort->field}&sort_order={$this->sort->order}" : null;
@@ -264,5 +249,33 @@ class Filters
         return collect($filters)->reject(function ($value, $key) {
             return isset($value['operand']) && (!isset($value['value']) || $value['value'] == null);
         })->all();
+    }
+
+    public function getDatesQuery(): Collection
+    {
+        return collect($this->dates)->map(function ($values, $key) {
+            return collect([
+                isset($values['period']) ? "dates[$key][period]={$values['period']}" : null,
+                "dates[$key][start]={$values['start']}",
+                "dates[$key][end]={$values['end']}",
+            ])->filter()->implode("&");
+        });
+    }
+
+    public function getFiltersQuery(): Collection
+    {
+        return collect($this->requestFilters)->map(function (mixed $value, string $key) {
+            if (is_array($value)) {
+                $value = implode(",", $value);
+            }
+            return "filters[$key]={$value}";
+        });
+    }
+
+    public function getGroupsQuery(): Collection
+    {
+        return $this->groupBy->groupings->map(function ($type, $key) {
+            return "groupBy[]={$key}:{$type}";
+        });
     }
 }
