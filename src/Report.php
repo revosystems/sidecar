@@ -147,7 +147,7 @@ abstract class Report
 
     public function queryWithFilters() : Builder
     {
-        return ($this->filters)->apply($this->query(), $this->fields())
+        return $this->filters->apply($this->query(), $this->fields())
             ->select($this->getSelectFields($this->filters->groupBy));
     }
 
