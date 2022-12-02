@@ -6,6 +6,6 @@
 
 @push(config('sidecar.scripts-stack'))
     <script>
-        $("#{{$panel->slug()}}").load("{{ route('sidecar.panel', get_class($panel)) }}");
+        SidecarHtmlLoader.load("{{ route('sidecar.panel', get_class($panel)) }}", '{{$panel->slug()}}')
     </script>
 @endpush

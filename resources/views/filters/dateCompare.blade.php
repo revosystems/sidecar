@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="mt-6 text-right mb-1">
-                <a id="compare_date_button" class="button p-2" onclick="$('#shouldCompare').val('true'); $('#sidecar-form').submit(); ">
+                <a id="compare_date_button" class="button p-2" onclick="document.getElementById('shouldCompare').value='true'; document.getElementById('sidecar-form').submit(); ">
                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
                     {{ __('admin.compare') }}
                 </a>
@@ -39,18 +39,15 @@
         </div>
     </div>
 </div>
-{{--<a class="secondary button" onclick="shiftInterval(1)"></a>--}}
 @push(config('sidecar.scripts-stack'))
     <script>
-        $('#date-range-compare').change(function(event){
-            console.log("here");
-            var optionSelected = $(this).find('option:selected')
-            if (optionSelected.val() == 'custom') {
-                return $('#compare-custom-date-range').show('fast')
+        document.getElementById('date-range-compare').addEventListener('change', function(event){
+            const optionSelected = this.options[this.selectedIndex]
+            if (optionSelected.value == 'custom') {
+                return document.getElementById('compare-custom-date-range').style.display = 'block'
             }
-            $('#compare_start_date').val(optionSelected.attr('x-period-start') );
-            $('#compare_end_date')  .val(optionSelected.attr('x-period-end') );
-            //$('#compare_date_button').click();
-        });
+            document.getElementById('compare_start_date').value = optionSelected.attr('x-period-start')
+            document.getElementById('compare_end_date')  .value = optionSelected.attr('x-period-end')
+        })
     </script>
 @endpush

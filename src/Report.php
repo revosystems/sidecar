@@ -5,7 +5,6 @@ namespace Revo\Sidecar;
 // [ ] Default joins
 // [ ] Add gates / policies
 // [ ] Widgets => comprasion value in % with same period before
-// [ ] Posar el RVAjaxSelect2 en un JS propi del sidecar
 // [ ] Calculate as job
 // [ ] Belongs to throug => with left join no ho ha fet?
 // [ ] Date depth hour => filtear per data i hores, sense agrupar llavors

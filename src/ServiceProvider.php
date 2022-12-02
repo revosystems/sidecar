@@ -7,7 +7,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config/sidecar.php' => config_path('sidecar.php'),
+            __DIR__.'/../config/sidecar.php' => config_path('sidecar.php'),
+            __DIR__.'/../resources/js/sidecar.js' => resource_path('sidecar.js'),
+            __DIR__.'/../resources/css/sidecar.css' => resource_path('sidecar.css'),
         ]);
 
         $this->loadRoutesFrom(__DIR__.'/../routes.php');

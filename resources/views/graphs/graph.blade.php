@@ -1,4 +1,3 @@
-{!! \Revo\Sidecar\Sidecar::chartJs() !!}
 <div class="bg-white shadow-sm m-4 p-4">
     <canvas id="chart"  @if (in_array($graph->getType(), ['pie', 'doughnug']))  height="100vh" @else height="60vh" @endif></canvas>
 </div>
