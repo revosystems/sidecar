@@ -72,3 +72,7 @@
     padding: 0px;
     border-left: 0px solid white !important;
 }
+
+.sidecar-group-by {
+    width: 300px;
+}

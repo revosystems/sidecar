@@ -1,5 +1,5 @@
 @if ($report->availableGroupings()->count() > 0)
-    <div class="" style="width: 300px;">
+    <div class="sidecar-group-by">
         <select id="sidecar-groupby" name="groupBy[]" multiple class="p-1" style="width: 150px">
             @foreach($report->availableGroupings() as $filter)
                 @foreach($filter->groupings() as $grouping)
