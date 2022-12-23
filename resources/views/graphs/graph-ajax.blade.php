@@ -9,7 +9,7 @@
             </div>
         </div>
         @push(config('sidecar.scripts-stack'))
-            <script>
+            <script type='module'>
                 SidecarHtmlLoader.load("{{route('sidecar.report.graph', 'orders')}}?{!! request()->getQueryString() !!}", 'sidecar-graph')
             </script>
         @endpush

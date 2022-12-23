@@ -28,7 +28,7 @@
 </div>
 
     @push(config('sidecar.scripts-stack'))
-        <script>
+        <script type='module'>
             function filterOnClick(field, value){
                 document.getElementById(field).innerHTML += '<option value="'+ value + '" selected="selected">'+value+'</option>';
                 document.getElementById("sidecar-form").submit()

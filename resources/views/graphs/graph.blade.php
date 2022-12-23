@@ -3,7 +3,7 @@
 </div>
 
 @push(config('sidecar.scripts-stack'))
-    <script>
+    <script type='module'>
         const data = {
             labels: @json($graph->labels),
             datasets: [

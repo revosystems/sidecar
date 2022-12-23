@@ -19,7 +19,7 @@
 @endif
 
 @push(config('sidecar.scripts-stack'))
-    <script>
+    <script type='module'>
         SidecarSelector.selector(document.getElementById('sidecar-groupby'), "{{__('admin.groupBy') }}...")
         
         document.getElementById('sidecar-groupby').addEventListener('change', function(){

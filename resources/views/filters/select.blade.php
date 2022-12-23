@@ -6,7 +6,7 @@
 </select>
 
 @push(config('sidecar.scripts-stack'))
-<script>
+<script type='module'>
     @if($field->filterSearchable)
         SidecarSelector.fetchSelector(document.getElementById('{{$field->getFilterField()}}'), '', '{!! $field->searchableRoute() !!}')
     @else

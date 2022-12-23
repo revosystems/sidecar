@@ -53,7 +53,7 @@
     border: 0;
     border-radius: 0;
     max-width: 100%;
-    min-width: 100px !important;
+    min-width: 120px !important;
 }
 
 .choices__list--multiple .sidecar-choices-item {
