@@ -108,6 +108,6 @@ class Date extends ExportField
 
     public static function getUtcOpeningTime() : string
     {
-        return Carbon::parse(static::$openingTime, 'Europe/Madrid')->timezone('utc')->format('h:i:s');
+        return Carbon::parse(static::$openingTime, static::$timezone)->timezone('utc')->format('h:i:s');
     }
 }
