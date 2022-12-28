@@ -108,7 +108,7 @@ class Graph
                         return $this->dimensionField->getValue($row) == $dimensionValue;
                     });
                     $value = $result->{$this->getAggregateField()} ?? 0;
-                    return $aggregatedField->mapValue($value);
+                    return $aggregatedField?->mapValue($value) ?? $value;
                 })->values()
             ];
         });
