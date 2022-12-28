@@ -109,6 +109,9 @@ class BelongsTo extends ExportField
 
     public function toHtml($row): string
     {
+        if($this->route && ! data_get($row, $this->linkField)) {
+            return __(config('sidecar.translationsPrefix').'notFound');
+        }
         if($this->route){
             return link_to_route($this->route, $this->getValue($row), data_get($row, $this->linkField), ['class' => $this->linkClasses]);
         }
