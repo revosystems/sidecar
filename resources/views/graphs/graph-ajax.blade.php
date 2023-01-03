@@ -9,8 +9,8 @@
             </div>
         </div>
         @push(config('sidecar.scripts-stack'))
-            <script type='module'>
-                SidecarHtmlLoader.load("{{route('sidecar.report.graph', 'orders')}}?{!! request()->getQueryString() !!}", 'sidecar-graph')
+            <script>
+                window.addEventListener('load', () => SidecarHtmlLoader.load("{{route('sidecar.report.graph', 'orders')}}?{!! request()->getQueryString() !!}", 'sidecar-graph'))
             </script>
         @endpush
     @endif

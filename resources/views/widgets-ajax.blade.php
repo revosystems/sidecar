@@ -6,8 +6,8 @@
         </div>
     </div>
     @push('edit-scripts')
-        <script type='module'>
-            SidecarHtmlLoader.load("{{route('sidecar.report.widgets', $model)}}?{!! request()->getQueryString() !!}", 'sidecar-widgets')
+        <script>
+            window.addEventListener('load', () => SidecarHtmlLoader.load("{{route('sidecar.report.widgets', $model)}}?{!! request()->getQueryString() !!}", 'sidecar-widgets'))
         </script>
     @endpush
 @endif

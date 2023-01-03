@@ -6,11 +6,13 @@
 </select>
 
 @push(config('sidecar.scripts-stack'))
-<script type='module'>
-    @if($field->filterSearchable)
-        SidecarSelector.fetchSelector(document.getElementById('{{$field->getFilterField()}}'), '', '{!! $field->searchableRoute() !!}')
-    @else
-        SidecarSelector.selector(document.getElementById('{{$field->getFilterField()}}'), '')
-    @endif
-    </script>
+<script>
+    window.addEventListener('load', () => {
+        @if($field->filterSearchable)
+            SidecarSelector.fetchSelector(document.getElementById('{{$field->getFilterField()}}'), '', '{!! $field->searchableRoute() !!}')
+        @else
+            SidecarSelector.selector(document.getElementById('{{$field->getFilterField()}}'), '')
+        @endif
+    })
+</script>
 @endpush

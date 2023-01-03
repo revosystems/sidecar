@@ -5,7 +5,7 @@
 </div>
 
 @push(config('sidecar.scripts-stack'))
-    <script type='module'>
-        SidecarHtmlLoader.load("{{ route('sidecar.panel', get_class($panel)) }}", '{{$panel->slug()}}')
+    <script>
+        window.addEventListener('load', () => SidecarHtmlLoader.load("{{ route('sidecar.panel', get_class($panel)) }}", '{{$panel->slug()}}'))
     </script>
 @endpush

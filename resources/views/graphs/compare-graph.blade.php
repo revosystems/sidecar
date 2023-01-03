@@ -3,7 +3,7 @@
     <canvas id="compare-chart" height="60vh"></canvas>
 </div>
 
-<script type='module'>
+<script>
     const compareData = {
         labels: @json($compare->labels),
         datasets: [

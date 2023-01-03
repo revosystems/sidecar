@@ -19,12 +19,14 @@
 @endif
 
 @push(config('sidecar.scripts-stack'))
-    <script type='module'>
-        SidecarSelector.selector(document.getElementById('sidecar-groupby'), "{{__('admin.groupBy') }}...")
-        
-        document.getElementById('sidecar-groupby').addEventListener('change', function(){
-            document.getElementById('sidecar-apply-button').style.display = 'block'
-            document.getElementById('sidecar-apply-button').classList.remove('hidden')
+    <script>
+        window.addEventListener('load', () => {
+            SidecarSelector.selector(document.getElementById('sidecar-groupby'), "{{__('admin.groupBy') }}...")
+            
+            document.getElementById('sidecar-groupby').addEventListener('change', function(){
+                document.getElementById('sidecar-apply-button').style.display = 'block'
+                document.getElementById('sidecar-apply-button').classList.remove('hidden')
+            })
         })
     </script>
 @endpush

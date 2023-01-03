@@ -13,7 +13,7 @@
 @stop
 
 @section('scripts')
-<script type='module'>
+<script>
     const data = {
         labels: @json($labels),
         datasets: [

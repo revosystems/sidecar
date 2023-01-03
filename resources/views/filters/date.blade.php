@@ -43,7 +43,7 @@
 {{--    </div>--}}
 </div>
 @push(config('sidecar.scripts-stack'))
-    <script type='module'>
+    <script>
         document.getElementById('date-range-{{$field->getFilterField()}}').addEventListener('change', function(event){
             const optionSelected = this.options[this.selectedIndex]
             if (optionSelected.value == 'custom') {
