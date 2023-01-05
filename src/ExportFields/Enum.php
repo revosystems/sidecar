@@ -12,9 +12,15 @@ class Enum extends ExportField
         return $this;
     }
 
+    public function getValue($row)
+    {
+        $value = parent::getValue($row);
+        return $value->value ?? $value;
+    }
+
     public function toHtml($row): string
     {
-        return $this->options[parent::toHtml($row)] ?? '';
+        return $this->options[$this->getValue($row)] ?? '';
     }
 
     public function filterOptions() : array
