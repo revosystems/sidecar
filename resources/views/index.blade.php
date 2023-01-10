@@ -21,10 +21,6 @@
     @include('sidecar::graphs.graph-ajax')
 
     {!! $exporter->export() !!}
-
-    @push(config('sidecar.scripts-stack'))
-        {!! \Revo\Sidecar\Sidecar::chartJs() !!}
-@endpush
 @stop
 
 

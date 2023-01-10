@@ -13,7 +13,6 @@
 @stop
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const data = {
         labels: @json($labels),
@@ -34,7 +33,6 @@
         data: data,
         options: {
             responsive:true,
-             // maintainAspectRatio:true,
             plugins:{
                 legend:{ display : false },
                 title: { display: false },

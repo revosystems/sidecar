@@ -1,7 +1,5 @@
 @if ($report->availableGroupings()->count() > 0)
-    <div class="">
-{{--        <i class="fa fa-pie-chart fa-fw text-gray-400"></i>--}}
-{{--        {{ __(config('sidecar.translationsPrefix').'groupBy') }}--}}
+    <div class="sidecar-group-by">
         <select id="sidecar-groupby" name="groupBy[]" multiple class="p-1" style="width: 150px">
             @foreach($report->availableGroupings() as $filter)
                 @foreach($filter->groupings() as $grouping)
@@ -22,13 +20,13 @@
 
 @push(config('sidecar.scripts-stack'))
     <script>
-        $('#sidecar-groupby').select2({
-            placeholder: "{{__('admin.groupBy') }}...",
-            allowClear: true
+        window.addEventListener('load', () => {
+            SidecarSelector.selector(document.getElementById('sidecar-groupby'), "{{__('admin.groupBy') }}...")
+            
+            document.getElementById('sidecar-groupby').addEventListener('change', function(){
+                document.getElementById('sidecar-apply-button').style.display = 'block'
+                document.getElementById('sidecar-apply-button').classList.remove('hidden')
+            })
         })
-        $('#sidecar-groupby').change(function(){
-            $('#sidecar-apply-button').show('fast');
-            $('#sidecar-apply-button').removeClass('hidden');
-        });
     </script>
 @endpush

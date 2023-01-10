@@ -4,7 +4,7 @@
 
 `composer require revosystems/sidecar`
 
-> You need to have `tailwind 2.x`, `JQuery` and `apline 3.x` in you main template
+> You need to have `tailwind 2.x` and `apline 3.x` in you main template
 
 
 Add the blades path to the tailwindcss config file
@@ -15,7 +15,10 @@ purge: [
     './vendor/revosystems/sidecar/**/*.blade.php',
   ],
 ```
-
+You should also include the chart.js and choices.js to your main template's header with this line:
+```
+{!! \Revo\Sidecar\Sidecar::dependencies() !!}
+```
 ### Configuration
 Publish the configuration tot adapt it to you project
 
@@ -33,6 +36,11 @@ reportsPath		   | \\App\\Reports\\			| The path where `sidecar` will search for 
 scripts-stack	   | scripts					| Since `sidecar` does some javascript, it will push it to the scripts stack `https://laravel.com/docs/8.x/blade` you layout needs to have the @stack('scripts') defined
 exportRoute			| sidecar.report.export		| When exporting, `sidecar` provides its own route, however if you want to customeize it (for example to use it in a job) you can change the route that will be called
 
+In `assets/css/sidecar.css` you will find the default styles
+
+Also `assets/js/sidecar.js` contains the js necessary to sidecar work properly
+
+You should add those files to your assets compilation.
 ### Global Variables
 You can customize some runtime variables implementing the `serving callback`
 

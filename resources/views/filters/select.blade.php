@@ -7,10 +7,12 @@
 
 @push(config('sidecar.scripts-stack'))
 <script>
-    @if($field->filterSearchable)
-        new RVAjaxSelect2('{!! $field->searchableRoute()  !!}').show('#{{$field->getFilterField()}}');
-    @else
-        $("#{{$field->getFilterField()}}").select2()
-    @endif
-    </script>
+    window.addEventListener('load', () => {
+        @if($field->filterSearchable)
+            SidecarSelector.fetchSelector(document.getElementById('{{$field->getFilterField()}}'), '', '{!! $field->searchableRoute() !!}')
+        @else
+            SidecarSelector.selector(document.getElementById('{{$field->getFilterField()}}'), '')
+        @endif
+    })
+</script>
 @endpush

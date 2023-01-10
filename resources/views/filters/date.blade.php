@@ -44,14 +44,14 @@
 </div>
 @push(config('sidecar.scripts-stack'))
     <script>
-        $('#date-range-{{$field->getFilterField()}}').change(function(event){
-            var optionSelected = $(this).find('option:selected')
-            if (optionSelected.val() == 'custom') {
-                return $('#custom-date-range').show('fast')
+        document.getElementById('date-range-{{$field->getFilterField()}}').addEventListener('change', function(event){
+            const optionSelected = this.options[this.selectedIndex]
+            if (optionSelected.value == 'custom') {
+                return document.getElementById('custom-date-range').style.display = 'block'
             }
-            $('#start_date').val(optionSelected.attr('x-period-start') );
-            $('#end_date')  .val(optionSelected.attr('x-period-end') );
-            $('#filter_date_button').click();
+            document.getElementById('start_date').value = optionSelected.attr('x-period-start')
+            document.getElementById('end_date')  .value = optionSelected.attr('x-period-end')
+            document.getElementById('filter_date_button').click()
         });
 
         Date.prototype.addDays = function(days) {
@@ -80,10 +80,10 @@
             var interval    = (end - start) / millisecondsForDay;
             start   = start.addDays(interval ? interval*sign : sign);
             end     = end.addDays(interval ? interval*sign : sign);
-            $('#date-range-{{$field->getFilterField()}}').val('custom')
-            $('#start_date').val( formatDate(start) );
-            $('#end_date')  .val( formatDate(end) );
-            $('#filter_date_button').click();
+            document.getElementById('date-range-{{$field->getFilterField()}}').value = 'custom'
+            document.getElementById('start_date').value = formatDate(start)
+            document.getElementById('end_date')  .value = formatDate(end)
+            document.getElementById('filter_date_button').click();
         }
     </script>
 @endpush

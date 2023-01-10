@@ -1,5 +1,4 @@
 @if (isset($compare) && $compare->isComparing())
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="bg-white shadow-sm m-4 p-4">
     <canvas id="compare-chart" height="60vh"></canvas>
 </div>
@@ -25,7 +24,6 @@
         data: compareData,
         options: {
             responsive:true,
-            // maintainAspectRatio:true,
             animation: {
                 onComplete: () => {
                     compareDelayed = true;

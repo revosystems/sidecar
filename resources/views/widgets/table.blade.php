@@ -30,10 +30,8 @@
     @push(config('sidecar.scripts-stack'))
         <script>
             function filterOnClick(field, value){
-                //$("#" + field).val(value);
-                //When it is ajax, the option does not exist in the select
-                $('#' + field).append('<option value="'+ value + '" selected="selected">'+value+'</option>');
-                $("#sidecar-form").submit()
+                document.getElementById(field).innerHTML += '<option value="'+ value + '" selected="selected">'+value+'</option>';
+                document.getElementById("sidecar-form").submit()
             }
 
             function dateInDepth(field, value, start, end){
@@ -41,7 +39,7 @@
                 document.getElementById("date-range-" + field).value = 'custom'
                 document.getElementById("start_date").value = start
                 document.getElementById("end_date").value = end
-                document.getElementById("sidecar-form").submit();
+                document.getElementById("sidecar-form").submit()
             }
         </script>
     @endpush

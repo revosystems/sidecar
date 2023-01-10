@@ -30,8 +30,10 @@ class Sidecar
         static::$servingCallback = $servingCallback;
     }
 
-    public static function chartJs()
+    public static function dependencies()
     {
-        return '<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>';
+        return '<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"/>
+            <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>';
     }
 }
