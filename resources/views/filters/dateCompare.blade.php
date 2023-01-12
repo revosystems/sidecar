@@ -46,8 +46,8 @@
             if (optionSelected.value == 'custom') {
                 return document.getElementById('compare-custom-date-range').style.display = 'block'
             }
-            document.getElementById('compare_start_date').value = optionSelected.attr('x-period-start')
-            document.getElementById('compare_end_date')  .value = optionSelected.attr('x-period-end')
+            document.getElementById('compare_start_date').value = optionSelected.getAttribute('x-period-start')
+            document.getElementById('compare_end_date')  .value = optionSelected.getAttribute('x-period-end')
         })
     </script>
 @endpush

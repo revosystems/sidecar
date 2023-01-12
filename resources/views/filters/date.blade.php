@@ -49,8 +49,8 @@
             if (optionSelected.value == 'custom') {
                 return document.getElementById('custom-date-range').style.display = 'block'
             }
-            document.getElementById('start_date').value = optionSelected.attr('x-period-start')
-            document.getElementById('end_date')  .value = optionSelected.attr('x-period-end')
+            document.getElementById('start_date').value = optionSelected.getAttribute('x-period-start')
+            document.getElementById('end_date')  .value = optionSelected.getAttribute('x-period-end')
             document.getElementById('filter_date_button').click()
         });
 
