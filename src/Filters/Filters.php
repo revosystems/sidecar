@@ -247,7 +247,9 @@ class Filters
     {
         if (!$filters) { return $filters; }
         return collect($filters)->reject(function ($value, $key) {
-            return isset($value['operand']) && (!isset($value['value']) || $value['value'] == null);
+            return isset($value['operand'])
+                ? !isset($value['value']) || $value['value'] == null
+                : !isset($value[0]) || $value[0] == null;
         })->all();
     }
 
