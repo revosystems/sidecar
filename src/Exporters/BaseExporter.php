@@ -12,20 +12,23 @@ class BaseExporter
 
     protected Report $report;
     protected $data;
-    protected $fields;
 
     public function __construct($data, Report $report)
     {
         $this->report = $report;
         $this->data = $data;
-        $this->fields = $report->fields()->filter(function(ExportField $field) use ($report) {
-            return $field->shouldBeExported($report->filters);
-        });
     }
 
     public function getFields()
     {
-        return collect($this->fields);
+        return $this->report->fields()
+            ->filter(fn (ExportField $field) => $field->shouldBeExported($this->report->filters));
+    }
+
+    public function getExportableFields()
+    {
+        return $this->report->exportableFields()
+            ->filter(fn (ExportField $field) => $field->shouldBeExported($this->report->filters));
     }
 
     public function forEachRecord($callback)
@@ -34,5 +37,4 @@ class BaseExporter
             return $callback($row);
         });
     }
-
 }
