@@ -18,6 +18,7 @@ namespace Revo\Sidecar;
 // https://www.youtube.com/watch?v=FzBHMY8u5aQ
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\ExportField;
@@ -52,15 +53,28 @@ abstract class Report
         return __(config('sidecar.translationsPrefix').$this->tooltip);
     }
 
-    public function fields() : \Illuminate\Support\Collection {
-        return collect($this->getFields())->each(function (ExportField $field){
+    public function fields() : Collection
+    {
+        return collect($this->getFields())->each(function (ExportField $field) {
+            $field->model = $this->model;
+        });
+    }
+
+    public function exportableFields() : Collection
+    {
+        return collect($this->getExportableFields())->each(function (ExportField $field) {
             $field->model = $this->model;
         });
     }
 
     abstract protected function getFields() : array;
 
-    public function widgets() :\Illuminate\Support\Collection
+    protected function getExportableFields() : array
+    {
+        return $this->getFields();
+    }
+
+    public function widgets() : Collection
     {
         return collect($this->getWidgets())->each(function (Widget $widget){
             $widget->model = $this->model;
