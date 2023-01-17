@@ -53,7 +53,7 @@ class ExportField
         return $this->title;
     }
 
-    public function csvTitle(): string
+    public function exportTitle(): string
     {
         return $this->getTitle();
     }
