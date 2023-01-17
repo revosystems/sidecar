@@ -53,6 +53,11 @@ class ExportField
         return $this->title;
     }
 
+    public function csvTitle(): string
+    {
+        return $this->getTitle();
+    }
+
     public function getTooltip() : ?string {
         return $this->tooltip;
     }
