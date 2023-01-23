@@ -15,6 +15,18 @@ purge: [
     './vendor/revosystems/sidecar/**/*.blade.php',
   ],
 ```
+And define your brand color like so:
+
+```
+theme: {
+    extend: {
+      colors: {
+        'brand': '#F2653A',
+      }
+    },
+  },
+```
+
 You should also include the chart.js and choices.js to your main template's header with this line:
 ```
 {!! \Revo\Sidecar\Sidecar::dependencies() !!}

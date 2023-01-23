@@ -56,6 +56,7 @@
     border-radius: 0;
     max-width: 100%;
     min-width: 120px !important;
+    outline: none;
 }
 
 .choices__list--multiple .sidecar-choices-item {
@@ -77,4 +78,12 @@
 
 .sidecar-group-by {
     width: 300px;
+}
+
+table.striped tr:nth-child(even){
+    background-color:#fafafa;
+}
+
+table.striped tr, table.striped td{
+    border-bottom: none;
 }

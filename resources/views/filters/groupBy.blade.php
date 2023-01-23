@@ -8,8 +8,7 @@
                         @if ($grouping == "default")
                             {{ str_replace(" (default)", "", "{$filter->getTitle()}") }}
                         @else
-                            @php $groupingTranslated = __c(config('sidecar.translationsPrefix').$grouping); @endphp
-                            {{ str_replace(" (default)", "", "{$filter->getTitle()} ({$groupingTranslated})") }}
+                            {{ str_replace(" (default)", "", $filter->getTitle() . " (" . __(config('sidecar.translationsPrefix').$grouping) . ")") }}
                         @endif
                     </option>
                 @endforeach
@@ -20,7 +19,7 @@
     @push(config('sidecar.scripts-stack'))
         <script>
             window.addEventListener('load', () => {
-                SidecarSelector.selector(document.getElementById('sidecar-groupby'), "{{__('admin.groupBy') }}...")
+                SidecarSelector.selector(document.getElementById('sidecar-groupby'), "{{__(config('sidecar.translationsPrefix').'groupBy') }}...")
                 
                 document.getElementById('sidecar-groupby').addEventListener('change', function(){
                     document.getElementById('sidecar-apply-button').style.display = 'block'

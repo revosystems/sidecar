@@ -1,16 +1,15 @@
 <div x-data="{ isOpen: false }" class="relative mx-2" >
-    <a class="secondary button" x-on:click="isOpen = !isOpen">
-        <i class="fa fa-bar-chart" aria-hidden="true"></i>
-        @if($compare->isComparing())
-            {{ $compare->getTitle() }}
-        @else
-            {{ __(config('sidecar.translationsPrefix').'compare') }}
-        @endif
-    </a>
+    @include('sidecar::components.secondaryAction', [
+        'action' => 'x-on:click=isOpen=!isOpen',
+        'icon' => 'bar-chart',
+        'label' => $compare->isComparing() ? $compare->getTitle() : __(config('sidecar.translationsPrefix').'compare')
+    ])
 
     <div class="p-4 bg-white shadow-xl absolute z-50 mt-2" x-on:click.away="isOpen = false" x-cloak x-show.transition="isOpen">
-        <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'dateRange') }}</div>
-        <select id=date-range-compare name="compare[period]" style="width: 300px;">
+        @include('sidecar::components.title', [
+            'label' => __(config('sidecar.translationsPrefix').'dateRange'),
+        ])
+        <x-sidecar::select :id="'date-range-compare'" :name="'compare[period]'">
             @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
                 <option value="{{$range}}"
                         @if($compare->period == $range) selected @endif
@@ -19,22 +18,39 @@
                     {{ __(config('sidecar.translationsPrefix').$range) }}
                 </option>
             @endforeach
-            <option value="custom" @if($compare->period == 'custom' || $compare->period == null) selected @endif>{{ __('admin.custom') }} </option>
-        </select>
+            <option value="custom" @if($compare->period == 'custom' || $compare->period == null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
+        </x-sidecar::select>
         <div class="grid">
-            <div id="compare-custom-date-range" class="@if($compare->period == 'custom' || $compare->period == null) @else hidden @endif">
-                <div class="text-gray-400 uppercase mb-2 mt-4">{{ __(config('sidecar.translationsPrefix').'custom') }}</div>
+            <div id="compare-custom-date-range" class="mt-4 @if($compare->period == 'custom' || $compare->period == null) @else hidden @endif">
+                @include('sidecar::components.title', [
+                    'label' => __(config('sidecar.translationsPrefix').'custom'),
+                ])
                 <div class="flex flex-row space-x-2">
-                    <input style="width:145px" type="date" name="compare[start]" id="compare_start_date" value="{{$compare->start}}">
-                    <input style="width:145px" type="date" name="compare[end]"   id="compare_end_date"   value="{{$compare->end}}">
+                    @include('sidecar::components.input', [
+                        'type' => 'date',
+                        'width' => '145px',
+                        'name' => 'compare[start]',
+                        'id' => 'compare_start_date',
+                        'value' => $compare->start,
+                    ])
+                    @include('sidecar::components.input', [
+                        'type' => 'date',
+                        'width' => '145px',
+                        'name' => 'compare[end]',
+                        'id' => 'compare_end_date',
+                        'value' => $compare->end,
+                    ])
                     <input id="shouldCompare" hidden name="shouldCompare" value="false">
                 </div>
             </div>
             <div class="mt-6 text-right mb-1">
-                <a id="compare_date_button" class="button p-2" onclick="document.getElementById('shouldCompare').value='true'; document.getElementById('sidecar-form').submit(); ">
-                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                    {{ __('admin.compare') }}
-                </a>
+                @include('sidecar::components.mainAction', [
+                    'tag' => 'a',
+                    'id' => 'compare_date_button',
+                    'icon' => 'bar-chart',
+                    'label' => __(config('sidecar.translationsPrefix').'compare'),
+                    'action' => "onclick=document.getElementById('shouldCompare').value='true';document.getElementById('sidecar-form').submit();",
+                ])
             </div>
         </div>
     </div>

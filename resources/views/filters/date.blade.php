@@ -1,46 +1,63 @@
 <div x-data="{ isOpen: false }" class="relative flex">
-{{--    <div class="space-x-1">--}}
-        <a class="button secondary small" onclick="shiftInterval(-1)"><</a>
-        <a class="button secondary" x-on:click="isOpen = !isOpen">
-            @icon({{$field->getIcon()}})
-            {{ $report->filters->dateFilterTitleFor($field) }}
-        </a>
-        <div class="p-4 absolute z-50 mt-8 bg-white shadow-xl" x-on:click.away="isOpen = false" x-cloak x-show="isOpen" x-transition>
-            <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'dateRange') }}</div>
-            <select id=date-range-{{$field->getFilterField()}} name="dates[{{$field->getFilterField()}}][period]" style="width: 300px;">
-                @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
-                    <option value="{{$range}}"
-                            @if($report->filters->datePeriodFilterFor($field) == $range) selected @endif
-                            x-period-start="{{$period->start->toDateString()}}"
-                            x-period-end="{{$period->end->toDateString()}}">
-                        {{ __(config('sidecar.translationsPrefix').$range) }}
-                    </option>
-                @endforeach
-                <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) selected @endif>{{ __('admin.custom') }} </option>
-            </select>
-            <div class="grid">
-                <div id="custom-date-range" style="@if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else display:none; @endif">
-                    <div class="text-gray-400 uppercase mb-2 mt-4">{{ __(config('sidecar.translationsPrefix').'custom') }}</div>
-                    <div class="flex flex-row space-x-2">
-                        <input type="date" id="start_date" style="width:145px"
-                               name="dates[{{$field->getFilterField()}}][start]"
-                               value="{{$report->filters->dateFilterStartFor($field)}}">
-
-                        <input type="date" id="end_date" style="width:145px"
-                               name="dates[{{$field->getFilterField()}}][end]"
-                               value="{{$report->filters->dateFilterEndFor($field)}}">
-                    </div>
-                    <div class="mt-4 text-right">
-                        <button id="filter_date_button" class="button">
-                            <i class="fa fa-filter" aria-hidden="true"></i>
-                            {{ __('admin.filter') }}
-                        </button>
-                    </div>
+    @include('sidecar::components.secondaryAction', [
+        'action' => 'onclick=shiftInterval(-1)',
+        'label' => '<',
+    ])
+    @include('sidecar::components.secondaryAction', [
+        'action' => 'x-on:click=isOpen=!isOpen',
+        'icon' => $field->getIcon(),
+        'label' => $report->filters->dateFilterTitleFor($field),
+    ])
+    <div class="p-4 absolute z-50 mt-8 bg-white shadow-xl" x-on:click.away="isOpen = false" x-cloak x-show="isOpen" x-transition>
+        @include('sidecar::components.title', [
+            'label' => __(config('sidecar.translationsPrefix').'dateRange')
+        ])
+        <x-sidecar::select :id="'date-range-'.$field->getFilterField()" :name="'dates['.$field->getFilterField().'][period]'">
+            @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
+                <option value="{{$range}}"
+                        @if($report->filters->datePeriodFilterFor($field) == $range) selected @endif
+                        x-period-start="{{$period->start->toDateString()}}"
+                        x-period-end="{{$period->end->toDateString()}}">
+                    {{ __(config('sidecar.translationsPrefix').$range) }}
+                </option>
+            @endforeach
+            <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
+        </x-sidecar::select>
+        <div class="grid">
+            <div id="custom-date-range" class="mt-4" style="@if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else display:none; @endif">
+                @include('sidecar::components.title', [
+                    'label' => __(config('sidecar.translationsPrefix').'dateRange'),
+                ])
+                <div class="flex flex-row space-x-2">
+                    @include('sidecar::components.input', [
+                        'id' => 'start_date',
+                        'type' => 'date',
+                        'width' => '145px',
+                        'name' => "dates[{$field->getFilterField()}][start]",
+                        'value' => $report->filters->dateFilterStartFor($field),
+                    ])
+                    @include('sidecar::components.input', [
+                        'id' => 'end_date',
+                        'type' => 'date',
+                        'width' => '145px',
+                        'name' => "dates[{$field->getFilterField()}][end]",
+                        'value' => $report->filters->dateFilterEndFor($field),
+                    ])
+                </div>
+                <div class="mt-4 text-right">
+                    @include('sidecar::components.mainAction', [
+                        'id' => 'filter_date_button',
+                        'icon' => 'filter',
+                        'label' => __(config('sidecar.translationsPrefix').'filter'),
+                    ])
                 </div>
             </div>
         </div>
-        <a class="button secondary small" onclick="shiftInterval(1)">></a>
-{{--    </div>--}}
+    </div>
+    @include('sidecar::components.secondaryAction', [
+        'action' => 'onclick=shiftInterval(1)',
+        'label' => '>',
+    ])
 </div>
 @push(config('sidecar.scripts-stack'))
     <script>
