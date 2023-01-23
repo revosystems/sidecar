@@ -76,7 +76,7 @@ class Compare
         $this->groupByField = $this->period1->fields()->first(function (ExportField $field) use($groupBy) {
             return $field->getFilterField() == $groupBy;
         });
-        $this->metric = $this->groupByField->aggregatedField ?? 'total';
+        $this->metric = $this->groupByField->groupableAggregatedField ?? 'total';
     }
 
     public function getDateKey()
