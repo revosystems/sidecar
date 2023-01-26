@@ -1,8 +1,9 @@
 <div class="relative" x-data="{ isOpen: false }">
-    <a class="button secondary" x-on:click="isOpen = !isOpen">
-        @icon(filter)
-        {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
-    </a>
+    @include('sidecar::components.secondaryAction', [
+        'action' => 'x-on:click=isOpen=!isOpen',
+        'icon' => 'filter',
+        'label' => __(config('sidecar.translationsPrefix').'manageFilters'),
+    ])
     <div class="fixed z-40 w-full h-full top-0 left-0" x-on:click="isOpen = false; setTimeout(() => document.elementFromPoint($event.clientX, $event.clientY).click(), 100)" x-cloak x-show="isOpen"></div>
     <div class="p-4 absolute bg-white shadow-xl z-50 mt-2" x-cloak x-show.transition="isOpen">
         <div class="text-gray-400 uppercase mb-2">{{ __(config('sidecar.translationsPrefix').'filters') }}</div>
@@ -17,10 +18,11 @@
             @endforeach
             </table>
             <div class="text-right mt-4 mr-4">
-                <button class="button secondary">
-                    <i class="fa fa-filter fa-fw"></i>
-                    {{ __(config('sidecar.translationsPrefix').'filter') }}
-                </button>
+                @include('sidecar::components.secondaryAction', [
+                    'tag' => 'button',
+                    'icon' => 'filter',
+                    'label' => __(config('sidecar.translationsPrefix').'filter'),
+                ])
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 <div class="float-right mt-4 {{$report->exportable ? 'mr-2' : 'mr-4'}}">
-    <a class="button secondary" href="{{ route(config('sidecar.exportRoute'), ["report" => $model, "type" => "cvs"])."?".request()->getQueryString() }}">
-        <i class="fa fa-download" aria-hidden="true"></i>
-        {{ __(config('sidecar.translationsPrefix').'export') }}
-    </a>
+    @include('sidecar::components.secondaryAction', [
+        'action' => 'href=' . route(config('sidecar.exportRoute'), ["report" => $model, "type" => "cvs"])."?".request()->getQueryString(),
+        'icon' => 'download',
+        'label' => __(config('sidecar.translationsPrefix').'export'),
+    ])
 </div>

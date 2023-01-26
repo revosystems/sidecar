@@ -1,9 +1,9 @@
 <div class="float-right mt-4 mr-4" x-data="{open:false}">
-    <a class="button secondary relative" x-on:click="open=!open">
-        <i class="fa fa-clone" aria-hidden="true"></i>
-        {{ __(config('sidecar.translationsPrefix').'save') }}
-    </a>
-
+    @include('sidecar::components.secondaryAction', [
+        'action' => 'x-on:click=open=!open',
+        'icon' => 'clone',
+        'label' => __(config('sidecar.translationsPrefix').'save'),
+    ])
     <div class="dropdown bg-white absolute shadow-xl z-50 m-4 p-4 right-0" x-on:click.away="open=!open" x-show="open" x-transition x-cloak>
         <div class="mb-4">
             {{ __(config('sidecar.translationsPrefix').'saveReportTitle') }}
