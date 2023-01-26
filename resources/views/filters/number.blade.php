@@ -10,4 +10,5 @@
     'name' => "filters[{$field->getFilterField()}][value]",
     'width' => '240px',
     'value' => data_get($filterValues, 'value', ''),
+    'classes' => 'ml-1'
 ])

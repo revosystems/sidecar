@@ -21,7 +21,7 @@
                     {{ __(config('sidecar.translationsPrefix').$range) }}
                 </option>
             @endforeach
-            <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
+            <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) === null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
         </x-sidecar::select>
         <div class="grid">
             <div id="custom-date-range" class="mt-4" style="@if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else display:none; @endif">

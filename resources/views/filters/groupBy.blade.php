@@ -8,7 +8,7 @@
                         @if ($grouping == "default")
                             {{ str_replace(" (default)", "", "{$filter->getTitle()}") }}
                         @else
-                            {{ str_replace(" (default)", "", $filter->getTitle() . " (" . __(config('sidecar.translationsPrefix').$grouping) . ")") }}
+                            {{ str_replace(" (default)", "", $filter->getTitle() . " (" . trans_choice(config('sidecar.translationsPrefix').$grouping, 1) . ")") }}
                         @endif
                     </option>
                 @endforeach

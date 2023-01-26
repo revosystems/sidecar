@@ -18,7 +18,7 @@
                     {{ __(config('sidecar.translationsPrefix').$range) }}
                 </option>
             @endforeach
-            <option value="custom" @if($compare->period == 'custom' || $compare->period == null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
+            <option value="custom" @if($compare->period == 'custom' || $compare->period === null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
         </x-sidecar::select>
         <div class="grid">
             <div id="compare-custom-date-range" class="mt-4 @if($compare->period == 'custom' || $compare->period == null) @else hidden @endif">
