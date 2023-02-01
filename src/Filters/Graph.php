@@ -60,7 +60,7 @@ class Graph
     public function calculate() : self {
         if (!$this->doesApply()) { return $this; }
         if (!$this->results) {
-            $this->sresult = $this->report->paginate(25);
+            $this->results = $this->report->paginate(25);
         }
         if ($this->report->filters->groupBy->groupings->count() == 1) {
             return $this->calculateForOneGrouping();
