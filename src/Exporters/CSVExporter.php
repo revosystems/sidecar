@@ -42,6 +42,6 @@ class CSVExporter extends BaseExporter
     public function save($filename) : string
     {
         Storage::put($filename, $this->export());
-        return Storage::url($filename);
+        return Storage::temporaryUrl($filename, now()->addMinutes(30));
     }
 }
