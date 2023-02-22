@@ -41,7 +41,7 @@ class Currency extends Number
         if ($this->fromInteger) {
             return $this->getValue($row);
         }
-        return number_format($this->getValue($row), 2);
+        return number_format($this->getValue($row), 2, thousands_separator: '');
     }
 
     public function mapValue(mixed $value): mixed

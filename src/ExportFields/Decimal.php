@@ -13,6 +13,11 @@ class Decimal extends Number
         return number_format(parent::getValue($row), $this->decimals);
     }
 
+    public function toCsv($row)
+    {
+        return number_format(parent::getValue($row), $this->decimals, thousands_separator: '');
+    }
+
     public function decimals(int $decimals) : self
     {
         $this->decimals = $decimals;
