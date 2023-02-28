@@ -1,19 +1,6 @@
-@php
-    if (! function_exists('countArrayDimensions')) {
-        function countArrayDimensions($array) : int
-        {
-            if (is_array(reset($array)))
-                $return = countArrayDimensions(reset($array)) + 1;
-            else
-                $return = 1;
-            return $return;
-        }
-    }
-@endphp
-
 <select id="{{$field->getFilterField()}}" name="filters[{{$field->getFilterField()}}][]" multiple style="width: 300px">
     <option value="">--</option>
-    @if (countArrayDimensions($field->filterOptions($report->filters)) > 1)
+    @if (\Illuminate\Support\Arr::dimensions($field->filterOptions($report->filters)) > 1)
         @foreach($field->filterOptions($report->filters) as $category => $categories)
             <optgroup label="{{ $category }}">
             @foreach($categories as $key => $value)

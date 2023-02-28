@@ -1,6 +1,6 @@
 <div id="sidecar-applied-filters" class="mt-4">
     @foreach($report->availableFilters()->sort() as $field)
-        @if (countArrayDimensions($field->filterOptions()) > 1)
+        @if (\Illuminate\Support\Arr::dimensions($field->filterOptions()) > 1)
             @php ($options = collect($field->filterOptions())->mapWithKeys(fn($item) => $item))
         @else
             @php ($options = $field->filterOptions())
