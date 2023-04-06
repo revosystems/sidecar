@@ -1,5 +1,5 @@
 @php $filterValues = $report->filters->filtersFor($field->getFilterField()) @endphp
-<x-sidecar::select :id="$field->getFilterField().'-select'" :name="'filters['.$field->getFilterField().'][operand]'" :width="'55px'">
+<x-sidecar::select :id="$field->getFilterField().'-select'" :name="'filters['.$field->getFilterField().'][operand]'" :width="'53px'">
     @foreach($field->filterOptions() as $operand => $name)
         <option value="{{$operand}}" @if($operand == data_get($filterValues, 'operand', '')) selected @endif> {{ $name }}</option>
     @endforeach

@@ -3,7 +3,7 @@
        'id' => "{$field->getFilterField()}_start",
        'type' => 'time',
        'name' => "dates[{$field->getFilterField()}][start_time]",
-       'width' => '148px',
+       'width' => '147px',
        'value' => data_get($filterValues, 'start_time', ''),
        'classes' => 'mr-1',
 ])
@@ -11,7 +11,7 @@
        'id' => "{$field->getFilterField()}_start",
        'type' => 'time',
        'name' => "dates[{$field->getFilterField()}][end_time]",
-       'width' => '148px',
+       'width' => '146px',
        'value' => data_get($filterValues, 'end_time', ''),
 ])
 
