@@ -26,15 +26,15 @@ class Computed extends ExportField
         if ($this->displayFormat === 'time') {
             return $this->getValue($row);
         }
-        if ($this->displayFormat === 'currency' && isset(Currency::$formatter)) {
-            return Currency::$formatter->formatCurrency($this->getValue($row), 'EUR');
+        if ($this->displayFormat === 'currency' && isset(Currency::$htmlFormatter)) {
+            return Currency::$htmlFormatter->formatCurrency($this->getValue($row), 'EUR');
         }
         $value = $this->getValue($row);
         if (! is_numeric($value)) {
             return $value;
         }
-        if (Currency::$formatter) {
-            return Currency::$formatter->formatCurrency($value, 'EUR');
+        if (Currency::$htmlFormatter) {
+            return Currency::$htmlFormatter->formatCurrency($value, 'EUR');
         }
         return number_format($value, 2, ',', '');
     }
@@ -46,8 +46,8 @@ class Computed extends ExportField
             return $value;
         }
 
-        if (Currency::$decimalFormatter) {
-            return Currency::$decimalFormatter->format($this->getValue($row));
+        if (Currency::$csvFormatter) {
+            return Currency::$csvFormatter->format($this->getValue($row));
         }
 
         return number_format($value, 2, ',', '');

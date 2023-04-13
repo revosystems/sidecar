@@ -6,15 +6,16 @@ use Revo\Sidecar\Sidecar;
 
 class Currency extends Number
 {
-    public static \NumberFormatter $formatter;
-    public static \NumberFormatter $decimalFormatter;
+    public static \NumberFormatter $htmlFormatter;
+    public static \NumberFormatter $csvFormatter;
     public static string $currency;
     public bool $fromInteger = false;
 
     public static function setFormatter($locale, $currency = 'EUR')
     {
-        static::$formatter        = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-        static::$decimalFormatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+        static::$htmlFormatter        = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
+        static::$csvFormatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+        static::$csvFormatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
         static::$currency         = $currency;
     }
 
@@ -34,8 +35,8 @@ class Currency extends Number
 
     public function toHtml($row): string
     {
-        if (static::$formatter) {
-            return static::$formatter->formatCurrency($this->getValue($row), 'EUR');
+        if (static::$htmlFormatter) {
+            return static::$htmlFormatter->formatCurrency($this->getValue($row), 'EUR');
         }
         return number_format($this->getValue($row), 2) . ' €';
     }
@@ -45,8 +46,8 @@ class Currency extends Number
         if ($this->fromInteger) {
             return $this->getValue($row);
         }
-        if (static::$decimalFormatter) {
-            return static::$decimalFormatter->format($this->getValue($row));
+        if (static::$csvFormatter) {
+            return static::$csvFormatter->format($this->getValue($row));
         }
 
         return number_format($this->getValue($row), 2, ',', '');
