@@ -2,16 +2,20 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use Revo\Sidecar\Sidecar;
+
 class Currency extends Number
 {
-    public static $formatter;
-    public static $currency = "€";
-    public $fromInteger = false;
+    public static \NumberFormatter $formatter;
+    public static \NumberFormatter $decimalFormatter;
+    public static string $currency;
+    public bool $fromInteger = false;
 
     public static function setFormatter($locale, $currency = 'EUR')
     {
-        static::$formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-        static::$currency  = $currency;
+        static::$formatter        = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
+        static::$decimalFormatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+        static::$currency         = $currency;
     }
 
     public function fromInteger() : self
@@ -30,8 +34,8 @@ class Currency extends Number
 
     public function toHtml($row): string
     {
-        if (static::$formatter){
-            return static::$formatter->formatCurrency($this->getValue($row) , 'EUR' );
+        if (static::$formatter) {
+            return static::$formatter->formatCurrency($this->getValue($row), 'EUR');
         }
         return number_format($this->getValue($row), 2) . ' €';
     }
@@ -41,7 +45,11 @@ class Currency extends Number
         if ($this->fromInteger) {
             return $this->getValue($row);
         }
-        return number_format($this->getValue($row), 2, thousands_separator: '');
+        if (static::$decimalFormatter) {
+            return static::$decimalFormatter->format($this->getValue($row));
+        }
+
+        return number_format($this->getValue($row), 2, ',', '');
     }
 
     public function mapValue(mixed $value): mixed

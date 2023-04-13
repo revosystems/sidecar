@@ -2,8 +2,6 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use phpDocumentor\Reflection\Types\Parent_;
-
 class Decimal extends Number
 {
     protected int $decimals = 2;

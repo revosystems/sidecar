@@ -10,46 +10,76 @@ class Computed extends ExportField
 {
     protected ?string $displayFormat = null;
 
-    public function getSelectField(?GroupBy $groupBy = null): ?string {
+    public function getSelectField(?GroupBy $groupBy = null): ?string
+    {
         if ($groupBy && $groupBy->isGrouping() && $this->onGroupingBy) {
-            return "(". $this->onGroupingBy . ") as $this->title";
+            return '(' . $this->onGroupingBy . ") as $this->title";
         }
         if ($groupBy && $groupBy->isGrouping()) {
             return null;
         }
-        return "(". $this->field . ") as $this->title";
+        return '(' . $this->field . ") as $this->title";
     }
 
-
-    public function getValue($row) {
-        $value = data_get($row, $this->title);
-        if ($this->displayFormat == 'time' && is_numeric($value)){
-            return gmdate("H:i:s", $value);
+    public function toHtml($row): string
+    {
+        if ($this->displayFormat === 'time') {
+            return $this->getValue($row);
         }
-        if ($this->displayFormat == 'currency' && isset(Decimal::$formatter)){
-            return Decimal::$formatter->formatCurrency($value , 'EUR' );
+        if ($this->displayFormat === 'currency' && isset(Currency::$formatter)) {
+            return Currency::$formatter->formatCurrency($this->getValue($row), 'EUR');
         }
-        if (!is_numeric($value)){
+        $value = $this->getValue($row);
+        if (! is_numeric($value)) {
             return $value;
         }
-        return number_format($value, 2);
+        if (Currency::$formatter) {
+            return Currency::$formatter->formatCurrency($value, 'EUR');
+        }
+        return number_format($value, 2, ',', '');
     }
 
-    public function displayFormat(string $format) : self {
+    public function toCsv($row)
+    {
+        $value = $this->getValue($row);
+        if ($this->displayFormat === 'time' || ! is_numeric($value)) {
+            return $value;
+        }
+
+        if (Currency::$decimalFormatter) {
+            return Currency::$decimalFormatter->format($this->getValue($row));
+        }
+
+        return number_format($value, 2, ',', '');
+    }
+
+    public function getValue($row)
+    {
+        $value = data_get($row, $this->title);
+        if ($this->displayFormat == 'time' && is_numeric($value)) {
+            return gmdate('H:i:s', $value);
+        }
+        return $value;
+    }
+
+    public function displayFormat(string $format) : self
+    {
         $this->displayFormat = $format;
         return $this;
     }
 
-    public function getFilterField() : string {
+    public function getFilterField() : string
+    {
         return $this->title; // Computed fields has to use their name to filter or sort
     }
 
-    public function applySort(Filters $filters, Builder $query){
+    public function applySort(Filters $filters, Builder $query)
+    {
         $filters->sort->sort($query, $filters->sort->field); // Computed fields are not database fields, so we don't need to add the database full
     }
 
     public function getTitle(): string
     {
-        return __(config('thrust.translationsPrefix').$this->title);
+        return __(config('thrust.translationsPrefix') . $this->title);
     }
 }
