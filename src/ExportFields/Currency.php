@@ -2,20 +2,11 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use Revo\Sidecar\Formatters\CurrencyFormatter;
+
 class Currency extends Number
 {
-    public static \NumberFormatter $htmlFormatter;
-    public static \NumberFormatter $csvFormatter;
-    public static string $currency;
     public bool $fromInteger = false;
-
-    public static function setFormatter($locale, $currency = 'EUR')
-    {
-        static::$htmlFormatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-        static::$csvFormatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
-        static::$csvFormatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
-        static::$currency = $currency;
-    }
 
     public function fromInteger(): self
     {
@@ -32,14 +23,14 @@ class Currency extends Number
 
     public function toHtml($row): string
     {
-        return static::$htmlFormatter->formatCurrency($this->getValue($row), static::$currency);
+        return CurrencyFormatter::toHtml($this->getValue($row));
     }
 
     public function toCsv($row)
     {
         return $this->fromInteger
             ? $this->getValue($row)
-            : static::$csvFormatter->format($this->getValue($row));
+            : CurrencyFormatter::toCsv($this->getValue($row));
     }
 
     public function mapValue(mixed $value): mixed
