@@ -4,25 +4,38 @@ namespace Revo\Sidecar\ExportFields;
 
 class Decimal extends Number
 {
+    public static \NumberFormatter $htmlFormatter;
+    public static \NumberFormatter $csvFormatter;
     protected int $decimals = 2;
 
-    public function getValue($row)
+    public static function setFormatter(string $locale)
     {
-        return number_format(parent::getValue($row), $this->decimals);
+        static::$htmlFormatter = \NumberFormatter::create($locale, \NumberFormatter::DECIMAL);
+        static::$csvFormatter = \NumberFormatter::create($locale, \NumberFormatter::DECIMAL);
+        static::$csvFormatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
+    }
+
+    public function toHtml($row): string
+    {
+        $formatter = static::$htmlFormatter;
+        $formatter->setSymbol(\NumberFormatter::FRACTION_DIGITS, $this->decimals);
+        return $formatter->format($this->getValue($row));
     }
 
     public function toCsv($row)
     {
-        return number_format(parent::getValue($row), $this->decimals, thousands_separator: '');
+        $formatter = static::$csvFormatter;
+        $formatter->setSymbol(\NumberFormatter::FRACTION_DIGITS, $this->decimals);
+        return $formatter->format($this->getValue($row));
     }
 
-    public function decimals(int $decimals) : self
+    public function decimals(int $decimals): self
     {
         $this->decimals = $decimals;
         return $this;
     }
 
-    public function isNumeric() : bool
+    public function isNumeric(): bool
     {
         return true;
     }

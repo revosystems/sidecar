@@ -3,66 +3,41 @@
 namespace Revo\Sidecar\ExportFields;
 
 use Illuminate\Database\Eloquent\Builder;
+use Revo\Sidecar\Enums\ComputedDisplayFormat;
 use Revo\Sidecar\Filters\Filters;
 use Revo\Sidecar\Filters\GroupBy;
 
 class Computed extends ExportField
 {
-    protected ?string $displayFormat = null;
+    protected ComputedDisplayFormat $displayFormat;
 
     public function getSelectField(?GroupBy $groupBy = null): ?string
     {
         if ($groupBy && $groupBy->isGrouping() && $this->onGroupingBy) {
-            return '(' . $this->onGroupingBy . ") as $this->title";
+            return "({$this->onGroupingBy}) as $this->title";
         }
         if ($groupBy && $groupBy->isGrouping()) {
             return null;
         }
-        return '(' . $this->field . ") as $this->title";
-    }
-
-    public function toHtml($row): string
-    {
-        if ($this->displayFormat === 'time') {
-            return $this->getValue($row);
-        }
-        if ($this->displayFormat === 'currency' && isset(Currency::$htmlFormatter)) {
-            return Currency::$htmlFormatter->formatCurrency($this->getValue($row), 'EUR');
-        }
-        $value = $this->getValue($row);
-        if (! is_numeric($value)) {
-            return $value;
-        }
-        if (Currency::$htmlFormatter) {
-            return Currency::$htmlFormatter->formatCurrency($value, 'EUR');
-        }
-        return number_format($value, 2, ',', '');
-    }
-
-    public function toCsv($row)
-    {
-        $value = $this->getValue($row);
-        if ($this->displayFormat === 'time' || ! is_numeric($value)) {
-            return $value;
-        }
-
-        if (Currency::$csvFormatter) {
-            return Currency::$csvFormatter->format($this->getValue($row));
-        }
-
-        return number_format($value, 2, ',', '');
+        return "({$this->field}) as $this->title";
     }
 
     public function getValue($row)
     {
-        $value = data_get($row, $this->title);
-        if ($this->displayFormat == 'time' && is_numeric($value)) {
-            return gmdate('H:i:s', $value);
-        }
-        return $value;
+        return data_get($row, $this->title);
     }
 
-    public function displayFormat(string $format) : self
+    public function toHtml($row): string
+    {
+        return $this->displayFormat->toHtml($this->getValue($row));
+    }
+
+    public function toCsv($row)
+    {
+        return $this->displayFormat->toCsv($this->getValue($row));
+    }
+
+    public function displayFormat(ComputedDisplayFormat $format) : self
     {
         $this->displayFormat = $format;
         return $this;
