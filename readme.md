@@ -261,7 +261,7 @@ class Preview extends Link
 }
 ```
 
-The `ExportField` has the function `toHtml($row, $value)` that is the one that will display the value when in the browser, when exporting to CSV it will use the `getValue($row)` so you can customize both.
+The `ExportField` has the function `toHtml($row)` that is the one that will display the value when in the browser, when exporting to CSV it will use the `getValue($row)` so you can customize both.
 
 > It is common to override the `getFilterKey()` with something like `non-filterable` to avoid collisions with the common fields, in the case of this `Preview` file, would collide with the `Id` field as it is the one to use in the link
 

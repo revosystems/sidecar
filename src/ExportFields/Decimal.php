@@ -2,20 +2,32 @@
 
 namespace Revo\Sidecar\ExportFields;
 
-use Revo\Sidecar\Formatters\DecimalFormatter;
-
 class Decimal extends Number
 {
     protected int $decimals = 2;
+    public static \NumberFormatter $html;
+    public static \NumberFormatter $csv;
+
+    public static function setFormatter(string $locale)
+    {
+        static::$html = \NumberFormatter::create($locale, \NumberFormatter::DECIMAL);
+        static::$csv = \NumberFormatter::create($locale, \NumberFormatter::DECIMAL);
+        static::$csv->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
+    }
 
     public function toHtml($row): string
     {
-        return DecimalFormatter::toHtml($this->getValue($row), $this->decimals);
+        $formatter = static::$html;
+        $formatter->setSymbol(\NumberFormatter::FRACTION_DIGITS, $this->decimals);
+        return $formatter->format($this->getValue($row));
+
     }
 
     public function toCsv($row)
     {
-        return DecimalFormatter::toCsv($this->getValue($row), $this->decimals);
+        $formatter = static::$csv;
+        $formatter->setSymbol(\NumberFormatter::FRACTION_DIGITS, $this->decimals);
+        return $formatter->format($this->getValue($row));
     }
 
     public function decimals(int $decimals): self
