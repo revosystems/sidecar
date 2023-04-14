@@ -1,8 +1,8 @@
 <?php
 
 namespace Revo\Sidecar\ExportFields;
+
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\Filters\GroupBy;
 use Revo\Sidecar\Filters\Filters;
@@ -11,7 +11,8 @@ class ExportField
 {
     public $model;
 
-    public    $field;
+    public $field;
+    protected ?string $computed = null;
     protected $dependsOnField;
     protected $title;
     protected ?string $tooltip = null;
@@ -49,7 +50,8 @@ class ExportField
         return $exportField;
     }
 
-    public function getTitle() : string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
 
@@ -58,73 +60,101 @@ class ExportField
         return $this->getTitle();
     }
 
-    public function getTooltip() : ?string {
+    public function getTooltip(): ?string
+    {
         return $this->tooltip;
     }
 
-    public function getFilterTooltip() : ?string {
+    public function getFilterTooltip(): ?string
+    {
         return $this->filterTooltip ?? $this->getTitle();
     }
 
-    public function getIcon() :?string {
+    public function getIcon(): ?string
+    {
         return $this->icon;
     }
 
-    public function getValue($row) {
+    public function getValue($row)
+    {
         return data_get($row, $this->field);
     }
 
     /**
-     * @param GroupBy|null $groupBy
+     * @param  GroupBy|null  $groupBy
      * @return string|null the select field (or array of select fields) to include in the query
      */
     public function getSelectField(?GroupBy $groupBy = null)
     {
-        if ($groupBy && $groupBy->isGrouping()){
-            if ($groupBy->isGroupingBy($this->dependsOnField)) { return $this->dependsOnField; }
-            if ($this->onGroupingBy == null)       { return null; }
-            //return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$this->dependsOnField}";
-            $as = collect(explode(".", $this->dependsOnField))->last();
-            return "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as {$as}";
+        if ($this->computed) {
+            return $this->getComputedSelectField($groupBy);
+        }
+
+        if ($groupBy?->isGrouping()) {
+            if ($groupBy->isGroupingBy($this->dependsOnField)) {
+                return $this->dependsOnField;
+            }
+            return $this->onGroupingBy
+                ? "{$this->onGroupingBy}({$this->dependOnFieldFull()}) as ".collect(explode(".",
+                    $this->dependsOnField))->last()
+                : null;
         }
         return $this->dependOnFieldFull();
-//        return $this->dependsOnField;
     }
 
-    public function dependOnFieldFull() : string
+    public function getComputedSelectField(?GroupBy $groupBy = null): ?string
     {
-        if (Str::contains($this->dependsOnField, config('database.connections.mysql.prefix'))){
+        if ($groupBy && $groupBy->isGrouping()) {
+            return $this->onGroupingBy
+                ? "({$this->onGroupingBy}) as {$this->field}"
+                : null;
+        }
+        return "({$this->computed}) as {$this->field}";
+    }
+
+    public function dependOnFieldFull(): string
+    {
+        if (Str::contains($this->dependsOnField, config('database.connections.mysql.prefix'))) {
             return $this->dependsOnField;
         }
-        return $this->databaseTableFull(). "." . $this->dependsOnField;
+        return $this->databaseTableFull().".".$this->dependsOnField;
     }
 
-    public function databaseTable(): string {
+    public function databaseTable(): string
+    {
         return $this->onTable ?? (new $this->model)->getTable();
     }
 
-    public function databaseTableFull() : string {
-        return config('database.connections.mysql.prefix') . $this->databaseTable();
+    public function databaseTableFull(): string
+    {
+        return config('database.connections.mysql.prefix').$this->databaseTable();
     }
 
-    public function getFilterField() : string {
+    public function getFilterField(): string
+    {
         //return $this->getSelectField();
         return $this->dependsOnField;
     }
 
-    public function sortable($sortable = true) : self
+    public function sortable($sortable = true): self
     {
         $this->sortable = $sortable;
         return $this;
     }
 
-    public function hideMobile($hideMobile = true) : self
+    public function hideMobile($hideMobile = true): self
     {
         $this->hideMobile = $hideMobile;
         return $this;
     }
 
-    public function onGroupingBy(?string $action) : self
+    public function computed(string $query): self
+    {
+        $this->computed = $query;
+        return $this;
+    }
+
+    public function onGroupingBy(?string $action): self
     {
         $this->onGroupingBy = $action;
         return $this;
@@ -138,30 +168,31 @@ class ExportField
     //============================================================
     // MARK: Filters
     //============================================================
-    public function filterable($filterable = true, $searchable = false) : self
+    public function filterable($filterable = true, $searchable = false): self
     {
         $this->filterable = $filterable;
         $this->filterSearchable = $searchable;
         return $this;
     }
 
-    public function icon(?string $icon) : self
+    public function icon(?string $icon): self
     {
         $this->icon = $icon;
         return $this;
     }
 
-    public function filterOptions() : array {
+    public function filterOptions(): array
+    {
         return [];
     }
 
-    public function groupable(bool $groupable = true) : self
+    public function groupable(bool $groupable = true): self
     {
         $this->groupable = $groupable;
         return $this;
     }
 
-    public function groupableWithGraph($aggregatedField = 'total', $type = 'bar') : self
+    public function groupableWithGraph($aggregatedField = 'total', $type = 'bar'): self
     {
         $this->groupable = true;
         $this->groupableWithChart = true;
@@ -170,24 +201,24 @@ class ExportField
         return $this;
     }
 
-    public function comparable(string $comparable = 'total') : self
+    public function comparable(string $comparable = 'total'): self
     {
         $this->comparable = $comparable;
         return $this;
     }
 
-    public function groupings() : array
+    public function groupings(): array
     {
         return ['default'];
     }
 
-    public function onlyWhenGrouping(bool $onlyWhenGrouping = true) : self
+    public function onlyWhenGrouping(bool $onlyWhenGrouping = true): self
     {
         $this->onlyWhenGrouping = $onlyWhenGrouping;
         return $this;
     }
 
-    public function isNumeric() : bool
+    public function isNumeric(): bool
     {
         return false;
     }
@@ -197,46 +228,50 @@ class ExportField
         return null;
     }
 
-    public function shouldBeExported($filters) : bool
+    public function shouldBeExported($filters): bool
     {
-        if ($this->hidden) { return false; }
+        if ($this->hidden) {
+            return false;
+        }
         if ($filters->groupBy->isGrouping()) {
             return $this->onGroupingBy != null || $filters->groupBy->isGroupingBy($this->getFilterField());
         }
         return !$this->onlyWhenGrouping;
     }
 
-    public function withTooltip($tooltip) : self
+    public function withTooltip($tooltip): self
     {
         $this->tooltip = $tooltip;
         return $this;
     }
 
-    public function withFilterTooltip($tooltip) : self
+    public function withFilterTooltip($tooltip): self
     {
         $this->filterTooltip = $tooltip;
         return $this;
     }
 
-    public function onTable(?string $table) : self
+    public function onTable(?string $table): self
     {
         $this->onTable = $table;
         return $this;
     }
 
-    public function toCsv($row) { 
+    public function toCsv($row)
+    {
         return $this->getValue($row);
     }
 
     //=================================================
     // MARK: HTML
     //=================================================
-    public function toHtml($row) : string {
+    public function toHtml($row): string
+    {
         $value = $this->getValue($row) ?? "";
-        if ($this->filterOnClick){
+        if ($this->filterOnClick) {
             return $this->filterLink($row, $value);
         }
-        if ($this->route){
+        if ($this->route) {
             return link_to_route($this->route, $value, $value, ['class' => $this->linkClasses]);
         }
         return $value;
@@ -252,38 +287,47 @@ class ExportField
         return null;
     }
 
-    public function tdClasses(string $classes) : self {
+    public function tdClasses(string $classes): self
+    {
         $this->tdClasses = $classes;
         return $this;
     }
 
-    public function getTDClasses() : string {
+    public function getTDClasses(): string
+    {
         $classes = $this->tdClasses;
-        if ($this->hideMobile) { $classes .= " hide-mobile"; }
-        if ($this->isNumeric()) { $classes .= " text-right"; }
+        if ($this->hideMobile) {
+            $classes .= " hide-mobile";
+        }
+        if ($this->isNumeric()) {
+            $classes .= " text-right";
+        }
         return $classes;
     }
 
-    public function hidden(bool $hidden = true) : self
+    public function hidden(bool $hidden = true): self
     {
         $this->hidden = $hidden;
         return $this;
     }
 
-    public function filterOnClick($searchable = true) : self {
+    public function filterOnClick($searchable = true): self
+    {
         $this->filterOnClick = true;
         $this->filterable = true;
         $this->filterSearchable = true;
         return $this;
     }
 
-    public function route($route, $classes = null) : self {
+    public function route($route, $classes = null): self
+    {
         $this->route = $route;
         $this->linkClasses = $classes;
         return $this;
     }
 
-    public function linkClasses($classes) : self{
+    public function linkClasses($classes): self
+    {
         $this->linkClasses = $classes;
         return $this;
     }
@@ -291,12 +335,12 @@ class ExportField
     //============================================================
     // MARK: Filters
     //============================================================
-    public function applyFilter(Filters $filters, Builder $query, $key, $values) : Builder
+    public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
     {
         return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
     }
 
-    public function applySearch(Filters $filters, Builder $query, $key, $values) : Builder
+    public function applySearch(Filters $filters, Builder $query, $key, $values): Builder
     {
         return $filters->applySearch($query, $this->databaseTable().'.'.$key, $values);
     }
@@ -307,12 +351,13 @@ class ExportField
     }
 
 
-    public function applySort(Filters $filters, Builder $query){
+    public function applySort(Filters $filters, Builder $query)
+    {
 //        dd($this->databaseTableFull(), $filters->sort->field);
         $filters->sort->sort($query, $this->databaseTableFull().'.'.$filters->sort->field);
     }
 
-    public function addJoin(Builder $query, Filters $filters) : Builder
+    public function addJoin(Builder $query, Filters $filters): Builder
     {
         return $query;
     }
