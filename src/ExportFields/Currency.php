@@ -4,17 +4,19 @@ namespace Revo\Sidecar\ExportFields;
 
 class Currency extends Number
 {
-    public static $formatter;
-    public static $currency = "€";
-    public $fromInteger = false;
-
+    public bool $fromInteger = false;
+    protected static \NumberFormatter $html;
+    protected static \NumberFormatter $csv;
+    protected static string $currency;
     public static function setFormatter($locale, $currency = 'EUR')
     {
-        static::$formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-        static::$currency  = $currency;
+        static::$html = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
+        static::$csv = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+        static::$csv->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
+        static::$currency = $currency;
     }
 
-    public function fromInteger() : self
+    public function fromInteger(): self
     {
         $this->fromInteger = true;
         return $this;
@@ -22,26 +24,21 @@ class Currency extends Number
 
     public function getValue($row)
     {
-        if ($this->fromInteger) {
-            return parent::getValue($row) / 100;
-        }
-        return parent::getValue($row);
+        return $this->fromInteger
+            ? parent::getValue($row) / 100
+            : parent::getValue($row);
     }
 
     public function toHtml($row): string
     {
-        if (static::$formatter){
-            return static::$formatter->formatCurrency($this->getValue($row) , 'EUR' );
-        }
-        return number_format($this->getValue($row), 2) . ' €';
+        return static::$html->formatCurrency($this->getValue($row), static::$currency);
     }
 
     public function toCsv($row)
     {
-        if ($this->fromInteger) {
-            return $this->getValue($row);
-        }
-        return number_format($this->getValue($row), 2, thousands_separator: '');
+        return $this->fromInteger
+            ? $this->getValue($row)
+            : static::$csv->format($this->getValue($row));
     }
 
     public function mapValue(mixed $value): mixed

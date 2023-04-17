@@ -3,6 +3,8 @@
 namespace Revo\Sidecar;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Revo\Sidecar\ExportFields\Currency;
+use Revo\Sidecar\ExportFields\Decimal;
 
 class Sidecar
 {
@@ -16,11 +18,17 @@ class Sidecar
         }
     }
 
-    static public function make($name) : ?Report
+    public static function setFormatter(string $locale, string $currency = 'EUR')
+    {
+        Decimal::setFormatter($locale);
+        Currency::setFormatter($locale, $currency ?? 'EUR');
+    }
+
+    public static function make($name) : ?Report
     {
         $path = config('sidecar.reportsPath') . $name;
-        if (!class_exists($path)) {
-            throw new ModelNotFoundException("Report not found");
+        if (! class_exists($path)) {
+            throw new ModelNotFoundException('Report not found');
         }
         return new $path;
     }
