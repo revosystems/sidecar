@@ -315,7 +315,7 @@ class ExportField
     {
         $this->filterOnClick = true;
         $this->filterable = true;
-        $this->filterSearchable = true;
+        $this->filterSearchable = $searchable;
         return $this;
     }
 
