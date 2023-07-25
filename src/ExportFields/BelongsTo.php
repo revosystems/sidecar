@@ -23,6 +23,11 @@ class BelongsTo extends ExportField
         return data_get($row, "{$this->field}.{$this->relationShipField}") ?? "--";
     }
 
+    public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
+    {
+        return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
+    }
+
     public function getFilterId($row)
     {
         return data_get($row, $this->foreingKey());
@@ -80,6 +85,7 @@ class BelongsTo extends ExportField
             }
             $this->filterOptions = $query->get([$this->relationShipField, 'id'])->pluck($this->relationShipField, 'id')->all();
         }
+
         return $this->filterOptions;
     }
 
