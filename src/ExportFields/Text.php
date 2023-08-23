@@ -16,4 +16,10 @@ class Text extends ExportField
     {
         return $this->getValue($row);
     }
+
+    public function getValue($row)
+    {
+        $value = parent::getValue($row);
+        return preg_replace('/\s+/', '', trim($value));
+    }
 }
