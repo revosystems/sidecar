@@ -259,7 +259,7 @@ class ExportField
 
     public function toCsv($row)
     {
-        return $this->getValue($row);
+        return preg_replace('/\s+/', '', trim($this->getValue($row)));
     }
 
     //=================================================
