@@ -259,7 +259,13 @@ class ExportField
 
     public function toCsv($row)
     {
-        return preg_replace('/\s+/', '', trim($this->getValue($row)));
+        $value = $this->getValue($row);
+
+        if (is_string($value)) {
+            return preg_replace('/\s+/', '', trim($value));
+        }
+
+        return $value;
     }
 
     //=================================================
