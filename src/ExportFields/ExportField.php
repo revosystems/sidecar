@@ -265,6 +265,10 @@ class ExportField
             return preg_replace('/\s+/', '', trim($value));
         }
 
+        if (is_array($value)) {
+            return implode(',', $value);
+        }
+
         return $value;
     }
 
