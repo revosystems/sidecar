@@ -11,7 +11,7 @@ class ModelsController
         return $this->filterIds($this->baseQuery($model, $field))
             ->limit(100)
             ->pluck($field, 'id')->map(function($value, $key){
-                return ["id" => $key, "name" => $value];
+                return ["id" => $key, "name" => (string) $value];
             });
     }
 
