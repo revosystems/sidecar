@@ -174,20 +174,18 @@ class Filters
         return $query->whereBetween($key, [$values[0], $values[1]]);
     }
 
-    public function applyTimeFilter($query, $key, $values)
+    public function applyTimeFilter($query, $key, $timeValues, $dateValues, $timezone)
     {
-        $offsetHours = Date::offsetHours();
         if (!Str::contains($key, config('database.connections.mysql.prefix'))){
             $key = config('database.connections.mysql.prefix') . $key;
         }
-        if ($start = $values['start_time'] ?? null) {
-            $start = Carbon::parse($start)->subHours($offsetHours)->toTimeString();
-            $query->whereRaw("TIME(" . $key . ") > '{$start}'");
+        if ($start = $timeValues['start_time'] ?? null) {
+            $query->whereRaw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') > CONCAT(DATE({$key}), ' {$start}')");
         }
-        if ($end = $values['end_time'] ?? null) {
-            $end = Carbon::parse($end)->subHours($offsetHours)->toTimeString();
-            $query->whereRaw("TIME(" . $key . ") < '{$end}'");
+        if ($end = $timeValues['end_time'] ?? null) {
+            $query->whereRaw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') < CONCAT(DATE({$key}), ' {$end}')");
         }
+        $query->whereRaw("{$key} BETWEEN '{$dateValues[0]}' AND '{$dateValues[1]}'");
         return $query;
     }
 
