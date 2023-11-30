@@ -262,7 +262,7 @@ class ExportField
         $value = $this->getValue($row);
 
         if (is_string($value)) {
-            return preg_replace('/\s+/', '', trim($value));
+            return preg_replace('/\n+/', '', trim($value));
         }
 
         if (is_array($value)) {
