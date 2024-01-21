@@ -10,6 +10,7 @@ abstract class Widget
     public $title;
     public $field;
     public $display = 'bigNumber';
+    public $displayFrom = null;
 
     public static function make($field, $title = null)
     {
@@ -44,11 +45,26 @@ abstract class Widget
         return $this->title;
     }
 
+    public function displayFrom($from) : self
+    {
+        $this->displayFrom = $from;
+        return $this;
+    }
+
+    public function getDisplayCss() : string
+    {
+        if($this->displayFrom){
+            return " hidden {$this->displayFrom}:block";
+        }
+        return '';
+    }
+
     public function render($row) : string
     {
         return view("sidecar::widgets.{$this->display}",[
             'value' => $this->getValue($row),
-            'title' => $this->getTitle()
+            'title' => $this->getTitle(),
+            'displayCss' => $this->getDisplayCss()
         ])->render();
     }
 

@@ -1,4 +1,4 @@
-<div class="flex-1 sidecar-widget">
+<div class="flex-1 sidecar-widget {{$displayCss}}">
     <div class="sidecar-widget-value">
         {{ $value }}
     </div>
