@@ -2,5 +2,9 @@
     @isset($icon)
         <i class="fa fa-{{ $icon }}" aria-hidden="true"></i>
     @endisset
-    {{ $label ?? '' }}
+    @isset($label)
+    <span class="hidden lg:inline-block">
+        {{ $label ?? '' }}
+    </span>
+    @endisset
 </{{ $tag ?? 'a'}}>

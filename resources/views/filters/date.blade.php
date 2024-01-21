@@ -1,7 +1,7 @@
 <div x-data="{ isOpen: false }" class="relative flex">
     @include('sidecar::components.secondaryAction', [
         'action' => 'onclick=shiftInterval(-1)',
-        'label' => '<',
+        'icon' => 'chevron-left',
     ])
     @include('sidecar::components.secondaryAction', [
         'action' => 'x-on:click=isOpen=!isOpen',
@@ -56,7 +56,7 @@
     </div>
     @include('sidecar::components.secondaryAction', [
         'action' => 'onclick=shiftInterval(1)',
-        'label' => '>',
+        'icon' => 'chevron-right',
     ])
 </div>
 @push(config('sidecar.scripts-stack'))
