@@ -35,7 +35,7 @@ class ExportField
 
     /** @var string The classes used when exporting to html fo the TD field */
     public $tdClasses = "";
-    public bool $hideMobile = false;
+    public ?string $displayFrom = null;
     public bool $hidden = false;
     public bool $filterOnClick = false;
     public ?string $route = null;
@@ -142,9 +142,14 @@ class ExportField
         return $this;
     }
 
-    public function hideMobile($hideMobile = true): self
+    public function hideMobile(): self
     {
-        $this->hideMobile = $hideMobile;
+        $this->displayFrom = 'lg';
+        return $this;
+    }
+
+    public function displayFrom(string $from) : self {
+        $this->displayFrom = $from;
         return $this;
     }
 
@@ -306,8 +311,8 @@ class ExportField
     public function getTDClasses(): string
     {
         $classes = $this->tdClasses;
-        if ($this->hideMobile) {
-            $classes .= " hidden lg:table-cell";
+        if ($this->displayFrom) {
+            $classes .= " hidden {$this->displayFrom}:table-cell";
         }
         if ($this->isNumeric()) {
             $classes .= " text-right";
