@@ -307,7 +307,7 @@ class ExportField
     {
         $classes = $this->tdClasses;
         if ($this->hideMobile) {
-            $classes .= " hide-mobile";
+            $classes .= " hidden lg:table-cell";
         }
         if ($this->isNumeric()) {
             $classes .= " text-right";
