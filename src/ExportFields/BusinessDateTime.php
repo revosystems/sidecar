@@ -26,10 +26,10 @@ class BusinessDateTime extends Date
 
         if ($groupBy?->isGrouping()) {            
             if ($groupBy->isGroupingBy($this->dependsOnField, 'hour')) {
-                return DB::raw("GS_orders.{$this->dependsOnField} as opened");
+                return $this->dependsOnField;
             }
             if ($groupBy->isGroupingBy($this->dependsOnField)) {
-                return DB::raw("DATE(SUBTIME(CONVERT_TZ(GS_orders.{$this->dependsOnField}, 'UTC', '{$timezone}'), '{$openingTime}')) as opened");
+                return DB::raw("DATE(SUBTIME(CONVERT_TZ(GS_orders.{$this->dependsOnField}, 'UTC', '{$timezone}'), '{$openingTime}')) as {$this->dependsOnField}");
             }
 
             return $this->onGroupingBy
