@@ -40,7 +40,7 @@ class ExportField
     public bool $filterOnClick = false;
     public ?string $route = null;
     protected ?string $linkClasses = "";
-
+    
     public static function make($field, $title = null, $dependsOnField = null)
     {
         $exportField = new static;
