@@ -13,7 +13,7 @@
         <div class="mb-4 text-gray-400 text-sm mt-1">
             {{ __(config('sidecar.translationsPrefix').'saveReportDesc') }}
         </div>
-        
+
         <form action="{{ route('sidecar.report.store') }}" method="post">
             {{ csrf_field() }}
             <input type="hidden" name="url" value="{{ request()->fullUrl() }}">
