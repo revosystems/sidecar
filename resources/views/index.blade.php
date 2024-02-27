@@ -3,6 +3,8 @@
 @section('content')
 
     <div class="flex justify-between pl-4 pr-2 py-4">
+        <div class="flex items-center space-x-1">
+            @component(config('thrust.sidebar-collapsed-button'))@endcomponent
             @if($tooltip = $report->getTooltip())
                 <x-ui::tooltip>
                     <x-slot name="trigger">
@@ -17,6 +19,7 @@
                     <div class="">{!! $report->getTitle() !!}</div>
                 </h2>
             @endif
+        </div>
 
         <div class="flex space-x-2">
             @include('sidecar::mainActions')
