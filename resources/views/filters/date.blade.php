@@ -14,9 +14,8 @@
             </x-ui::secondary-button>
         </x-slot>
 
-        @include('sidecar::components.title', [
-            'label' => __(config('sidecar.translationsPrefix').'dateRange')
-        ])
+        <x-sidecar::title :label="__(config('sidecar.translationsPrefix').'dateRange')" />
+
         <x-sidecar::select :id="'date-range-'.$field->getFilterField()" :name="'dates['.$field->getFilterField().'][period]'" class="min-w-64">
             @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
                 <option value="{{$range}}"
@@ -49,13 +48,11 @@
                         'value' => $report->filters->dateFilterEndFor($field),
                     ])
                 </div>
-                <div class="mt-4 text-right">
-                    @include('sidecar::components.mainAction', [
-                        'id' => 'filter_date_button',
-                        'icon' => 'filter',
-                        'label' => __(config('sidecar.translationsPrefix').'filter'),
-                    ])
-                </div>
+
+                <x-ui::primary-button id="filter_date_button" :async="true" type="submit" class="mt-4">
+                    @icon(filter)
+                    {{__(config('sidecar.translationsPrefix').'filter')}}
+                </x-ui::primary-button>
             </div>
         </div>
     </x-ui::dropdown>
