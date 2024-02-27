@@ -1,5 +1,3 @@
-<select id="{{ $id }}" name="{{ $name }}" style="width: {{ $width ?? '300px'}};"
-    class="h-8 px-1 border border-gray-400 rounded text-sm text-gray-700 sidecar-select {{ $classes ?? '' }}"
->
+<x-ui::forms.select {{ $attributes->class('sidecar-select') }}>
     {{ $slot }}
-</select>
+</x-ui::forms.select>

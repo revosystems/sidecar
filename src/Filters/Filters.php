@@ -213,8 +213,8 @@ class Filters
                 return __(config('sidecar.translationsPrefix') . $period);
             }
         }
-        return Carbon::parse($this->dateFilterStartFor($field))->format("jS F Y")  ." - " .
-               Carbon::parse($this->dateFilterEndFor($field))->format("jS F Y");
+        return Carbon::parse($this->dateFilterStartFor($field))->isoFormat('D MMM YY')  ." - " .
+               Carbon::parse($this->dateFilterEndFor($field))->isoFormat('D MMM YY');
     }
 
     public function datePeriodFilterFor(ExportField $field) : ?string

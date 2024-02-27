@@ -1,4 +1,4 @@
-<select id="{{$field->getFilterField()}}" name="filters[{{$field->getFilterField()}}][]" multiple style="width: 300px">
+<x-ui::forms.select id="{{$field->getFilterField()}}" name="filters[{{$field->getFilterField()}}][]" multiple style="width: 300px">
     <option value="">--</option>
     @if (\Illuminate\Support\Arr::dimensions($field->filterOptions($report->filters)) > 1)
         @foreach($field->filterOptions($report->filters) as $category => $categories)
@@ -13,7 +13,7 @@
             <option value="{{$key}}" @if($report->filters->isFilteringBy($field->getFilterField(), $key)) selected @endif>{{$value}}</option>
         @endforeach
     @endif
-</select>
+</x-ui::forms.select>
 
 @push(config('sidecar.scripts-stack'))
 <script>

@@ -1,18 +1,23 @@
-<div x-data="{ isOpen: false }" class="relative flex">
-    @include('sidecar::components.secondaryAction', [
-        'action' => 'onclick=shiftInterval(-1)',
-        'icon' => 'chevron-left',
-    ])
-    @include('sidecar::components.secondaryAction', [
-        'action' => 'x-on:click=isOpen=!isOpen',
-        'icon' => $field->getIcon(),
-        'label' => $report->filters->dateFilterTitleFor($field),
-    ])
-    <div class="p-4 absolute z-50 mt-8 bg-white shadow-xl" x-on:click.away="isOpen = false" x-cloak x-show="isOpen" x-transition>
+<div class="flex items-center space-x-1">
+    <x-ui::secondary-button onclick="shiftInterval(-1)" :async="true">
+        @icon(chevron-left)
+    </x-ui::secondary-button>
+
+
+    <x-ui::dropdown anchor="bottom-start" offset="12">
+        <x-slot name="trigger">
+            <x-ui::secondary-button>
+                <div class="flex items-center space-x-2">
+                    <div><x-ui::icon>{{ $field->getIcon() }}</x-ui::icon></div>
+                    <div class="truncate">{{$report->filters->dateFilterTitleFor($field)}}</div>
+                </div>
+            </x-ui::secondary-button>
+        </x-slot>
+
         @include('sidecar::components.title', [
             'label' => __(config('sidecar.translationsPrefix').'dateRange')
         ])
-        <x-sidecar::select :id="'date-range-'.$field->getFilterField()" :name="'dates['.$field->getFilterField().'][period]'">
+        <x-sidecar::select :id="'date-range-'.$field->getFilterField()" :name="'dates['.$field->getFilterField().'][period]'" class="min-w-64">
             @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
                 <option value="{{$range}}"
                         @if($report->filters->datePeriodFilterFor($field) == $range) selected @endif
@@ -53,12 +58,14 @@
                 </div>
             </div>
         </div>
-    </div>
-    @include('sidecar::components.secondaryAction', [
-        'action' => 'onclick=shiftInterval(1)',
-        'icon' => 'chevron-right',
-    ])
+    </x-ui::dropdown>
+
+
+    <x-ui::secondary-button onclick="shiftInterval(1)" :async="true">
+        @icon(chevron-right)
+    </x-ui::secondary-button>
 </div>
+
 @push(config('sidecar.scripts-stack'))
     <script>
         document.getElementById('date-range-{{$field->getFilterField()}}').addEventListener('change', function(event){

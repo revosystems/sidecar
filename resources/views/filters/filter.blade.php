@@ -1,7 +1,6 @@
-<td style="padding-left:0px">
+<td class="px-1">
     @include('sidecar::filters.filterTitle')
 </td>
-
 <td>
     @if ($field instanceof \Revo\Sidecar\ExportFields\Text)
         @include('sidecar::filters.search')
@@ -12,4 +11,5 @@
     @else
         @include('sidecar::filters.select')
     @endif
+
 </td>

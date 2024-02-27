@@ -97,7 +97,9 @@ class Compare
             return __(config('sidecar.translationsPrefix') . $this->period);
         }
 
-        return Carbon::parse($this->start)->format("jS F Y") . " - " .
-               Carbon::parse($this->end)->format("jS F Y");
+        return Carbon::parse($this->start)->isoFormat('D MMM YY') . " - " .
+               Carbon::parse($this->end)->isoFormat('D MMM YY');
+
+
     }
 }

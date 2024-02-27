@@ -11,7 +11,7 @@ class GroupBy
     public $groupings;
 
     public function __construct(?array $groupings) {
-        $this->groupings = collect($groupings)->mapWithKeys(function($value){
+        $this->groupings = collect($groupings)->filter()->mapWithKeys(function($value){
             list($key, $type) = explode(":", $value);
             return [$key => $type];
         });

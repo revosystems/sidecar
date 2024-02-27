@@ -1,6 +1,5 @@
-@include('sidecar::components.input', [
-       'id' => $field->getFilterField(),
-       'type' => 'text',
-       'name' => "filters[{$field->getFilterField()}][]",
-       'value' => $report->filters->filtersFor($field->getFilterField())->implode(" "),
-])
+<x-ui::forms.text-input class="w-full"
+    :id="$field->getFilterField()"
+    :name="'filters[{$field->getFilterField()}][]'"
+    :value="$report->filters->filtersFor($field->getFilterField())->implode(' ')"
+/>
