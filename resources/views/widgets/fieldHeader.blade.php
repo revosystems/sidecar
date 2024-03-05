@@ -1,20 +1,24 @@
-<div class='has-tooltip cursor max-w-sm'>
-    @if ($tooltip = $field->getTooltip())
-     <span class='tooltip rounded shadow-lg p-2 text-xs bg-black text-white mt-7 normal-case'> {{ $tooltip  }}</span>
-    @endif
-    <div @if($tooltip) style="text-decoration:underline dotted" @endif>
-        @if ($field->sortable)
-            @if($report->filters->sort->field == $field->getFilterField())
-                @if (strtolower($report->filters->sort->order) == 'desc')
-                    <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'ASC') }}' class='bg-gray-200 rounded px-2 py-1 text-black'> {{ $field->getTitle() }} ▼ </a>
-                @else
-                    <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class='bg-gray-200 rounded px-2 py-1 text-black'> {{ $field->getTitle() }} ▲ </a>
-                @endif
-            @else
-                <a href='{{ \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'DESC') }}' class=''> {{ $field->getTitle() }} </a>
-            @endif
-        @else
+<div class='cursor max-w-sm'>
+    @if ($field->sortable)
+        <x-ui::sort-header
+                :active="$report->filters->sort->field == $field->getFilterField()"
+                direction="{{$report->filters->sort->order}}"
+                :sortDescLink=" \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'desc') "
+                :sortAscLink=" \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'asc') "
+                :tooltip="$field->getTooltip()"
+        >
             {{ $field->getTitle() }}
-        @endif
-    </div>
+        </x-ui::sort-header>
+    @else
+        <x-ui::tooltip :enabled="$field->getTooltip()!== null">
+            <x-slot name="trigger">
+                <span @class([
+                    "underline decoration-dotted" => ($field->getTooltip()!== null)
+                    ])>
+                    {{ $field->getTitle() }}
+                </span>
+            </x-slot>
+            {{ $field->getTooltip() }}
+        </x-ui::tooltip>
+    @endif
 </div>
