@@ -48,32 +48,34 @@ class GroupBy
                 /*->orderBy(DB::raw('hour(' . $this->>subTime($key, Date::getUtcOpeningTime()) . ')'), 'ASC')*/;
         }
         if ($type == 'day') {
-            return $query->groupBy(DB::raw('date(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
+            return $query->groupBy(DB::raw('date(' . $this->businessTime($key) . ')'))
                          /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'dayOfWeek') {
-            return $query->groupBy(DB::raw('dayofweek(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'));
+            return $query->groupBy(DB::raw('dayofweek(' . $this->businessTime($key) . ')'));
         }
         if ($type == 'week') {
-            return $query->groupBy(DB::raw('yearweek(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
+            return $query->groupBy(DB::raw('yearweek(' . $this->businessTime($key) . ')'))
                            /*->groupBy(DB::raw('year(' . $this->>subTime($key, Date::getUtcOpeningTime()) . ')'))*/
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'month') {
-            return $query->groupBy(DB::raw('month(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
-                          ->groupBy(DB::raw('year(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
+            return $query->groupBy(DB::raw('month(' . $this->businessTime($key) . ')'))
+                          ->groupBy(DB::raw('year(' . $this->businessTime($key) . ')'))
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'quarter') {
-            return $query->groupBy(DB::raw('quarter(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
-                          ->groupBy(DB::raw('year(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
+            return $query->groupBy(DB::raw('quarter(' . $this->businessTime($key) . ')'))
+                          ->groupBy(DB::raw('year(' . $this->businessTime($key) . ')'))
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         return $query->groupBy(DB::raw($key));
     }
 
-    function subTime($field, $time)
+    function businessTime($field)
     {
-        return "SUBTIME({$field}, '{$time}')";
+        $timezone = Date::$timezone;
+        $openingTime = Date::$openingTime;
+        return "SUBTIME(CONVERT_TZ({$field}, 'UTC', '{$timezone}'), '{$openingTime}')";
     }
 }
