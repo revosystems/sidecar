@@ -21,18 +21,20 @@ class MainAction
 
     public function display(Report $report): string
     {
-        return "<a class='h-7 py-1.5 px-2 mr-1 bg-white tet-xs border border-gray-300 rounded align-middle cursor-pointer shadow-sm sidecar-button-secondary relative' href='{$this->url}'> {$this->getIcon()} {$this->getTitle()} </a>";
+        return view('sidecar::components.secondaryAction',[
+            'title' => $this->title,
+            'icon' => $this->icon,
+            'url' => $this->url
+        ])->render();
     }
 
     protected function getIcon(): string
     {
-        return $this->icon
-            ? "<i class='fa fa-{$this->icon}'></i> "
-            : '';
+        return $this->icon;
     }
 
     protected function getTitle(): string
     {
-        return __(config('sidecar.translationsPrefix') . $this->title);
+        return $this->title;
     }
 }

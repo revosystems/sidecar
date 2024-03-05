@@ -10,7 +10,7 @@
         'id' => $field->getFilterField(),
         'type' => 'number',
         'name' => "filters[{$field->getFilterField()}][value]",
-        'width' => '240px',
+        'width' => 'w-f',
         'value' => data_get($filterValues, 'value', ''),
         'classes' => 'ml-1'
     ])

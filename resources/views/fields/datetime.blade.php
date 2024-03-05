@@ -1,0 +1,1 @@
+<x-ui::datetimeForHumans :date="$date" />

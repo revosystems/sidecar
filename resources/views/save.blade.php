@@ -1,8 +1,7 @@
 <div>
     <x-ui::dropdown offset="12">
         <x-slot name="trigger">
-            <x-ui::secondary-button>
-                <span class="text-gray-700">@icon(clone)</span>
+            <x-ui::secondary-button icon="clone" hideTextOnSm>
                 {{ __(config('sidecar.translationsPrefix').'save') }}
             </x-ui::secondary-button>
         </x-slot>
