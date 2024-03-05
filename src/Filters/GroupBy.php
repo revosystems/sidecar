@@ -76,6 +76,6 @@ class GroupBy
     {
         $timezone = Date::$timezone;
         $openingTime = Date::$openingTime;
-        return "SUBTIME(CONVERT_TZ({$field}, 'UTC', '{$timezone}'), {$openingTime}'";
+        return "SUBTIME(CONVERT_TZ({$field}, 'UTC', '{$timezone}'), '{$openingTime}')";
     }
 }
