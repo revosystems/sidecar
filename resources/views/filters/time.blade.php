@@ -1,20 +1,17 @@
-<div class="flex space-x-2 items-center">
+<div class="grid grid-cols-2 gap-2">
     @php $filterValues = $report->filters->dates[$field->getFilterField()] @endphp
-    @include('sidecar::components.input', [
-           'id' => "{$field->getFilterField()}_start",
-           'type' => 'time',
-           'name' => "dates[{$field->getFilterField()}][start_time]",
-           'width' => '147px',
-           'value' => data_get($filterValues, 'start_time', ''),
-           'classes' => 'w-full',
-    ])
-    @include('sidecar::components.input', [
-           'id' => "{$field->getFilterField()}_start",
-           'type' => 'time',
-           'name' => "dates[{$field->getFilterField()}][end_time]",
-           'width' => '146px',
-           'value' => data_get($filterValues, 'end_time', ''),
-           'classes' => 'w-full',
-    ])
-
+    <x-ui::forms.text-input
+            type="time"
+           id="{{$field->getFilterField()}}_start"
+           name="dates[{{$field->getFilterField()}}][start_time]"
+           :value="data_get($filterValues, 'start_time', '')"
+            class="w-full"
+    />
+    <x-ui::forms.text-input
+            type="time"
+            id="{{$field->getFilterField()}}_end"
+            name="dates[{{$field->getFilterField()}}][end_time]"
+            :value="data_get($filterValues, 'end_time', '')"
+            class="w-full"
+    />
 </div>

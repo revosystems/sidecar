@@ -12,8 +12,10 @@
                     @include('sidecar::filters.dateCompare')
                 @endif
             </div>
-            <div class="flex flex-row justify-left items-center space-x-2">
+            <div class="flex flex-row justify-left items-center space-x-2 grow">
+                <div class="grow">
                 @include('sidecar::filters.groupBy')
+                </div>
                 @include('sidecar::filters.manage')
             </div>
         </div>

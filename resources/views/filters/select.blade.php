@@ -1,4 +1,4 @@
-<x-ui::forms.select id="{{$field->getFilterField()}}" name="filters[{{$field->getFilterField()}}][]" multiple style="width: 300px">
+<x-ui::forms.select id="{{$field->getFilterField()}}" name="filters[{{$field->getFilterField()}}][]" multiple>
     <option value="">--</option>
     @if (\Illuminate\Support\Arr::dimensions($field->filterOptions($report->filters)) > 1)
         @foreach($field->filterOptions($report->filters) as $category => $categories)

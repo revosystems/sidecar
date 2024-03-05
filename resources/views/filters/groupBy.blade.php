@@ -1,6 +1,6 @@
 @if ($report->availableGroupings()->count() > 0)
-    <div class="sidecar-group-by">
-        <x-ui::forms.multiple-select id="sidecar-groupby" name="groupBy[]" placeholder="{{__(config('sidecar.translationsPrefix').'groupBy') }}...">
+    <div class="sidecar-group-by w-full">
+        <x-ui::forms.multiple-select id="sidecar-groupby" name="groupBy[]" placeholder="{{__(config('sidecar.translationsPrefix').'groupBy') }}..." class="w-full">
             @foreach($report->availableGroupings() as $filter)
                 @foreach($filter->groupings() as $grouping)
                     <option value="{{$filter->getFilterField()}}:{{$grouping}}"
