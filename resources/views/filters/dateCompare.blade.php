@@ -11,7 +11,7 @@
     @include('sidecar::components.title', [
        'label' => __(config('sidecar.translationsPrefix').'dateRange'),
    ])
-    <x-ui::forms.searchable-select id="date-range-compare" name="compare[period]" class="min-w-64">
+    <x-ui::forms.select id="date-range-compare" name="compare[period]" class="min-w-64 w-full">
         @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
             <option value="{{$range}}"
                     @if($compare->period == $range) selected @endif
@@ -21,7 +21,7 @@
             </option>
         @endforeach
         <option value="custom" @if($compare->period == 'custom' || $compare->period === null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
-    </x-ui::forms.searchable-select>
+    </x-ui::forms.select>
     <div class="grid">
         <div id="compare-custom-date-range" class="mt-4 @if($compare->period == 'custom' || $compare->period == null) @else hidden @endif">
             @include('sidecar::components.title', [

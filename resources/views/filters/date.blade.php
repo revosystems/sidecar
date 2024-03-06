@@ -16,7 +16,7 @@
 
         <x-sidecar::title :label="__(config('sidecar.translationsPrefix').'dateRange')" />
 
-        <x-ui::forms.searchable-select :id="'date-range-'.$field->getFilterField()" :name="'dates['.$field->getFilterField().'][period]'" class="min-w-64">
+        <x-ui::forms.select :id="'date-range-'.$field->getFilterField()" :name="'dates['.$field->getFilterField().'][period]'" class="min-w-64 w-full">
             @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
                 <option value="{{$range}}"
                         @if($report->filters->datePeriodFilterFor($field) == $range) selected @endif
@@ -26,7 +26,7 @@
                 </option>
             @endforeach
             <option value="custom" @if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) === null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
-        </x-ui::forms.searchable-select>
+        </x-ui::forms.select>
         <div class="grid">
             <div id="custom-date-range" class="mt-4" style="@if($report->filters->datePeriodFilterFor($field) == 'custom' || $report->filters->datePeriodFilterFor($field) == null) @else display:none; @endif">
                 @include('sidecar::components.title', [
