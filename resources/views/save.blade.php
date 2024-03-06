@@ -16,7 +16,7 @@
         <form action="{{ route('sidecar.report.store') }}" method="post">
             {{ csrf_field() }}
             <input type="hidden" name="url" value="{{ request()->fullUrl() }}">
-            <x-ui::forms.text-input name="name" :placeholder="__(config('sidecar.translationsPrefix').'myReport')" required class="w-full"/>
+            <x-ui::forms.text-input icon="signature" name="name" :placeholder="__(config('sidecar.translationsPrefix').'myReport')" required class="w-full"/>
             <br>
             <x-ui::primary-button :async="true" type="submit" class="mt-2">
                 {{ __(config('sidecar.translationsPrefix').'save') }}
