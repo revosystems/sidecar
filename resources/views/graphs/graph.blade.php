@@ -1,5 +1,5 @@
-<div class="bg-white shadow-sm m-4 p-4">
-    <canvas id="chart"  @if (in_array($graph->getType(), ['pie', 'doughnug']))  height="100vh" @else height="60vh" @endif></canvas>
+<div class="bg-white shadow-sm m-4 p-4 relative" @if (in_array($graph->getType(), ['pie', 'doughnug']))  style="height:60vh" @else style="height:30vh" @endif>
+    <canvas id="chart"></canvas>
 </div>
 
 @push(config('sidecar.scripts-stack'))
@@ -11,8 +11,8 @@
                 {
                     label: '{{ $dataset['title'] }}',
                     @if (in_array($graph->getType(), ['pie', 'doughnug']) || count($graph->values) > 1)
-                        backgroundColor: '{{Revo\Sidecar\Filters\Graph::$colors[$loop->index] ?? "#E75129"}}',
-                        borderColor: '{{Revo\Sidecar\Filters\Graph::$colors[$loop->index] ?? "#E75129"}}',
+                        backgroundColor: @json(Revo\Sidecar\Filters\Graph::$colors),
+                        borderColor: @json(Revo\Sidecar\Filters\Graph::$colors),
                     @elseif ($graph->getType() == 'line')
                         backgroundColor: "#E75129",
                         borderColor: "#E75129",
@@ -32,7 +32,7 @@
             data: data,
             options: {
                 responsive:true,
-                // maintainAspectRatio:true,
+                maintainAspectRatio:false,
                 animation: {
                     onComplete: () => {
                         delayed = true;
