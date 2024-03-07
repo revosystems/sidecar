@@ -25,7 +25,13 @@ class BelongsTo extends ExportField
 
     public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
     {
-        return $filters->applyFilter($query, $this->databaseTable().'.'.$key, $values);
+        if (count($values) == 0){ return $query; }
+        $operand = $filters->requestFilters[$this->getFilterField() . '-operand'];
+        $key = $this->databaseTable().'.'. $key;
+        if ($operand == 'whereNotIn'){
+            return $query->whereNotIn($key, $values);
+        }
+        return $query->whereIn($key, $values);
     }
 
     public function getFilterId($row)

@@ -21,6 +21,7 @@
         </div>
 
         @include('sidecar::filters.applied')
+
         <div id='sidecar-apply-button' class="mt-4 hidden">
             @include('sidecar::components.mainAction', [
                 'label' => __(config('sidecar.translationsPrefix').'apply')

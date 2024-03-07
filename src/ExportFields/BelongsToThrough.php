@@ -100,8 +100,14 @@ class BelongsToThrough extends ExportField
 
     public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
     {
+        if (count($values) == 0){ return $query; }
+        $operand = $filters->requestFilters[$this->getFilterField() . '-operand'];
         $pivotAlias = $this->getPivotTableAlias();
-        return $filters->applyFilter($query, $pivotAlias.'.'.$key, $values);
+        $key = $pivotAlias.'.'.$key;
+        if ($operand == 'whereNotIn'){
+            return $query->whereNotIn($key, $values);
+        }
+        return $query->whereIn($key, $values);
     }
 
     public function applySort(Filters $filters, Builder $query)
