@@ -16,7 +16,7 @@
 
                     <span class="border-l text-gray-400 ml-2 pl-2 transition-all hover:text-black cursor-pointer"
                           onclick="
-                            document.getElementById('{{$field->field}}').value = '';
+                            document.getElementById('{{$field->getFilterField()}}').value = '';
                             document.getElementById('sidecar-apply-button').style.display = 'block';
                             this.parentElement.parentElement.style.display = 'none';
                           "
