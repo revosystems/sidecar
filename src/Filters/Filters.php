@@ -243,6 +243,7 @@ class Filters
 
     private function cleanupFilters(?array $filters): ?array
     {
+//        dd($filters);
         if (!$filters) { return $filters; }
         return collect($filters)->reject(function ($value, $key) {
             return isset($value['operand'])

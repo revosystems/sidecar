@@ -1,5 +1,4 @@
 
-{{ $field->filterSearchable ? $field->searchableRoute() : '--' }}
 <x-ui::forms.multiple-select
     id="{{$field->getFilterField()}}"
     name="filters[{{$field->getFilterField()}}][]"
