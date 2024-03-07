@@ -30,7 +30,7 @@
 
                     <span class="border-l text-gray-400 ml-2 pl-2 transition-all hover:text-black cursor-pointer"
                           onclick="
-                             var selectobject = document.getElementById('{{$field->getSelectField()}}');
+                             var selectobject = document.getElementById('{{$field->getFilterField()}}');
                              for (var i=0; i < selectobject.length; i++) {
                                 if (selectobject.options[i].value == '{{$key}}'){
                                     selectobject.remove(i);
