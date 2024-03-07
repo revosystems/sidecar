@@ -8,11 +8,14 @@ use App\Models\Menu\MenuItem;
 class ModelsController
 {
     public function search($model, $field = 'name'){
+        return [
+            1 => "hola",
+            2 => "que",
+            3 => "tal",
+        ];
         return $this->filterIds($this->baseQuery($model, $field))
             ->limit(100)
-            ->pluck($field, 'id')->map(function($value, $key){
-                return ["id" => $key, "name" => (string) $value];
-            });
+            ->pluck($field, 'id');
     }
 
     private function baseQuery($model, $field) {
