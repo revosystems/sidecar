@@ -8,7 +8,7 @@
             <option value="whereIn">
                 {{ __(config('sidecar.translationsPrefix').'isAnyOf') }}
             </option>
-            <option value="whereNotIn" @if($report->filters->requestFilters[$field->getFilterField() . '-operand'] == 'whereNotIn')) selected @endif>
+            <option value="whereNotIn" @if($report->filters->requestFilters[$field->getFilterField() . '-operand'] ?? '' == 'whereNotIn')) selected @endif>
                 {{ __(config('sidecar.translationsPrefix').'isNot') }}
             </option>
         </x-ui::forms.searchable-select>
