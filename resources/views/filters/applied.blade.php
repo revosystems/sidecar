@@ -8,9 +8,12 @@
         @foreach($options as $key => $value)
             @if($report->filters->isFilteringBy($field->getFilterField(), $key))
                 <x-ui::tag>
-                {{ $value }}
                 @if ($field instanceof \Revo\Sidecar\ExportFields\Number)
+                    {{ $field->getTitle() }}
+                    {{ $value }}
                     {{ $report->filters->filtersFor($field->getFilterField())['value'] }}
+                @else
+                    {{ $value }}
                 @endif
                 </x-ui::tag>
             @endif
