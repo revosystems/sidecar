@@ -1,10 +1,17 @@
 <x-ui::chip :icon="$field->icon">
     <div class="flex flex-wrap gap-1 items-center">
         @php($operand = $report->filters->requestFilters[$field->getFilterField().'-operand'])
+
+        <span class="text-gray-500">{{ $field->getTitle() }}</span>
+
+        <div class="text-gray-300 border-l border-r px-1">
         @if($operand == "whereNotIn")
-            <x-ui::icon class="text-red-500 -ml-1">ban</x-ui::icon>
+            <x-ui::icon class="-ml-1">ban</x-ui::icon>
+                {{ __(config('sidecar.translationsPrefix').'isNot') }}
+        @else
+                {{ __(config('sidecar.translationsPrefix').'isAnyOf') }}
         @endif
-        <span class="text-gray-400">{{ $field->getTitle() }}</span>
+        </div>
 
         @if (\Illuminate\Support\Arr::dimensions($field->filterOptions()) > 1)
             @php ($options = collect($field->filterOptions())->mapWithKeys(fn($item) => $item))

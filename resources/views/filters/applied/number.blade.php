@@ -1,5 +1,5 @@
 <x-ui::chip :icon="$field->icon">
-    <span class="text-gray-400">{{ $field->getTitle() }}</span>
+    <span class="text-gray-500">{{ $field->getTitle() }}</span>
     {{ $report->filters->filtersFor($field->getFilterField())['operand'] }}
     {{ $report->filters->filtersFor($field->getFilterField())['value'] }}
     <span class="border-l text-gray-400 ml-2 pl-2 transition-all hover:text-black cursor-pointer"
