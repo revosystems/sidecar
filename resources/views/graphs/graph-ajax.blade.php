@@ -3,15 +3,10 @@
         "graph" => $graph
    ])
     @if (false)
-        <div id="sidecar-graph">
+        <x-ui::lazy id="sidecar-graph" :url="route('sidecar.report.graph', 'orders') .'?'. request()->getQueryString() ">
             <div class="m-4 p-4 flex justify-center text-gray-400">
                 <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
             </div>
-        </div>
-        @push(config('sidecar.scripts-stack'))
-            <script>
-                window.addEventListener('load', () => SidecarHtmlLoader.load("{{route('sidecar.report.graph', 'orders')}}?{!! request()->getQueryString() !!}", 'sidecar-graph'))
-            </script>
-        @endpush
+        </x-ui::lazy>
     @endif
 @endif

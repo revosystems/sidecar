@@ -8,7 +8,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../config/sidecar.php' => config_path('sidecar.php'),
-            __DIR__.'/../resources/js/sidecar.js' => resource_path('/js/sidecar.js'),
             __DIR__.'/../resources/css/sidecar.css' => resource_path('/css/sidecar.css'),
         ]);
 
