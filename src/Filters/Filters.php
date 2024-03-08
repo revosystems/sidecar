@@ -278,4 +278,12 @@ class Filters
             return "groupBy[]={$key}:{$type}";
         });
     }
+
+    /**
+     * @param $field
+     * @return string whereIn / whereNotIn
+     */
+    public function getOperandFor($field) : string {
+        return $this->requestFilters[$field . '-operand'];
+    }
 }
