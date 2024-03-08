@@ -4,6 +4,7 @@ namespace Revo\Sidecar;
 
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class CustomReports
 {
@@ -17,7 +18,7 @@ class CustomReports
     public static function save(string $name, string $url)
     {
         $savedReports = static::all();
-        $savedReports[] = ["name" => $name, "url" => $url];
+        $savedReports[] = ["name" => $name . ":::" . Str::random(8), "url" => $url];
         static::redisSet(json_encode($savedReports));
     }
 

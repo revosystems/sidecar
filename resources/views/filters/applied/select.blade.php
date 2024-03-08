@@ -1,12 +1,12 @@
 <x-ui::chip :icon="$field->icon">
     <div class="flex flex-wrap gap-1 items-center">
-        @php($operand = $report->filters->requestFilters[$field->getFilterField().'-operand'])
+        @php($operand = $report->filters->getOperandFor($field->getFilterField()))
 
         <span class="text-gray-500">{{ $field->getTitle() }}</span>
 
         <div class="text-gray-300 border-l border-r px-1">
         @if($operand == "whereNotIn")
-            <x-ui::icon class="-ml-1">ban</x-ui::icon>
+            <x-ui::icon>ban</x-ui::icon>
                 {{ __(config('sidecar.translationsPrefix').'isNot') }}
         @else
                 {{ __(config('sidecar.translationsPrefix').'isAnyOf') }}

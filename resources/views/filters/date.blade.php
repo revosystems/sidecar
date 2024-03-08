@@ -1,4 +1,4 @@
-<div class="flex items-center space-x-1">
+<div class="flex items-center space-x-1 w-full sm:w-auto">
     <x-ui::secondary-button onclick="shiftInterval(-1)" :async="true">
         @icon(chevron-left)
     </x-ui::secondary-button>
@@ -6,7 +6,7 @@
 
     <x-ui::dropdown anchor="bottom-start" offset="12">
         <x-slot name="trigger">
-            <x-ui::secondary-button>
+            <x-ui::secondary-button class="w-full sm:w-auto">
                 <div class="flex items-center space-x-2">
                     <div><x-ui::icon>{{ $field->getIcon() }}</x-ui::icon></div>
                     <div class="truncate">{{$report->filters->dateFilterTitleFor($field)}}</div>

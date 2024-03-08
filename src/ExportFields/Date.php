@@ -79,6 +79,11 @@ class Date extends ExportField
         return "<a onclick='dateInDepth(\"{$this->getFilterField()}\", \"{$next['select']}\", \"{$next['start']}\", \"{$next['end']}\")' class='pointer'>{$value}</a>";
     }
 
+    public function toCsv($row)
+    {
+        return $this->getValue($row);
+    }
+
     //===============================================================
     // DATE RANGES
     //===============================================================
