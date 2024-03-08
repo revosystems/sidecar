@@ -17,7 +17,7 @@
     @if($count > 0)
             <a href="{{ url(request()->getPathInfo()) }}">
                     <x-ui::tertiary-button icon="xmark">
-                        {{__(config('sidecar.translationsPrefix').'clear')}}
+                        {{__(config('sidecar.translationsPrefix').'clearAll')}}
                     </x-ui::tertiary-button>
             </a>
     @endif
