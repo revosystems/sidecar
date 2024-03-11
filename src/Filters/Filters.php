@@ -5,6 +5,7 @@ namespace Revo\Sidecar\Filters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
@@ -180,10 +181,10 @@ class Filters
             $key = config('database.connections.mysql.prefix') . $key;
         }
         if ($start = $timeValues['start_time'] ?? null) {
-            $query->whereRaw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') > CONCAT(DATE({$key}), ' {$start}')");
+            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') > CONCAT(DATE({$key}), ' {$start}')"));
         }
         if ($end = $timeValues['end_time'] ?? null) {
-            $query->whereRaw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') < CONCAT(DATE({$key}), ' {$end}')");
+            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') < CONCAT(DATE({$key}), ' {$end}')"));
         }
         $query->whereRaw("{$key} BETWEEN '{$dateValues[0]}' AND '{$dateValues[1]}'");
         return $query;
