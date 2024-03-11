@@ -32,10 +32,19 @@ class Graph
     }
 
     public function getType() : string {
-        if ($this->report->filters->groupBy->groupings->count() == 2) {   //two dimensions
+        if (!$this->isGroupingByOne()) {   //two dimensions
             return 'bar';
         }
-        return $this->dimensionField->groupableGraphType;
+        if ($requestGraphType = request('graph_type')){
+            if(in_array($requestGraphType, ['pie', 'bar', 'line', 'doughnut'])){
+                return $requestGraphType;
+            }
+        }
+        return request('graph_type') ?? $this->dimensionField->groupableGraphType;
+    }
+
+    public function isGroupingByOne() : bool {
+        return $this->report->filters->groupBy->groupings->count() == 1;
     }
 
     public function findDimensionField() {
