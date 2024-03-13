@@ -24,13 +24,13 @@ class Sidecar
         Currency::setFormatter($locale, $currency ?? 'EUR');
     }
 
-    public static function make($name) : ?Report
+    public static function make($name, $filters = null) : ?Report
     {
         $path = config('sidecar.reportsPath') . $name;
         if (! class_exists($path)) {
             throw new ModelNotFoundException('Report not found');
         }
-        return new $path;
+        return (new $path($filters));
     }
 
     public static function serving($servingCallback)

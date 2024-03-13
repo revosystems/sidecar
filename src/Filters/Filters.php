@@ -18,12 +18,12 @@ class Filters
     public $aggregateField = null;
     public $limit = null;
 
-    public function __construct() {
-        $this->requestFilters = $this->cleanupFilters(request('filters'));
-        $this->dates          = request('dates');
-        $this->groupBy        = new GroupBy(request('groupBy'));
-        $this->sort           = new Sort(request('sort'), request('sort_order'));
-        $this->aggregateField = request('aggregateField');
+    public function __construct($filters = null) {
+        $this->requestFilters = $filters['filters'] ?? $this->cleanupFilters(request('filters'));
+        $this->dates          = $filters['dates'] ?? request('dates');
+        $this->groupBy        = new GroupBy($filters['groupBy'] ?? request('groupBy'));
+        $this->sort           = new Sort($filters['sort'] ?? request('sort'), $filters['sort_order'] ?? request('sort_order'));
+        $this->aggregateField = $filters['aggregateField'] ?? request('aggregateField');
     }
 
     //======================================================================

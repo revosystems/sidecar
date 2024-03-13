@@ -1,8 +1,6 @@
 <x-ui::lazy class="flex-1 min-w-sm"
             :url="route('sidecar.panel', get_class($panel))" id="{{ $panel->slug() }}" >
     <div class="flex justify-center bg-white m-4 p-4 rounded shadow h-32">
-
-
         <div class="p-4 max-w-sm w-full mx-auto">
             <div class="animate-pulse flex space-x-4">
                 <div class="rounded-full bg-slate-200 h-10 w-10"></div>
@@ -18,7 +16,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </x-ui::lazy>
