@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Revo\Sidecar\Enums\DateRange;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
 
@@ -43,8 +44,9 @@ class Filters
 
     public function forPeriod(string $key, string $range) : self
     {
-        $period = DateHelpers::periodFor($range);
-        $this->dates[$key]['period'] = $range;
+        $range = DateRange::from($range);
+        $period = $range->period();
+        $this->dates[$key]['period'] = $range->value;
         $this->dates[$key]['start'] = $period->start->toDateString();
         $this->dates[$key]['end'] = $period->end->toDateString();
         return $this;

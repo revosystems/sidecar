@@ -12,12 +12,13 @@
        'label' => __(config('sidecar.translationsPrefix').'dateRange'),
    ])
     <x-ui::forms.select id="date-range-compare" name="compare[period]" class="min-w-64 w-full">
-        @foreach(\Revo\Sidecar\Filters\DateHelpers::availableRanges() as $range => $period)
-            <option value="{{$range}}"
-                    @if($compare->period == $range) selected @endif
+        @foreach(\Revo\Sidecar\Enums\DateRange::cases() as $range)
+            @php($period = $range->period())
+            <option value="{{$range->value}}"
+                    @if($compare->period == $range->value) selected @endif
                     x-period-start="{{$period->start->toDateString()}}"
                     x-period-end="{{$period->end->toDateString()}}">
-                {{ __(config('sidecar.translationsPrefix').$range) }}
+                {{ __(config('sidecar.translationsPrefix').$range->value) }}
             </option>
         @endforeach
         <option value="custom" @if($compare->period == 'custom' || $compare->period === null) selected @endif>{{ __(config('sidecar.translationsPrefix').'custom') }} </option>
