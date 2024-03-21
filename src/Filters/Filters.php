@@ -181,10 +181,10 @@ class Filters
             $key = config('database.connections.mysql.prefix') . $key;
         }
         if ($start = $timeValues['start_time'] ?? null) {
-            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') > CONCAT(DATE({$key}), ' {$start}')"));
+            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), ">", DB::raw("CONCAT(DATE({$key}), ' {$start}')"));
         }
         if ($end = $timeValues['end_time'] ?? null) {
-            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') < CONCAT(DATE({$key}), ' {$end}')"));
+            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), "<", DB::raw("CONCAT(DATE({$key}), ' {$end}')"));
         }
         $query->whereRaw("{$key} BETWEEN '{$dateValues[0]}' AND '{$dateValues[1]}'");
         return $query;
