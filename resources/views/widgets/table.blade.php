@@ -1,38 +1,50 @@
 @if($rows)
-<div class="sidecar links links-top">
+<div class="sidecar links links-top p-4">
     {{ $rows->links() }}
 </div>
-<table class="sidecar-table {{$tableClasses}}">
-        <thead class="sticky">
-            <tr>
+<x-ui::table.table class="sidecar-table {{$tableClasses}}">
+        <x-ui::table.header class="sticky">
+            <x-ui::table.row>
             @foreach($fields as $field)
-                <th class="h-9 py-2 @if($loop->first) pl-6 pr-5 @elseif($loop->last) pr-6 @else pr-5 @endif bg-gray-50 text-sm text-gray-500 border-b border-gray-100 font-light sidecar-th {{ $field->getTDClasses() }}">
+                <x-ui::table.header-cell class="{{ $field->getTDClasses() }}">
                     @include('sidecar::widgets.fieldHeader')
-                </th>
+                </x-ui::table.header-cell>
             @endforeach
-            </tr>
-        </thead>
-        <tbody>
+            </x-ui::table.row>
+        </x-ui::table.header>
+        <x-ui::table.body>
         @foreach($rows as $row)
-            <tr>
+            <x-ui::table.row>
             @foreach($fields as $field)
-                <td class="h-3 py-2 @if($loop->first) pl-6 pr-5 @elseif($loop->last) pr-6 @else pr-5 @endif text-sm text-gray-700 sidecar-td{{ $field->getTDClasses() }}">
+                <x-ui::table.cell class="{{ $field->getTDClasses() }}">
                     {!! $field->toHtml($row) !!}
-                </td>
+                </x-ui::table.cell>
             @endforeach
-            </tr>
+            </x-ui::table.row>
         @endforeach
-        </tbody>
-</table>
-<div class="sidecar links links-bottom">
+        </x-ui::table.body>
+</x-ui::table.table>
+
+<div class="sidecar links links-bottom p-4">
     {{ $rows->links() }}
 </div>
 
     @push(config('sidecar.scripts-stack'))
         <script>
             function filterOnClick(field, value){
-                document.getElementById(field).innerHTML += '<option value="'+ value + '" selected="selected">'+value+'</option>';
+                document.getElementById(field).innerHTML += '<option value="'+ value + '" selected/>';
+                document.querySelector("input[name='filters[" + field + "][]']").value = value;
+                removeGrouping(field)
+
                 document.getElementById("sidecar-form").submit()
+            }
+
+            function removeGrouping(field){
+                //document.querySelector("select[name='groupBy[]']").options.length = 0; // Removes all the groupings
+                let index = document.querySelector("option[value='" + field + ":default']")?.index
+                if (index !== null) {
+                    document.querySelector("select[name='groupBy[]']").remove(index)
+                }
             }
 
             function dateInDepth(field, value, start, end){
