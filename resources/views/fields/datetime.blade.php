@@ -1,1 +1,1 @@
-<x-ui::datetimeForHumans :date="$date" />
+<x-ui::datetimeForHumans :date="$date" :withSeconds="$withSeconds"/>
