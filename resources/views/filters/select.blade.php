@@ -1,6 +1,5 @@
-<div class="flex space-x-2 items-center">
-    <div class="w-34">
-
+<div class="flex flex-col gap-2">
+    <div class="">
         <x-ui::forms.searchable-select :searchable="false"
                id="{{$field->getFilterField()}}-select"
                name="filters[{{$field->getFilterField()}}-operand]"

@@ -1,6 +1,6 @@
-<div class="flex items-center space-x-2 w-full">
+<div class="flex flex-col gap-2 w-full">
     @php $filterValues = $report->filters->filtersFor($field->getFilterField()) @endphp
-    <div class="w-28">
+    <div>
         <x-ui::forms.searchable-select
                 :searchable="false"
                 :id="$field->getFilterField().'-select'"
