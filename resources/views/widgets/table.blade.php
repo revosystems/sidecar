@@ -35,7 +35,16 @@
                 document.getElementById(field).innerHTML += '<option value="'+ value + '" selected/>';
                 //document.getElementById(field).value = value
                 document.querySelector("input[name='filters[" + field + "][]']").value = value;
+                ungroup(field)
+
                 document.getElementById("sidecar-form").submit()
+            }
+
+            function ungroup(field){
+                const index = document.querySelector("option[value='" + field + ":default']")?.index;
+                if(index !== null){
+                    document.querySelector("select[name='groupBy[]']").remove(index)
+                }
             }
 
             function dateInDepth(field, value, start, end){
