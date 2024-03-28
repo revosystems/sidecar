@@ -25,6 +25,8 @@
 
         @if ($field instanceof \Revo\Sidecar\ExportFields\Text)
             @include('sidecar::filters.search')
+        @elseif ($field instanceof \Revo\Sidecar\ExportFields\Boolean)
+            @include('sidecar::filters.boolean')
         @elseif ($field instanceof \Revo\Sidecar\ExportFields\Number)
             @include('sidecar::filters.number')
         @elseif ($field instanceof \Revo\Sidecar\ExportFields\Date)
