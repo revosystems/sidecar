@@ -1,4 +1,4 @@
-<x-ui::dropdown offset="12">
+<x-ui::dropdown class="w-[95%] sm:w-auto min-w-64">
     <x-slot name="trigger">
         <x-ui::secondary-button>
             <div class="flex space-x-2 items-center">
@@ -8,7 +8,7 @@
         </x-ui::secondary-button>
     </x-slot>
 
-    <div class="text-gray-400 uppercase mb-2 min-w-64">
+    <div class="text-gray-400 uppercase mb-2">
         {{ __(config('sidecar.translationsPrefix').'filters') }}
     </div>
     <div class="" x-data="{
