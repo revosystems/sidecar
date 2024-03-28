@@ -5,9 +5,9 @@
             {{ __(config('sidecar.translationsPrefix').'is') }}
         </div>
         @if($report->filters->filtersFor($field->getFilterField())[0])
-            {{ __(config('sidecar.translationsPrefix').'true') }}
+            {{ __(config('sidecar.translationsPrefix').'yes') }}
         @else
-            {{ __(config('sidecar.translationsPrefix').'false') }}
+            {{ __(config('sidecar.translationsPrefix').'no') }}
         @endif
             <span class="border-l text-gray-400 ml-2 pl-2 transition-all hover:text-black cursor-pointer"
                   onclick="
