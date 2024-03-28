@@ -34,15 +34,15 @@
             function filterOnClick(field, value){
                 document.getElementById(field).innerHTML += '<option value="'+ value + '" selected/>';
                 document.querySelector("input[name='filters[" + field + "][]']").value = value;
-                removeGrouping(field)
+
+                ungroup(field)
 
                 document.getElementById("sidecar-form").submit()
             }
 
-            function removeGrouping(field){
-                //document.querySelector("select[name='groupBy[]']").options.length = 0; // Removes all the groupings
-                let index = document.querySelector("option[value='" + field + ":default']")?.index
-                if (index !== null) {
+            function ungroup(field){
+                const index = document.querySelector("option[value='" + field + ":default']")?.index;
+                if (index !== null){
                     document.querySelector("select[name='groupBy[]']").remove(index)
                 }
             }

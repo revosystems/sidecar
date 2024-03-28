@@ -1,19 +1,8 @@
-@if($tooltip = $field->getFilterTooltip())
-    <x-ui::tooltip>
-        <x-slot name="trigger">
-            @if($field->getIcon())
-                <x-ui::icon>{{$field->getIcon()}}</x-ui::icon>
-            @else
-                {{ $field->getTitle() }}
-            @endif
-        </x-slot>
-        {{ $tooltip }}
-    </x-ui::tooltip>
-
-@else
+<div class="flex gap-2 items-center">
     @if($field->getIcon())
-        <x-ui::icon>{{$field->getIcon()}}</x-ui::icon>
-    @else
-        {{ $field->getTitle() }}
+        <x-ui::icon class="text-gray-500">{{$field->getIcon()}}</x-ui::icon>
     @endif
-@endif
+    <div>
+        {{ $field->getTitle() }}
+    </div>
+</div>

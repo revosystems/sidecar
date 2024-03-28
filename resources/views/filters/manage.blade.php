@@ -8,21 +8,27 @@
         </x-ui::secondary-button>
     </x-slot>
 
-    <div class="text-gray-400 uppercase mb-2">
+    <div class="text-gray-400 uppercase mb-2 min-w-64">
         {{ __(config('sidecar.translationsPrefix').'filters') }}
     </div>
-    <div class="">
-        <table>
+    <div class="" x-data="{
+            selectedFilter:null
+        }"
+        @keyup.escape="
+            console.log('esc')
+            selectedFilter = null;
+        "
+    >
+        <div class="flex flex-col">
             @foreach($report->availableFilters() as $field)
-                <tr class="h-10">@include('sidecar::filters.filter')</tr>
+                @include('sidecar::filters.filter')
             @endforeach
-        </table>
+        </div>
 
         <x-ui::primary-button type="submit" :async="true" class="mt-4">
             @icon(filter)
             {{__(config('sidecar.translationsPrefix').'filter')}}
         </x-ui::primary-button>
-
     </div>
 
 </x-ui::dropdown>
