@@ -1,10 +1,7 @@
 <x-ui::dropdown class="w-[95%] sm:w-auto min-w-64">
     <x-slot name="trigger">
-        <x-ui::secondary-button>
-            <div class="flex space-x-2 items-center">
-                <div>@icon(filter)</div>
-                <div class="hidden sm:show">{{ __(config('sidecar.translationsPrefix').'manageFilters') }}</div>
-            </div>
+        <x-ui::secondary-button icon="filter">
+            {{ __(config('sidecar.translationsPrefix').'manageFilters') }}
         </x-ui::secondary-button>
     </x-slot>
 

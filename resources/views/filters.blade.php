@@ -3,8 +3,8 @@
         <input type="hidden" name="sort" value="{{request('sort')}}">
         <input type="hidden" name="sort_order" value="{{request('sort_order')}}">
 
-        <div class="flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2 md:items-center">
-            <div class="flex flex-row justify-left items-center space-x-2">
+        <div class="flex flex-col gap-2 md:space-y-0 md:flex-row md:items-center">
+            <div class="flex flex-row justify-left items-center gap-2">
                 @foreach($report->availableFilters() as $field)
                     @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date')
                 @endforeach
@@ -12,8 +12,8 @@
                     @include('sidecar::filters.dateCompare')
                 @endif
             </div>
-            <div class="flex flex-row justify-left items-center space-x-2 grow">
-                <div class="grow">
+            <div class="flex flex-col md:flex-row w-full md:w-auto justify-left items-center gap-2 md:grow">
+                <div class="grow w-full">
                 @include('sidecar::filters.groupBy')
                 </div>
                 @include('sidecar::filters.manage')
