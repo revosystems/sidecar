@@ -47,6 +47,7 @@ class Date extends ExportField
         if ($type == 'week')      { return $date->format('W (M Y)'); }
         if ($type == 'month')     { return $date->format('M Y'); }
         if ($type == 'quarter')   { return "Quarter " . ceil($date->month/3) . ' '. $date->format('Y'); }
+        if ($type == 'year')      { return $date->format('Y'); }
         return $date->toDateString();
     }
 
@@ -56,7 +57,7 @@ class Date extends ExportField
 
     public function groupings() : array
     {
-        return ['hour', 'day', 'dayOfWeek', 'week', 'month', 'quarter'];
+        return ['hour', 'day', 'dayOfWeek', 'week', 'month', 'quarter', 'year'];
     }
 
     public function applyFilter(Filters $filters, Builder $query, $key, $values) : Builder
