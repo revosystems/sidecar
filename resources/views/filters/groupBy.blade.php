@@ -4,7 +4,7 @@
         <x-ui::forms.searchable-select class="h-14" id="sidecar-groupby-date" name="groupBy[]" placeholder="{{__(config('sidecar.translationsPrefix').'groupBy') }}..." class="w-full md:w-auto" icon="calendar-plus">
             @foreach($report->availableGroupings() as $filter)
                 @if(count($filter->groupings()) > 1)
-                    <option value="">--</option>
+                    <option value="">{{ trans_choice(config('sidecar.translationsPrefix').'selectDateGroup', 1) }}...</option>
                     @foreach($filter->groupings() as $grouping)
                         <option value="{{$filter->getFilterField()}}:{{$grouping}}"
                                 @if ($report->filters->groupBy->isGroupingBy($filter->getFilterField(), $grouping)) selected @endif>
