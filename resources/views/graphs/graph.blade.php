@@ -1,9 +1,10 @@
-
-<x-ui::segmented-links class="ml-4 !px-0">
-    <x-ui::segmented-links.a href="{{request()->fullUrl()}}&graph_type=doughnut"  :active="$graph->getType() == 'doughnut'">@icon(chart-pie)</x-ui::segmented-links.a>
-    <x-ui::segmented-links.a href="{{request()->fullUrl()}}&graph_type=bar"  :active="$graph->getType() == 'bar'">@icon(chart-simple)</x-ui::segmented-links.a>
-    <x-ui::segmented-links.a href="{{request()->fullUrl()}}&graph_type=line"  :active="$graph->getType() == 'line'">@icon(chart-line)</x-ui::segmented-links.a>
-</x-ui::segmented-links>
+@if ($graph->isGroupingByOne() )
+    <x-ui::segmented-links class="ml-4 !px-0">
+        <x-ui::segmented-links.a href="{{request()->fullUrl()}}&graph_type=doughnut"  :active="$graph->getType() == 'doughnut'">@icon(chart-pie)</x-ui::segmented-links.a>
+        <x-ui::segmented-links.a href="{{request()->fullUrl()}}&graph_type=bar"  :active="$graph->getType() == 'bar'">@icon(chart-simple)</x-ui::segmented-links.a>
+        <x-ui::segmented-links.a href="{{request()->fullUrl()}}&graph_type=line"  :active="$graph->getType() == 'line'">@icon(chart-line)</x-ui::segmented-links.a>
+    </x-ui::segmented-links>
+@endif
 
 <div class="bg-white shadow-sm m-4 p-4 relative" @if (in_array($graph->getType(), ['pie', 'doughnut']))  style="height:50vh" @else style="height:30vh" @endif>
     <canvas id="chart"></canvas>

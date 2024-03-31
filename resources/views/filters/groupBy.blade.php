@@ -1,10 +1,10 @@
 @if ($report->availableGroupings()->count() > 0)
     <div class="sidecar-group-by w-full flex flex-col md:flex-row items-center gap-2">
         
-        <x-ui::forms.searchable-select class="h-14" id="sidecar-groupby-date" name="groupBy[]" placeholder="{{__(config('sidecar.translationsPrefix').'groupBy') }}..." class="w-full md:w-auto" icon="calendar-plus">
+        <x-ui::forms.searchable-select class="h-14" id="sidecar-groupby-date" name="groupBy[]" placeholder="{{__(config('sidecar.translationsPrefix').'groupBy') }}..." class="w-full min-w-44 md:w-auto" icon="calendar-plus">
             @foreach($report->availableGroupings() as $filter)
                 @if(count($filter->groupings()) > 1)
-                    <option value="">{{ trans_choice(config('sidecar.translationsPrefix').'selectDateGroup', 1) }}...</option>
+                    <option value="">--</option>
                     @foreach($filter->groupings() as $grouping)
                         <option value="{{$filter->getFilterField()}}:{{$grouping}}"
                                 @if ($report->filters->groupBy->isGroupingBy($filter->getFilterField(), $grouping)) selected @endif>
