@@ -7,6 +7,7 @@ use Carbon\Carbon;
 class DateDepth
 {
     protected $next = [
+        "year" => "quarter",
         "quarter" => "month",
         "month" => "week",
         "week" => "day",
@@ -27,6 +28,7 @@ class DateDepth
 
     public function periodStartFor(Carbon $date, $period) : string
     {
+        if ($period == "year"){ $date->startOfYear()->toDateString(); }
         if ($period == "quarter"){ $date->startOfQuarter()->toDateString(); }
         if ($period == "month"){ $date->startOfMonth()->toDateString(); }
         if ($period == "week"){ $date->startOfWeek()->toDateString(); }
@@ -36,6 +38,7 @@ class DateDepth
 
     public function periodEndFor(Carbon $date, $period): string
     {
+        if ($period == "year"){ $date->endOfYear()->toDateString(); }
         if ($period == "quarter"){ $date->endOfQuarter()->toDateString(); }
         if ($period == "month"){ $date->endOfMonth()->toDateString(); }
         if ($period == "week"){ $date->endOfWeek()->toDateString(); }
