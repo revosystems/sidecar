@@ -5,7 +5,7 @@ namespace Revo\Sidecar\ExportFields;
 use Revo\Sidecar\Filters\GroupBy;
 use Illuminate\Support\Facades\DB;
 
-class BusinessDateTime extends Date
+class BusinessDateTime extends DateTime
 {
     public function getNonGroupedValue($value) : string {
         return $this->getCarbonDate($value)->isoFormat('L HH:mm');
