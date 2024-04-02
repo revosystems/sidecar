@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 
 class ModelsController extends Controller
 {
-    public function search($model, $field = 'name'){
-
+    public function search($model, $field = 'name') {
         return $this->filterIds($this->baseQuery($model, $field))
-            ->limit(100)->get()->map(function($object){
-                return ["id" => $object->id, "name" => $object->name];
+            ->limit(100)->get()->map(function($object) use($field){
+                return ["id" => $object->id, "name" => $object->{$field}];
             });
     }
 
