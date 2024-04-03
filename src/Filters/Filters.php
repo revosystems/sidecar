@@ -286,6 +286,6 @@ class Filters
      * @return string whereIn / whereNotIn
      */
     public function getOperandFor($field) : string {
-        return $this->requestFilters[$field . '-operand'] ?? 'whereAny';
+        return $this->requestFilters[$field . '-operand'] ?? 'whereIn';
     }
 }
