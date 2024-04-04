@@ -54,10 +54,10 @@ class Compare
         if (!$this->isComparing()) { return $this; }
 
         $this->period1Results = $this->period1->paginate()->mapWithKeys(function($row){
-           return [$this->groupByField->getValue($row) => $row->{$this->metric}];
+           return [$this->groupByField->toCsv($row) => $row->{$this->metric}];
         });
         $this->period2Results = $this->period2->paginate()->mapWithKeys(function($row){
-            return [$this->groupByField->getValue($row) => $row->{$this->metric}];
+            return [$this->groupByField->toCsv($row) => $row->{$this->metric}];
         });
 
         $this->labels = $this->period1Results->keys()->merge($this->period2Results->keys())->unique();
