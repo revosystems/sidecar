@@ -83,7 +83,7 @@ class Graph
     public function calculateForOneGrouping()
     {
         $this->labels = $this->results->map(function($row){
-            return $this->dimensionField->toHtml($row);
+            return $this->dimensionField->toCsv($row);
         });
         $metricField = $this->findAggregatedField();
         $metrics = $this->results->map(function($row) use($metricField){
@@ -104,7 +104,7 @@ class Graph
         $aggregatedField = $this->findAggregatedField();
         $metric = $this->metric();
         $this->labels = $this->results->mapWithKeys(function($row){
-            return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->toHtml($row)];
+            return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->toCsv($row)];
         })->unique();
         $metrics = $this->results->mapWithKeys(function($row) use($metric){
             return [(string)$row->{$metric} => $this->metricField->getValue($row)];
