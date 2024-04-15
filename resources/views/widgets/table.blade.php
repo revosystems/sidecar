@@ -16,7 +16,7 @@
         @foreach($rows as $row)
             <x-ui::table.row>
             @foreach($fields as $field)
-                <x-ui::table.cell class="{{ $field->getTDClasses() }}">
+                <x-ui::table.cell class="{{ $field->getTDClasses() }} @if($loop->first || $loop->last) pl-4 @endif">
                     {!! $field->toHtml($row) !!}
                 </x-ui::table.cell>
             @endforeach
