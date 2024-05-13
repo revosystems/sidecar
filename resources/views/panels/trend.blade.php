@@ -1,11 +1,12 @@
 @extends('sidecar::panels.layout')
 
 @section('top-right')
-    <div class='has-tooltip cursor'>
-        <span class='tooltip rounded shadow-lg p-2 text-xs bg-black text-white mt-8'> {{ $lastLabel }}</span>
-        <div class="text-xl"> {{ $last }} </div>
-    </div>
-
+    <x-ui::tooltip>
+        <x-slot name="trigger">
+            <div class="text-xl"> {{ $last }} </div>
+        </x-slot>
+        {{ $lastLabel }}
+    </x-ui::tooltip>
 @stop
 
 @section('content')
