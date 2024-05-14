@@ -21,7 +21,8 @@ class Date extends ExportField
         return $this->getCarbonDate(parent::getValue($row));
     }
 
-    protected function getCarbonDate($value) : Carbon {
+    protected function getCarbonDate($value) : ?Carbon {
+        if (!$value) { return null; }
         return Carbon::parse($value)->timezone(static::$timezone);
     }
 
