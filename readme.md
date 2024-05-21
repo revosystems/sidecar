@@ -50,7 +50,6 @@ exportRoute			| sidecar.report.export		| When exporting, `sidecar` provides its 
 
 In `assets/css/sidecar.css` you will find the default styles
 
-Also `assets/js/sidecar.js` contains the js necessary to sidecar work properly
 
 You should add those files to your assets compilation.
 ### Global Variables

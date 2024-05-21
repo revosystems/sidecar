@@ -16,7 +16,7 @@
         @foreach($rows as $row)
             <x-ui::table.row>
             @foreach($fields as $field)
-                <x-ui::table.cell class="{{ $field->getTDClasses() }}">
+                <x-ui::table.cell class="{{ $field->getTDClasses() }} @if($loop->first || $loop->last) pl-4 @endif">
                     {!! $field->toHtml($row) !!}
                 </x-ui::table.cell>
             @endforeach
@@ -34,15 +34,26 @@
             function filterOnClick(field, value){
                 document.getElementById(field).innerHTML += '<option value="'+ value + '" selected/>';
                 document.querySelector("input[name='filters[" + field + "][]']").value = value;
+<<<<<<< HEAD
+
+                ungroup(field)
+=======
                 removeGrouping(field)
+>>>>>>> master
 
                 document.getElementById("sidecar-form").submit()
             }
 
+<<<<<<< HEAD
+            function ungroup(field){
+                const index = document.querySelector("option[value='" + field + ":default']")?.index;
+                if (index !== null){
+=======
             function removeGrouping(field){
                 //document.querySelector("select[name='groupBy[]']").options.length = 0; // Removes all the groupings
                 let index = document.querySelector("option[value='" + field + ":default']")?.index
                 if (index !== null) {
+>>>>>>> master
                     document.querySelector("select[name='groupBy[]']").remove(index)
                 }
             }

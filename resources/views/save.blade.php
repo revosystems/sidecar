@@ -1,22 +1,28 @@
-<div class="float-right mt-4 mr-4" x-data="{open:false}">
-    @include('sidecar::components.secondaryAction', [
-        'action' => 'x-on:click=open=!open',
-        'icon' => 'clone',
-        'label' => __(config('sidecar.translationsPrefix').'save'),
-    ])
-    <div class="dropdown bg-white absolute shadow-xl z-50 m-4 p-4 right-0" x-on:click.away="open=!open" x-show="open" x-transition x-cloak>
-        <div class="mb-4">
+<div>
+    <x-ui::dropdown offset="12">
+        <x-slot name="trigger">
+            <x-ui::secondary-button icon="clone" hideTextOnSm>
+                {{ __(config('sidecar.translationsPrefix').'save') }}
+            </x-ui::secondary-button>
+        </x-slot>
+
+        <div class="font-semibold">
             {{ __(config('sidecar.translationsPrefix').'saveReportTitle') }}
         </div>
+        <div class="mb-4 text-gray-400 text-sm mt-1">
+            {{ __(config('sidecar.translationsPrefix').'saveReportDesc') }}
+        </div>
+
         <form action="{{ route('sidecar.report.store') }}" method="post">
             {{ csrf_field() }}
             <input type="hidden" name="url" value="{{ request()->fullUrl() }}">
-            <input name="name" placeholder="{{ __(config('sidecar.translationsPrefix').'myReport') }}" required>
+            <x-ui::forms.text-input icon="signature" name="name" :placeholder="__(config('sidecar.translationsPrefix').'myReport')" required class="w-full"/>
             <br>
-            <div class="mb-2 text-gray-400 text-sm mt-1">
-                {{ __(config('sidecar.translationsPrefix').'saveReportDesc') }}
-            </div>
-            <button class="button primary mt-2">{{ __(config('sidecar.translationsPrefix').'save') }}</button>
+            <x-ui::primary-button :async="true" type="submit" class="mt-2">
+                {{ __(config('sidecar.translationsPrefix').'save') }}
+            </x-ui::primary-button>
         </form>
-    </div>
+
+    </x-ui::dropdown>
 </div>
+

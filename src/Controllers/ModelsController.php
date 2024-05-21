@@ -2,16 +2,14 @@
 
 namespace Revo\Sidecar\Controllers;
 
-use App\Models\Menu\Favourite;
-use App\Models\Menu\MenuItem;
+use App\Http\Controllers\Controller;
 
-class ModelsController
+class ModelsController extends Controller
 {
-    public function search($model, $field = 'name'){
+    public function search($model, $field = 'name') {
         return $this->filterIds($this->baseQuery($model, $field))
-            ->limit(100)
-            ->pluck($field, 'id')->map(function($value, $key){
-                return ["id" => $key, "name" => (string) $value];
+            ->limit(100)->get()->map(function($object) use($field){
+                return ["id" => $object->id, "name" => $object->{$field}];
             });
     }
 

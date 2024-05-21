@@ -1,13 +1,9 @@
 @if(count($report->getWidgets()) > 0 && (!$graph || !$graph->doesApply()) && !$compare->isComparing())
-
-    <div id="sidecar-widgets"  style="height:140px">
-        <div class="m-4 p-4 flex justify-center text-gray-400">
-            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+    <x-ui::lazy id="sidecar-widgets" style="height:120px" :url="route('sidecar.report.widgets', $model) . '?' . request()->getQueryString() ">
+        <div class="m-4 p-4 flex justify-center items-center text-gray-400" style="height:140px">
+            <div>
+                <x-ui::spinner />
+            </div>
         </div>
-    </div>
-    @push('edit-scripts')
-        <script>
-            window.addEventListener('load', () => SidecarHtmlLoader.load("{{route('sidecar.report.widgets', $model)}}?{!! request()->getQueryString() !!}", 'sidecar-widgets'))
-        </script>
-    @endpush
+    </x-ui::lazy>
 @endif

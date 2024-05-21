@@ -54,10 +54,10 @@ class Compare
         if (!$this->isComparing()) { return $this; }
 
         $this->period1Results = $this->period1->paginate()->mapWithKeys(function($row){
-           return [$this->groupByField->getValue($row) => $row->{$this->metric}];
+           return [$this->groupByField->toCsv($row) => $row->{$this->metric}];
         });
         $this->period2Results = $this->period2->paginate()->mapWithKeys(function($row){
-            return [$this->groupByField->getValue($row) => $row->{$this->metric}];
+            return [$this->groupByField->toCsv($row) => $row->{$this->metric}];
         });
 
         $this->labels = $this->period1Results->keys()->merge($this->period2Results->keys())->unique();
@@ -97,7 +97,9 @@ class Compare
             return __(config('sidecar.translationsPrefix') . $this->period);
         }
 
-        return Carbon::parse($this->start)->format("jS F Y") . " - " .
-               Carbon::parse($this->end)->format("jS F Y");
+        return Carbon::parse($this->start)->isoFormat('D MMM YY') . " - " .
+               Carbon::parse($this->end)->isoFormat('D MMM YY');
+
+
     }
 }

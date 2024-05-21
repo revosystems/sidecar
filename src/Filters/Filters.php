@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Revo\Sidecar\Enums\DateRange;
 use Revo\Sidecar\ExportFields\Date;
 use Revo\Sidecar\ExportFields\ExportField;
 
@@ -44,8 +45,9 @@ class Filters
 
     public function forPeriod(string $key, string $range) : self
     {
-        $period = DateHelpers::periodFor($range);
-        $this->dates[$key]['period'] = $range;
+        $range = DateRange::from($range);
+        $period = $range->period();
+        $this->dates[$key]['period'] = $range->value;
         $this->dates[$key]['start'] = $period->start->toDateString();
         $this->dates[$key]['end'] = $period->end->toDateString();
         return $this;
@@ -214,8 +216,8 @@ class Filters
                 return __(config('sidecar.translationsPrefix') . $period);
             }
         }
-        return Carbon::parse($this->dateFilterStartFor($field))->format("jS F Y")  ." - " .
-               Carbon::parse($this->dateFilterEndFor($field))->format("jS F Y");
+        return Carbon::parse($this->dateFilterStartFor($field))->isoFormat('D MMM YY')  ." - " .
+               Carbon::parse($this->dateFilterEndFor($field))->isoFormat('D MMM YY');
     }
 
     public function datePeriodFilterFor(ExportField $field) : ?string
@@ -278,5 +280,13 @@ class Filters
         return $this->groupBy->groupings->map(function ($type, $key) {
             return "groupBy[]={$key}:{$type}";
         });
+    }
+
+    /**
+     * @param $field
+     * @return string whereIn / whereNotIn
+     */
+    public function getOperandFor($field) : string {
+        return $this->requestFilters[$field . '-operand'] ?? 'whereIn';
     }
 }

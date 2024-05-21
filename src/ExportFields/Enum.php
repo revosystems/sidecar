@@ -2,6 +2,9 @@
 
 namespace Revo\Sidecar\ExportFields;
 
+use Illuminate\Database\Eloquent\Builder;
+use Revo\Sidecar\Filters\Filters;
+
 class Enum extends ExportField
 {
     protected ?array $options = [];
@@ -26,5 +29,13 @@ class Enum extends ExportField
     public function filterOptions() : array
     {
         return $this->options;
+    }
+
+    public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
+    {
+        if (count($values) == 0) { return $query; }
+        $operand = $filters->getOperandFor($this->getFilterField());
+        return $query->{$operand}($key, $values);
+
     }
 }

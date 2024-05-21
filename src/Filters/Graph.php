@@ -32,10 +32,19 @@ class Graph
     }
 
     public function getType() : string {
-        if ($this->report->filters->groupBy->groupings->count() == 2) {   //two dimensions
+        if (!$this->isGroupingByOne()) {   //two dimensions
             return 'bar';
         }
-        return $this->dimensionField->groupableGraphType;
+        if ($requestGraphType = request('graph_type')){
+            if(in_array($requestGraphType, ['pie', 'bar', 'line', 'doughnut'])){
+                return $requestGraphType;
+            }
+        }
+        return request('graph_type') ?? $this->dimensionField->groupableGraphType;
+    }
+
+    public function isGroupingByOne() : bool {
+        return $this->report->filters->groupBy->groupings->count() == 1;
     }
 
     public function findDimensionField() {
@@ -74,7 +83,7 @@ class Graph
     public function calculateForOneGrouping()
     {
         $this->labels = $this->results->map(function($row){
-            return $this->dimensionField->getValue($row);
+            return $this->dimensionField->toCsv($row);
         });
         $metricField = $this->findAggregatedField();
         $metrics = $this->results->map(function($row) use($metricField){
@@ -95,7 +104,7 @@ class Graph
         $aggregatedField = $this->findAggregatedField();
         $metric = $this->metric();
         $this->labels = $this->results->mapWithKeys(function($row){
-            return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->getValue($row)];
+            return [(string)$row->{$this->dimensionField->getFilterField()} => $this->dimensionField->toCsv($row)];
         })->unique();
         $metrics = $this->results->mapWithKeys(function($row) use($metric){
             return [(string)$row->{$metric} => $this->metricField->getValue($row)];

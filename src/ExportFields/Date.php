@@ -18,26 +18,51 @@ class Date extends ExportField
 
     public function getValue($row)
     {
-        $value = parent::getValue($row);
+        return $this->getCarbonDate(parent::getValue($row));
+    }
 
-        if (! $value || $value == '--') {
+    protected function getCarbonDate($value) : ?Carbon {
+        if (!$value) { return null; }
+        return Carbon::parse($value)->timezone(static::$timezone);
+    }
+
+    public function toHtml($row) : string
+    {
+        $date = $this->getValue($row);
+        if (! $date || $date == '--') {
             return '--';
         }
-        $filters = (new Filters());
-        if ($filters->groupBy && $filters->groupBy->isGroupingBy($this->field)){
-            return $this->showAs($this->getCarbonDate($value), $filters->groupBy->groupings[$this->field]);
+        if ($this->isGrouped()){
+            return $this->showAs($date, (new Filters())->groupBy->groupings[$this->field]);
         }
-        return $this->getNonGroupedValue($value);
+        return $this->nonGroupedValue($date, forHtml:true);
+    }
+
+    public function toCsv($row)
+    {
+        $date = $this->getValue($row);
+        if (! $date || $date == '--') {
+            return '--';
+        }
+        if ($this->isGrouped()){
+            return $this->showAs($date, (new Filters())->groupBy->groupings[$this->field]);
+        }
+        return $this->nonGroupedValue($date, forHtml:false);
+    }
+
+    protected function isGrouped() : bool {
+        $filters = (new Filters());
+        return $filters->groupBy && $filters->groupBy->isGroupingBy($this->field);
+    }
+
+    protected function nonGroupedValue($date, $forHtml = false) : string {
+        return $date->toDateString();
     }
 
     public function timeFilterable($timeFilterable = true) : self
     {
         $this->timeFilterable = $timeFilterable;
         return $this;
-    }
-
-    public function getNonGroupedValue($value) : string {
-        return $this->getCarbonDate($value)->toDateString();
     }
 
     protected function showAs(Carbon $date, $type){
@@ -47,16 +72,13 @@ class Date extends ExportField
         if ($type == 'week')      { return $date->format('W (M Y)'); }
         if ($type == 'month')     { return $date->format('M Y'); }
         if ($type == 'quarter')   { return "Quarter " . ceil($date->month/3) . ' '. $date->format('Y'); }
+        if ($type == 'year')      { return $date->format('Y'); }
         return $date->toDateString();
-    }
-
-    protected function getCarbonDate($value) : Carbon {
-        return Carbon::parse($value)->timezone(static::$timezone);
     }
 
     public function groupings() : array
     {
-        return ['hour', 'day', 'dayOfWeek', 'week', 'month', 'quarter'];
+        return ['hour', 'day', 'dayOfWeek', 'week', 'month', 'quarter', 'year'];
     }
 
     public function applyFilter(Filters $filters, Builder $query, $key, $values) : Builder
@@ -78,6 +100,7 @@ class Date extends ExportField
         $selectValue = $this->field . ":" . "day";
         return "<a onclick='dateInDepth(\"{$this->getFilterField()}\", \"{$next['select']}\", \"{$next['start']}\", \"{$next['end']}\")' class='pointer'>{$value}</a>";
     }
+
 
     //===============================================================
     // DATE RANGES

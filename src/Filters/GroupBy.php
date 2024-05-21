@@ -11,7 +11,7 @@ class GroupBy
     public $groupings;
 
     public function __construct(?array $groupings) {
-        $this->groupings = collect($groupings)->mapWithKeys(function($value){
+        $this->groupings = collect($groupings)->filter()->mapWithKeys(function($value){
             list($key, $type) = explode(":", $value);
             return [$key => $type];
         });
@@ -68,6 +68,10 @@ class GroupBy
             return $query->groupBy(DB::raw('quarter(' . $this->businessTime($key) . ')'))
                           ->groupBy(DB::raw('year(' . $this->businessTime($key) . ')'))
                           /*->orderBy(DB::raw($key), 'DESC')*/;
+        }
+        if ($type == 'year') {
+            return $query->groupBy(DB::raw('year(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
+                /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         return $query->groupBy(DB::raw($key));
     }

@@ -1,28 +1,35 @@
-<select id="{{$field->getFilterField()}}" name="filters[{{$field->getFilterField()}}][]" multiple style="width: 300px">
-    <option value="">--</option>
-    @if (\Illuminate\Support\Arr::dimensions($field->filterOptions($report->filters)) > 1)
-        @foreach($field->filterOptions($report->filters) as $category => $categories)
-            <optgroup label="{{ $category }}">
-            @foreach($categories as $key => $value)
-                <option value="{{ $key }}" @if($report->filters->isFilteringBy($field->getFilterField(), $key)) selected @endif>{{$value}}</option>
-            @endforeach
-            </optgroup>
-        @endforeach
-    @else
-        @foreach($field->filterOptions($report->filters) as $key => $value)
-            <option value="{{$key}}" @if($report->filters->isFilteringBy($field->getFilterField(), $key)) selected @endif>{{$value}}</option>
-        @endforeach
-    @endif
-</select>
+<div class="flex flex-col gap-2">
+    <div class="">
+        <x-ui::forms.searchable-select :searchable="false"
+               id="{{$field->getFilterField()}}-select"
+               name="filters[{{$field->getFilterField()}}-operand]"
+               class="text-center">
+            <option value="whereIn">
+                {{ __(config('sidecar.translationsPrefix').'isAnyOf') }}
+            </option>
+            <option value="whereNotIn" @if(($report->filters->requestFilters[$field->getFilterField() . '-operand'] ?? '') == 'whereNotIn')) selected @endif>
+                {{ __(config('sidecar.translationsPrefix').'isNot') }}
+            </option>
+        </x-ui::forms.searchable-select>
+    </div>
 
-@push(config('sidecar.scripts-stack'))
-<script>
-    window.addEventListener('load', () => {
-        @if($field->filterSearchable)
-            SidecarSelector.fetchSelector(document.getElementById('{{$field->getFilterField()}}'), '', '{!! $field->searchableRoute() !!}')
+    <x-ui::forms.multiple-select
+        id="{{$field->getFilterField()}}"
+        name="filters[{{$field->getFilterField()}}][]"
+        :url="($field->filterSearchable ? $field->searchableRoute() : null)"
+    >
+        @if (\Illuminate\Support\Arr::dimensions($field->filterOptions($report->filters)) > 1)
+            @foreach($field->filterOptions($report->filters) as $category => $categories)
+                <optgroup label="{{ $category }}">
+                    @foreach($categories as $key => $value)
+                        <option value="{{ $key }}" @if($report->filters->isFilteringBy($field->getFilterField(), $key)) selected @endif>{{$value}}</option>
+                    @endforeach
+                </optgroup>
+            @endforeach
         @else
-            SidecarSelector.selector(document.getElementById('{{$field->getFilterField()}}'), '')
+            @foreach($field->filterOptions($report->filters) as $key => $value)
+                <option value="{{$key}}" @if($report->filters->isFilteringBy($field->getFilterField(), $key)) selected @endif>{{$value}}</option>
+            @endforeach
         @endif
-    })
-</script>
-@endpush
+    </x-ui::forms.multiple-select>
+</div>

@@ -40,7 +40,7 @@ class ExportField
     public bool $filterOnClick = false;
     public ?string $route = null;
     protected ?string $linkClasses = "";
-
+    
     public static function make($field, $title = null, $dependsOnField = null)
     {
         $exportField = new static;
@@ -287,14 +287,22 @@ class ExportField
             return $this->filterLink($row, $value);
         }
         if ($this->route) {
-            return link_to_route($this->route, $value, $value, ['class' => $this->linkClasses]);
+            return view('sidecar::fields.link',[
+                'url' => route($this->route, $value),
+                'title' => $value,
+                'classes' => $this->linkClasses
+            ])->render();
         }
         return $value;
     }
 
     public function filterLink($row, $value)
     {
-        return "<a onclick='filterOnClick(\"{$this->getFilterField()}\", \"{$this->getFilterId($row)}\")' class='pointer'>{$value}</a>";
+        return view('sidecar::fields.filterOnClick',[
+            'field' => $this->getFilterField(),
+            'filterId' => $this->getFilterId($row),
+            'title' => $value,
+        ])->render();
     }
 
     public function getFilterId($row)

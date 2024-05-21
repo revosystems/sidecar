@@ -12,6 +12,7 @@ class Currency extends Number
     {
         static::$html = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
         static::$csv = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+        //static::$csv->setAttribute(\NumberFormatter::FRACTION_DIGITS, 2);
         static::$csv->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
         static::$currency = $currency;
     }
