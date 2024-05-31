@@ -37,6 +37,7 @@ class ExportField
     public $tdClasses = "";
     public ?string $displayFrom = null;
     public bool $hidden = false;
+    public bool $hideTitle = false;
     public bool $filterOnClick = false;
     public ?string $route = null;
     protected ?string $linkClasses = "";

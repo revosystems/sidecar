@@ -7,15 +7,15 @@
                 :sortAscLink=" \Revo\Sidecar\Filters\Sort::queryUrlFor($field, 'asc') "
                 :tooltip="$field->getTooltip()"
         >
-            {{ $field->getTitle() }}
+            @if (!$field->hideTitle) {{ $field->getTitle() }} @endif
         </x-ui::sort-header>
     @else
         <x-ui::tooltip :enabled="$field->getTooltip()!== null">
             <x-slot name="trigger">
                 <span @class([
                     "underline decoration-dotted" => ($field->getTooltip()!== null)
-                    ])>
-                    {{ $field->getTitle() }}
+                ])>
+                    @if (!$field->hideTitle) {{ $field->getTitle() }} @endif
                 </span>
             </x-slot>
             {{ $field->getTooltip() }}

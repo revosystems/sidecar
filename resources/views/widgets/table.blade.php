@@ -1,14 +1,17 @@
 @if($rows)
-<div class="sidecar links links-top p-4">
-    {{ $rows->links() }}
+<div class="p-4 flex w-full gap-2">
+    <div class="w-full">{{ $rows->links() }}</div>
 </div>
+
 <x-ui::table.table class="sidecar-table {{$tableClasses}}">
         <x-ui::table.header class="sticky">
             <x-ui::table.row>
             @foreach($fields as $field)
-                <x-ui::table.header-cell class="{{ $field->getTDClasses() }}">
-                    @include('sidecar::widgets.fieldHeader')
-                </x-ui::table.header-cell>
+                @if($report->columns->isEmpty() || $report->columns->contains($field->field))
+                    <x-ui::table.header-cell class="{{ $field->getTDClasses() }}">
+                        @include('sidecar::widgets.fieldHeader')
+                    </x-ui::table.header-cell>
+                @endif
             @endforeach
             </x-ui::table.row>
         </x-ui::table.header>
@@ -16,9 +19,12 @@
         @foreach($rows as $row)
             <x-ui::table.row>
             @foreach($fields as $field)
-                <x-ui::table.cell class="{{ $field->getTDClasses() }} @if($loop->first || $loop->last) pl-4 @endif">
-                    {!! $field->toHtml($row) !!}
-                </x-ui::table.cell>
+{{--                @dd($report->columns)--}}
+                @if($report->columns->isEmpty() || $report->columns->contains($field->field))
+                    <x-ui::table.cell class="{{ $field->getTDClasses() }} @if($loop->first || $loop->last) pl-4 @endif">
+                        {!! $field->toHtml($row) !!}
+                    </x-ui::table.cell>
+                @endif
             @endforeach
             </x-ui::table.row>
         @endforeach
@@ -34,26 +40,14 @@
             function filterOnClick(field, value){
                 document.getElementById(field).innerHTML += '<option value="'+ value + '" selected/>';
                 document.querySelector("input[name='filters[" + field + "][]']").value = value;
-<<<<<<< HEAD
-
-                ungroup(field)
-=======
                 removeGrouping(field)
->>>>>>> master
-
                 document.getElementById("sidecar-form").submit()
             }
 
-<<<<<<< HEAD
-            function ungroup(field){
-                const index = document.querySelector("option[value='" + field + ":default']")?.index;
-                if (index !== null){
-=======
             function removeGrouping(field){
                 //document.querySelector("select[name='groupBy[]']").options.length = 0; // Removes all the groupings
                 let index = document.querySelector("option[value='" + field + ":default']")?.index
                 if (index !== null) {
->>>>>>> master
                     document.querySelector("select[name='groupBy[]']").remove(index)
                 }
             }

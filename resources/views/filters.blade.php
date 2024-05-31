@@ -16,6 +16,7 @@
                 <div class="grow w-full">
                 @include('sidecar::filters.groupBy')
                 </div>
+                @include('sidecar::filters.manageColumns', ['report' => $report, 'fields' => $exporter->getFields()])
                 @include('sidecar::filters.manage')
             </div>
         </div>

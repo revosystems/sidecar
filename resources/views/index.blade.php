@@ -34,7 +34,6 @@
     @include('sidecar::graphs.graph-ajax')
 
     <div class="py-2"></div>
-
     {!! $exporter->export() !!}
 @stop
 

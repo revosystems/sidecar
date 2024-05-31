@@ -37,9 +37,11 @@ abstract class Report
     public bool $canBeSaved = true;
 
     public Filters $filters;
+    public Collection $columns;
 
-    public function __construct(?Filters $filters = null) {
+    public function __construct(?Filters $filters = null, ?array $columns = null) {
         $this->filters = $filters ?? new Filters();
+        $this->columns = collect($columns ?? request('columns'))->filter();
     }
 
     public function getTitle() : string
