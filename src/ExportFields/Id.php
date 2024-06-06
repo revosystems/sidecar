@@ -23,7 +23,7 @@ class Id extends Number
     public function toHtml($row): string
     {
         if ((new Filters())->groupBy->isGrouping()){
-            return $this->getValue($row);
+            return $this->getValue($row) ?? "--";
         }
         return parent::toHtml($row);
     }
