@@ -40,6 +40,8 @@ class ExportField
     public bool $filterOnClick = false;
     public ?string $route = null;
     protected ?string $linkClasses = "";
+
+    public $exporters = ['html', 'csv'];
     
     public static function make($field, $title = null, $dependsOnField = null)
     {
@@ -147,6 +149,23 @@ class ExportField
         $this->displayFrom = 'lg';
         return $this;
     }
+
+    public function exportAt(array $exporters): self
+    {
+        $this->exporters = $exporters;
+        return $this;
+    }
+
+    public function onlyOnHtml() : self {
+        $this->exporters = ['html'];
+        return $this;
+    }
+
+    public function onlyOnCsv() : self {
+        $this->exporters = ['csv'];
+        return $this;
+    }
+
 
     public function displayFrom(string $from) : self {
         $this->displayFrom = $from;

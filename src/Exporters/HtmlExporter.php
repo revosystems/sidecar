@@ -12,7 +12,7 @@ class HtmlExporter extends BaseExporter
         return view('sidecar::widgets.table',[
             "report"     => $this->report,
             "tableClasses" => static::$tableClasses,
-            "fields" => $this->getFields(),
+            "fields" => $this->getFields()->filter(fn($field) => in_array('html', $field->exporters)),
             "rows" => $this->data,
         ])->render();
     }

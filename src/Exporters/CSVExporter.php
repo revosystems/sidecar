@@ -9,7 +9,7 @@ class CSVExporter extends BaseExporter
 
     public function export() : string {
         return view('sidecar::widgets.csvTable',[
-            "fields" => $this->getExportableFields(),
+            "fields" => $this->getExportableFields()->filter(fn($field) => in_array('csv', $field->exporters)),
             "rows" => $this->data,
         ])->render();
     }
