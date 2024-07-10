@@ -31,7 +31,7 @@ class BusinessDateTime extends DateTime
                 return $field;
             }
             if ($groupBy->isGroupingBy($this->dependsOnField)) {
-                return DB::raw("DATE(SUBTIME(CONVERT_TZ({$this->dependsOnField}, 'UTC', '{$timezone}'), '{$openingTime}')) as {$this->dependsOnField}");
+                return DB::raw("DATE(SUBTIME(CONVERT_TZ({$field}, 'UTC', '{$timezone}'), '{$openingTime}')) as {$this->dependsOnField}");
             }
 
             return $this->onGroupingBy

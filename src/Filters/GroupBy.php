@@ -70,7 +70,7 @@ class GroupBy
                           /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         if ($type == 'year') {
-            return $query->groupBy(DB::raw('year(' . $this->subTime($key, Date::getUtcOpeningTime()) . ')'))
+            return $query->groupBy(DB::raw("year(SUBTIME('{$key}','" . Date::getUtcOpeningTime() . "'))"));
                 /*->orderBy(DB::raw($key), 'DESC')*/;
         }
         return $query->groupBy(DB::raw($key));
