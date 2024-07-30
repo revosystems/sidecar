@@ -4,14 +4,15 @@
         <input type="hidden" name="sort_order" value="{{request('sort_order')}}">
 
         <div class="flex flex-col gap-2 md:space-y-0 md:flex-row md:items-center">
-            <div class="flex flex-row justify-left items-center gap-2">
-                @foreach($report->availableFilters() as $field)
-                    @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date')
-                @endforeach
-                @if ($report->isComparable())
-                    @include('sidecar::filters.dateCompare')
-                @endif
-            </div>
+            @if ($report->availableFilters()->contains(fn ($filter) => $filter instanceof Revo\Sidecar\ExportFields\Date) || $report->isComparable())
+                <div class="flex flex-row justify-left items-center gap-2">
+                    @foreach($report->availableFilters() as $field)
+                        @includeWhen($field instanceof Revo\Sidecar\ExportFields\Date, 'sidecar::filters.date')
+                    @endforeach
+                    
+                    @includeWhen($report->isComparable(), 'sidecar::filters.dateCompare')
+                </div>
+            @endif
             <div class="flex flex-col md:flex-row w-full md:w-auto justify-left items-center gap-2 md:grow">
                 <div class="grow w-full">
                 @include('sidecar::filters.groupBy')
