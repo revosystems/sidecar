@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": "^8.0",
-        "laravel/framework": "8.x|9.x|10.x",
+        "laravel/framework": "8.x|9.x|10.x|11.x",
         "revosystems/dejavu": "^0.2"
     },
     "license": "MIT",
