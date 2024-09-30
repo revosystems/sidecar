@@ -21,8 +21,8 @@
                 @php($period = $range->period())
                 <option value="{{$range->value}}"
                         @if($report->filters->datePeriodFilterFor($field) == $range->value) selected @endif
-                        x-period-start="{{$period->start->toDateString()}}"
-                        x-period-end="{{$period->end->toDateString()}}">
+                        x-period-start="{{$period->getStartDate()->toDateString()}}"
+                        x-period-end="{{$period->getEndDate()->toDateString()}}">
                     {{ __(config('sidecar.translationsPrefix').$range->value) }}
                 </option>
             @endforeach

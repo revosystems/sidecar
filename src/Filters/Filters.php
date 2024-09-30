@@ -48,8 +48,8 @@ class Filters
         $range = DateRange::from($range);
         $period = $range->period();
         $this->dates[$key]['period'] = $range->value;
-        $this->dates[$key]['start'] = $period->start->toDateString();
-        $this->dates[$key]['end'] = $period->end->toDateString();
+        $this->dates[$key]['start'] = $period->getStartDate()->toDateString();
+        $this->dates[$key]['end'] = $period->getEndDate()->toDateString();
         return $this;
     }
 
