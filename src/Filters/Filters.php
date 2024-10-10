@@ -95,7 +95,9 @@ class Filters
     public function isFilteringBy($key, $value = null) : bool
     {
         if ($value === null) {
-            return array_key_exists($key, $this->requestFilters ?? []) || array_key_exists($key, $this->dates);
+            return array_key_exists($key, $this->requestFilters ?? []) ||
+                (array_key_exists($key, $this->dates) && $this->dates[$key]['start_time']) ||
+                (array_key_exists($key, $this->dates) && $this->dates[$key]['end_time']);
         }
         return in_array($value, $this->requestFilters[$key] ?? []);
     }
