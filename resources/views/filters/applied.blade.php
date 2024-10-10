@@ -10,7 +10,7 @@
             @elseif ($field instanceof \Revo\Sidecar\ExportFields\Text)
                 @include('sidecar::filters.applied.text')
             @elseif ($field instanceof \Revo\Sidecar\ExportFields\DateTime)
-
+                @include('sidecar::filters.applied.time')
             @else
                 @include('sidecar::filters.applied.select')
             @endif

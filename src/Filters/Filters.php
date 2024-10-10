@@ -87,10 +87,15 @@ class Filters
         return collect($this->requestFilters[$field] ?? []);
     }
 
+    public function dateFiltersFor($field)
+    {
+        return collect($this->dates[$field] ?? []);
+    }
+
     public function isFilteringBy($key, $value = null) : bool
     {
         if ($value === null) {
-            return array_key_exists($key, $this->requestFilters ?? []);
+            return array_key_exists($key, $this->requestFilters ?? []) || array_key_exists($key, $this->dates);
         }
         return in_array($value, $this->requestFilters[$key] ?? []);
     }
