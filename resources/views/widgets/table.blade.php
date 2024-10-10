@@ -44,7 +44,7 @@
                 //document.querySelector("select[name='groupBy[]']").options.length = 0; // Removes all the groupings
                 let index = document.querySelector("option[value='" + field + ":default']")?.index
                 if (index !== null) {
-                    document.querySelector("select[name='groupBy[]']").remove(index)
+                    document.querySelector("select[name='groupBy[]']")?.remove(index)
                 }
             }
 
