@@ -96,8 +96,8 @@ class Filters
     {
         if ($value === null) {
             return array_key_exists($key, $this->requestFilters ?? []) ||
-                (array_key_exists($key, $this->dates) && $this->dates[$key]['start_time']) ||
-                (array_key_exists($key, $this->dates) && $this->dates[$key]['end_time']);
+                (array_key_exists($key, $this->dates) && isset($this->dates[$key]['start_time'])) ||
+                (array_key_exists($key, $this->dates) && isset($this->dates[$key]['end_time']));
         }
         return in_array($value, $this->requestFilters[$key] ?? []);
     }
