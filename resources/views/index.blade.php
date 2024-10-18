@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="flex justify-between pl-4 pr-2 py-4">
+    <div class="flex justify-between px-4 py-4">
         <div class="flex items-center space-x-1">
             @component(config('thrust.sidebar-collapsed-button'))@endcomponent
             @if($tooltip = $report->getTooltip())
