@@ -22,6 +22,10 @@ class Link extends Text
     public function toHtml($row) : string {
         if ($this->route == null) { return $this->getValue($row); }
         $link = route($this->route, $this->getValue($row));
-        return "<a href='{$link}' class='{$this->linkClasses}' style='color:gray;'>{$this->getLinkTitle($row)}</a>";
+        return view("sidecar::fields.link",[
+            'title' => $this->getLinkTitle($row),
+            'url' => $link,
+            'classes' => $this->linkClasses
+        ])->render();
     }
 }
