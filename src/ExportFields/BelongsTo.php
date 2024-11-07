@@ -9,6 +9,7 @@ use Revo\Sidecar\Filters\GroupBy;
 class BelongsTo extends ExportField
 {
     protected string $relationShipField = 'name';
+    protected string $relationShipDisplayField = 'name';
     protected array $relationShipWith = [];
     protected bool $defaultJoin = false;
     protected bool $useLeftJoin = false;
@@ -20,7 +21,7 @@ class BelongsTo extends ExportField
 
     public function getValue($row)
     {
-        return data_get($row, "{$this->field}.{$this->relationShipField}") ?? "--";
+        return data_get($row, "{$this->field}.{$this->relationShipDisplayField}") ?? "--";
     }
 
     public function applyFilter(Filters $filters, Builder $query, $key, $values): Builder
@@ -37,7 +38,7 @@ class BelongsTo extends ExportField
     }
 
     public function relationShipDisplayField(string $relationShipDisplayField) : self {
-        $this->relationShipField = $relationShipDisplayField;
+        $this->relationShipDisplayField = $relationShipDisplayField;
         return $this;
     }
 
@@ -118,7 +119,7 @@ class BelongsTo extends ExportField
 
     public function toHtml($row): string
     {
-        if($this->route && ! data_get($row, $this->linkField)) {
+        if($this->route && ! data_get($row, $this->relationShipDisplayField)) {
             return __(config('sidecar.translationsPrefix').'notFound');
         }
         if ($this->route){
