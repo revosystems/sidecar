@@ -37,6 +37,11 @@ class BelongsTo extends ExportField
         return data_get($row, $this->foreingKey());
     }
 
+    public function relationShipField(string $relationShipField) : self {
+        $this->relationShipField = $relationShipField;
+        return $this;
+    }
+    
     public function relationShipDisplayField(string $relationShipDisplayField) : self {
         $this->relationShipDisplayField = $relationShipDisplayField;
         return $this;
