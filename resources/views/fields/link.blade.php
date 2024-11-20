@@ -1,3 +1,3 @@
 <x-ui::a href="{{$url}}" class="{{$classes}}">
-    {{$title}}
+    {!! $title !!}
 </x-ui::a>
