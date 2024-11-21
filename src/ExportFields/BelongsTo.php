@@ -124,13 +124,13 @@ class BelongsTo extends ExportField
 
     public function toHtml($row): string
     {
-        if($this->route && ! data_get($row, $this->relationShipDisplayField)) {
+        if ($this->route && ! data_get($row, $this->relationShipField)) {
             return __(config('sidecar.translationsPrefix').'notFound');
         }
         if ($this->route){
             return view('sidecar::fields.link', [
                 'url' => route($this->route, data_get($row, $this->linkField)),
-                'title' => $this->getValue($row),
+                'title' => $row->{$this->field}->{$this->relationShipDisplayField},
                 'classes' => $this->linkClasses
             ])->render();
         }
