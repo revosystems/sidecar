@@ -195,7 +195,7 @@ class Filters
         if ($end = $timeValues['end_time'] ?? null) {
             $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), "<", DB::raw("CONCAT(DATE(CONVERT_TZ({$key}, 'UTC', '{$timezone}')), ' {$end}')"));
         }
-        $query->whereRaw("CONVERT_TZ({$key}, 'UTC', '{$timezone}') BETWEEN '{$dateValues[0]}' AND '{$dateValues[1]}'");
+        $query->whereBetween(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), [$dateValues[0], $dateValues[1]]);
         return $query;
     }
 
