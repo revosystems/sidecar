@@ -230,13 +230,31 @@ class Filters
         if (!Str::contains($key, config('database.connections.mysql.prefix'))){
             $key = config('database.connections.mysql.prefix') . $key;
         }
-        if ($start = $timeValues['start_time'] ?? null) {
-            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), ">", DB::raw("CONCAT(DATE(CONVERT_TZ({$key}, 'UTC', '{$timezone}')), ' {$start}')"));
+
+        $startDate = $dateValues[0];
+        $endDate = $dateValues[1];
+        $startTime = $timeValues['start_time'] ?? null;
+        $endTime = $timeValues['end_time'] ?? null;
+      
+
+        if ($startTime && $endTime) {
+            if ($startTime <= $endTime) {
+                $query->where(function ($subQuery) use ($key, $startTime, $endTime, $timezone) {
+                    $subQuery->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), ">=", DB::raw("CONCAT(DATE({$key}), ' {$startTime}')"))
+                            ->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), "<", DB::raw("CONCAT(DATE({$key}), ' {$endTime}')"));
+                });
+            } else {
+                $query->where(function ($subQuery) use ($key, $startTime, $endTime, $timezone) {
+                    $subQuery->where(function ($timeQuery) use ($key, $startTime, $timezone) {
+                        $timeQuery->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), ">=", DB::raw("CONCAT(DATE({$key}), ' {$startTime}')"));
+                    })->orWhere(function ($timeQuery) use ($key, $endTime, $timezone) {
+                        $timeQuery->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), "<", DB::raw("CONCAT(DATE({$key}), ' {$endTime}')"));
+                    });
+                });
+            }
         }
-        if ($end = $timeValues['end_time'] ?? null) {
-            $query->where(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), "<", DB::raw("CONCAT(DATE(CONVERT_TZ({$key}, 'UTC', '{$timezone}')), ' {$end}')"));
-        }
-        $query->whereBetween(DB::raw("CONVERT_TZ({$key}, 'UTC', '{$timezone}')"), [$dateValues[0], $dateValues[1]]);
+        $query->whereRaw("DATE({$key}) BETWEEN '{$startDate}' AND '{$endDate}'");
+
         return $query;
     }
 
