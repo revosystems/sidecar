@@ -105,14 +105,55 @@ class Filters
     public function addFilters($query, $fields) : self
     {
         $this->fillDatesFieldsWithDefaultDatesWhenEmpty($fields);
+    
+        collect($this->dates)->each(function($value, $key) {
+            $this->setEndTimeIfMissing($value, $key);
+            $this->setEndIfMissing($value, $key);
+            $this->setStartTimeIfMissing($value, $key);
+            $this->setStartIfMissing($value, $key);
+        });
 
-        collect($this->requestFilters)->each(function($value, $key) use($query, $fields){
-            optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
-        });
-        collect($this->dates)->each(function($value, $key) use($query, $fields){
-            optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
-        });
+        $this->applyFilters($query, $fields);
         return $this;
+    }
+    
+    protected function setEndTimeIfMissing(&$value, $key)
+    {
+        if (isset($value['start_time']) && !isset($value['end_time'])) {
+            $this->dates[$key]['end_time'] = '23:59';
+        }
+    }
+    
+    protected function setEndIfMissing(&$value, $key)
+    {
+        if (!isset($value['end']) && isset($value['start'])) {
+            $this->dates[$key]['end'] = $value['start'];
+        }
+    }
+    
+    protected function setStartTimeIfMissing(&$value, $key)
+    {
+
+        if (isset($value['end_time']) && !isset($value['start_time'])) {
+            $this->dates[$key]['start_time'] = '00:00';
+        }
+    }
+    
+    protected function setStartIfMissing(&$value, $key)
+    {
+        if (!isset($value['start']) && isset($value['end'])) {
+            $this->dates[$key]['start'] = $value['end'];
+        }
+    }
+    protected function applyFilters($query, $fields)
+    {
+        collect($this->requestFilters)->each(function($value, $key) use($query, $fields) {
+            optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
+        });
+        
+        collect($this->dates)->each(function($value, $key) use($query, $fields) {
+            optional($this->fieldFor($fields, $key))->applyFilter($this, $query, $key, $value);
+        });
     }
 
     public function addGroups($query, $fields) : self
